@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TupãBot - Assistente Especialista em Tupã (SP)</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Markdown parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar / Drawer -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon">⚡</div>
+          <div class="brand-text">
+            <h2>TupãBot</h2>
+            <span>Especialista em Tupã-SP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <button class="new-chat-btn" id="newChatBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Nova Conversa
+        </button>
+
+        <div class="topics-section">
+          <h3>Tópicos Populares</h3>
+          <ul class="topic-list">
+            <li data-prompt="Conte-me a história e fundação da cidade de Tupã.">🏛️ História e Fundação</li>
+            <li data-prompt="Quais os cursos e como funciona a FADAP / FAP em Tupã?">🎓 Faculdade FADAP / FAP</li>
+            <li data-prompt="Quais os principais pontos turísticos para visitar em Tupã?">🌴 Pontos Turísticos & Museu</li>
+            <li data-prompt="Fale sobre o Distrito de Varpa e sua colonização letã.">🇱🇻 Distrito de Varpa</li>
+            <li data-prompt="Como é a economia de Tupã e a produção de amendoim?">🥜 Economia & Amendoim</li>
+            <li data-prompt="O que é e quando acontece a EXAPIT em Tupã?">🎡 EXAPIT e Tradições</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h4>💡 Sobre o Modelo</h4>
+          <p>Treinado e configurado com conhecimento enciclopédico sobre a Estância Turística de Tupã e Alta Paulista.</p>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="openConfigBtn" class="footer-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Configurações (API Key)
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Chat Container -->
+    <main class="chat-main">
+      <header class="chat-header">
+        <div class="header-left">
+          <button id="mobileMenuBtn" class="mobile-toggle-btn" aria-label="Abrir Menu">☰</button>
+          <div>
+            <h1>TupãBot AI</h1>
+            <span class="status-indicator">
+              <span class="dot"></span> Online & Especializado
+            </span>
+          </div>
+        </div>
+        <div class="header-right">
+          <span id="currentEngineBadge" class="engine-badge">Motor Nativo (Tupã)</span>
+        </div>
+      </header>
+
+      <!-- Messages Area -->
+      <div class="messages-container" id="messagesContainer">
+        <!-- Boas-vindas -->
+        <div class="welcome-banner">
+          <div class="welcome-icon">⚡</div>
+          <h2>Olá! Eu sou o TupãBot</h2>
+          <p>O assistente inteligente com conhecimento dedicado sobre a história, educação, cultura e turismo de <strong>Tupã (SP)</strong>.</p>
+          <div class="suggestions-grid">
+            <button class="suggestion-chip" data-prompt="Conte a história de quando Tupã foi fundada.">
+              <span>🏛️ História da fundação</span>
+            </button>
+            <button class="suggestion-chip" data-prompt="Fale sobre a faculdade FADAP em Tupã.">
+              <span>🎓 Sobre a FADAP</span>
+            </button>
+            <button class="suggestion-chip" data-prompt="Quais são os principais pontos turísticos de Tupã?">
+              <span>🌴 Turismo e Museu Índia Vanuíre</span>
+            </button>
+            <button class="suggestion-chip" data-prompt="Por que o distrito de Varpa tem tradição da Letônia?">
+              <span>🇱🇻 O Distrito de Varpa</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="dot-flashing"></div>
+        <span>TupãBot está digitando...</span>
+      </div>
+
+      <!-- Input Area -->
+      <footer class="chat-footer">
+        <form id="chatForm" class="input-form">
+          <textarea
+            id="userInput"
+            rows="1"
+            placeholder="Pergunte algo sobre Tupã, FADAP, pontos turísticos, história..."
+            required
+          ></textarea>
+          <button type="submit" id="sendBtn" title="Enviar Mensagem">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+        <div class="footer-caption">
+          Projeto acadêmico & tecnológico focado na Alta Paulista - Tupã, SP.
+        </div>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Modal de Configuração -->
+  <div class="modal-backdrop" id="configModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Configurações do Modelo</h3>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <label for="apiKeyInput">Chave de API do Google Gemini (Opcional):</label>
+        <input 
+          type="password" 
+          id="apiKeyInput" 
+          placeholder="Cole sua Gemini API Key (ex: AIzaSy...)"
+        />
+        <p class="modal-hint">
+          Se você adicionar uma chave, o modelo usará o Gemini 2.5 Flash turbinado com a base de dados de Tupã. Se deixar em branco, o modelo usa o <strong>motor nativo pré-configurado</strong> sem custos!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button id="saveConfigBtn" class="save-btn">Salvar Configuração</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

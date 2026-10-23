@@ -1,41 +1,73 @@
-# ⚡ Tupã IA - Modelo de Linguagem & Chatbot Especializado em Tupi
+# ⚡ TupãBot - Chatbot Especialista na Estância Turística de Tupã (SP)
 
-Uma aplicação web moderna, responsiva e culturalmente rica que abriga um **modelo de linguagem especializado na língua e cultura Tupi (Tupinambá/Tupi Antigo)**, inspirado na força e sabedoria de **Tupã**.
-
----
-
-## 🌟 O que a aplicação oferece:
-
-### 1. 🧠 Modelo de Linguagem Especializado
-- **Motor Duplo de IA:**
-  - **Motor Nativo Offline:** Já vem pronto com dezenas de respostas profundas, explicações fonéticas, etimologias e lendas ancestrais, funcionando mesmo sem internet ou sem chaves.
-  - **Conexão Direta com LLMs (Google Gemini):** Permite inserir uma chave gratuita do Google AI Studio diretamente pelo navegador para gerar respostas ilimitadas em tempo real com modelos como `gemini-2.0-flash` e `gemini-1.5-pro`, utilizando diretrizes de sistema especializadas em Tupi.
-- **Pílulas de Modos de IA:**
-  - ⚡ **Tupã Ancestral:** Foco em cosmologia, espiritualidade e visão de mundo dos povos originários.
-  - 🌿 **Linguística & Gramática:** Foco na morfologia, afixos, verbos estativos e tradução precisa.
-  - 🗺️ **Nomes & Cidades do Brasil:** Foco na etimologia de topônimos brasileiros (ex.: Ibirapuera, Tietê, Ipanema, Iguaçu).
-
-### 2. 🎨 Estética & Design
-- **Paleta de Cores Inspirada na Natureza e Tradição Indígena:**
-  - 🌿 **Verde Floresta / Esmeralda:** Fundo, cartões e elementos naturais.
-  - 🔴 **Vermelho Urucum Vívido:** Botões de envio, chamadas de ação e acentos.
-  - ☀️ **Amarelo Ocre / Dourado:** Badges, detalhes, realces e ícones solares.
-  - 🏺 **Terracota Suave:** Acentos secundários e informativos.
-- **Modo Claro & Escuro (Dark/Light):** Alternância instantânea.
-- **Identidade Cultural:** Ícones, barras estilizadas inspiradas em grafismos indígenas e fontes nobres (*Cinzel* e *Plus Jakarta Sans*).
-
-### 3. 🛠️ Ferramentas Integradas
-- **Dicionário Tupi Pesquisável:** Glossário com mais de 20 termos fundamentais categorizados.
-- **Síntese de Voz (TTS):** Botão para ouvir a pronúncia dos termos.
-- **Copiar Resposta:** Botão de um clique com confirmação toast.
-- **Comandos de Voz:** Suporte a ditado por voz via microfone no navegador.
+Aplicação web completa com interface moderna e modelo de linguagem inteligente especializado na história, cultura, turismo, educação e tradições da cidade de **Tupã (SP)** e da região da **Alta Paulista**.
 
 ---
 
-## 🚀 Como Executar Localmente
-Basta abrir o arquivo [`index.html`](index.html) em qualquer navegador web (Google Chrome, Microsoft Edge, Firefox, etc.).
+## 🌟 Funcionalidades
+
+- **Interface Conversacional Moderna:** Design responsivo no estilo ChatGPT/Claude, com suporte para computadores e celulares.
+- **Modelo Híbrido (Dual Engine):**
+  - **Modo Nativo Offline:** Base de conhecimento rica e categorizada cobrindo:
+    - 🏛️ História e fundação (Luiz de Souza Leão, 1929)
+    - 🎓 Ensino Superior e Faculdades (**FADAP / FAP**, UNESP Câmpus de Tupã)
+    - 🏺 Museus e Patrimônio (Museu Índia Vanuíre, Solar Luiz de Souza Leão)
+    - 🇱🇻 Distrito de Varpa (Herança e cultura dos pioneiros da Letônia)
+    - 🥜 Economia & Tradições (Capital do Amendoim, EXAPIT, agropecuária)
+    - 🌴 Turismo (Praça da Bandeira, Igreja Matriz São Pedro, cascatas)
+  - **Modo Online com IA Generativa (Google Gemini):** Integração direta com o modelo Gemini turbinado pelo prompt de sistema especializado em Tupã.
+- **Configurações no Navegador:** Permite inserir ou remover uma chave de API facilmente pela interface sem mexer no código.
+- **Markdown Completo:** Respostas com formatação rica (tópicos, negrito, links e destaques).
 
 ---
 
-## 📦 Repositório GitHub
-- **Repositório:** [https://github.com/marcusvinicius100/aula-matilia-2210](https://github.com/marcusvinicius100/aula-matilia-2210)
+## 🚀 Como Executar o Projeto
+
+### 1. Pré-requisitos
+- Python 3.10 ou superior instalado.
+
+### 2. Instalar dependências
+No terminal do projeto, execute:
+```powershell
+python -m pip install -r requirements.txt
+```
+
+### 3. Iniciar o servidor web
+Execute o comando:
+```powershell
+python app.py
+```
+
+### 4. Acessar a aplicação
+Abra o seu navegador de internet e acesse:
+👉 **http://127.0.0.1:5000**
+
+---
+
+## 📁 Estrutura de Arquivos
+
+```
+aula matilia,2210/
+├── app.py                 # Servidor Flask e rotas da API
+├── knowledge_tupa.py      # Base de conhecimento especializada e prompts sobre Tupã
+├── requirements.txt       # Dependências Python (Flask, requests)
+├── .gitignore             # Arquivos ignorados pelo controle de versão
+├── README.md              # Documentação do projeto
+├── templates/
+│   └── index.html         # Página principal da interface web
+└── static/
+    ├── style.css          # Estilização moderna e responsiva
+    └── script.js          # Lógica frontend e conexão com o chatbot
+```
+
+---
+
+## 🌐 Sincronização com o GitHub
+
+Para sincronizar suas alterações com o repositório remoto:
+
+```powershell
+git add .
+git commit -m "feat: site e chatbot especializado em Tupa"
+git push
+```
