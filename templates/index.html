@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TupãBot - Assistente Especialista em Tupã (SP)</title>
+  <title>TupãBot - Assistente Especialista em Tupã & TupãCity</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +23,7 @@
           <div class="brand-icon">⚡</div>
           <div class="brand-text">
             <h2>TupãBot</h2>
-            <span>Especialista em Tupã-SP</span>
+            <span>Especialista em Tupã & Notícias</span>
           </div>
         </div>
       </div>
@@ -35,20 +35,32 @@
         </button>
 
         <div class="topics-section">
-          <h3>Tópicos Populares</h3>
+          <h3>📰 Cobertura TupãCity</h3>
+          <ul class="topic-list">
+            <li data-prompt="Quais são as últimas notícias de Tupã no portal TupãCity?">📰 Últimas Notícias do TupãCity</li>
+            <li data-prompt="Fale sobre os encontros dos produtores rurais de Tupã em São Paulo noticiados no TupãCity.">🌾 Produtores Rurais & Agricultura</li>
+            <li data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">💼 Cursos com Inscrições Abertas</li>
+            <li data-prompt="O que foi noticiado sobre as ações do Outubro Rosa e saúde em Tupã e região?">🎗️ Saúde & Ações de Outubro</li>
+          </ul>
+        </div>
+
+        <div class="topics-section">
+          <h3>🏛️ História & Tradições</h3>
           <ul class="topic-list">
             <li data-prompt="Conte-me a história e fundação da cidade de Tupã.">🏛️ História e Fundação</li>
             <li data-prompt="Quais os cursos e como funciona a FADAP / FAP em Tupã?">🎓 Faculdade FADAP / FAP</li>
-            <li data-prompt="Quais os principais pontos turísticos para visitar em Tupã?">🌴 Pontos Turísticos & Museu</li>
+            <li data-prompt="Quais os principais pontos turísticos para visitar em Tupã?">🌴 Turismo & Museu Índia Vanuíre</li>
             <li data-prompt="Fale sobre o Distrito de Varpa e sua colonização letã.">🇱🇻 Distrito de Varpa</li>
-            <li data-prompt="Como é a economia de Tupã e a produção de amendoim?">🥜 Economia & Amendoim</li>
-            <li data-prompt="O que é e quando acontece a EXAPIT em Tupã?">🎡 EXAPIT e Tradições</li>
+            <li data-prompt="Como é a economia de Tupã e a produção de amendoim?">🥜 Economia do Amendoim</li>
           </ul>
         </div>
 
         <div class="info-card">
-          <h4>💡 Sobre o Modelo</h4>
-          <p>Treinado e configurado com conhecimento enciclopédico sobre a Estância Turística de Tupã e Alta Paulista.</p>
+          <h4>📡 Conexão TupãCity</h4>
+          <p id="newsStats">Carregando notícias...</p>
+          <button id="syncNewsBtn" class="sync-news-btn">
+            🔄 Atualizar Notícias Agora
+          </button>
         </div>
       </div>
 
@@ -68,12 +80,12 @@
           <div>
             <h1>TupãBot AI</h1>
             <span class="status-indicator">
-              <span class="dot"></span> Online & Especializado
+              <span class="dot"></span> Online & Alimentado por TupãCity
             </span>
           </div>
         </div>
         <div class="header-right">
-          <span id="currentEngineBadge" class="engine-badge">Motor Nativo (Tupã)</span>
+          <span id="currentEngineBadge" class="engine-badge">Motor Tupã + Notícias</span>
         </div>
       </header>
 
@@ -83,19 +95,19 @@
         <div class="welcome-banner">
           <div class="welcome-icon">⚡</div>
           <h2>Olá! Eu sou o TupãBot</h2>
-          <p>O assistente inteligente com conhecimento dedicado sobre a história, educação, cultura e turismo de <strong>Tupã (SP)</strong>.</p>
+          <p>Seu assistente inteligente especializado em <strong>Tupã (SP)</strong>, agora com as notícias mais recentes raspadas do <strong>TupãCity</strong>!</p>
           <div class="suggestions-grid">
-            <button class="suggestion-chip" data-prompt="Conte a história de quando Tupã foi fundada.">
-              <span>🏛️ História da fundação</span>
+            <button class="suggestion-chip" data-prompt="Quais são as últimas notícias de Tupã no TupãCity?">
+              <span>📰 Últimas notícias da cidade</span>
             </button>
             <button class="suggestion-chip" data-prompt="Fale sobre a faculdade FADAP em Tupã.">
               <span>🎓 Sobre a FADAP</span>
             </button>
-            <button class="suggestion-chip" data-prompt="Quais são os principais pontos turísticos de Tupã?">
-              <span>🌴 Turismo e Museu Índia Vanuíre</span>
+            <button class="suggestion-chip" data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">
+              <span>💼 Cursos e capacitação</span>
             </button>
-            <button class="suggestion-chip" data-prompt="Por que o distrito de Varpa tem tradição da Letônia?">
-              <span>🇱🇻 O Distrito de Varpa</span>
+            <button class="suggestion-chip" data-prompt="Quais os principais pontos turísticos de Tupã?">
+              <span>🌴 Turismo e Museu Índia Vanuíre</span>
             </button>
           </div>
         </div>
@@ -104,7 +116,7 @@
       <!-- Typing Indicator -->
       <div class="typing-indicator" id="typingIndicator">
         <div class="dot-flashing"></div>
-        <span>TupãBot está digitando...</span>
+        <span>TupãBot está consultando a base de dados...</span>
       </div>
 
       <!-- Input Area -->
@@ -113,7 +125,7 @@
           <textarea
             id="userInput"
             rows="1"
-            placeholder="Pergunte algo sobre Tupã, FADAP, pontos turísticos, história..."
+            placeholder="Pergunte sobre as notícias recentes do TupãCity, FADAP, história, turismo..."
             required
           ></textarea>
           <button type="submit" id="sendBtn" title="Enviar Mensagem">
@@ -124,7 +136,7 @@
           </button>
         </form>
         <div class="footer-caption">
-          Projeto acadêmico & tecnológico focado na Alta Paulista - Tupã, SP.
+          Integrado com notícias do portal Tupacity.com &bull; Alta Paulista, SP
         </div>
       </footer>
     </main>
@@ -146,7 +158,7 @@
           placeholder="Cole sua Gemini API Key (ex: AIzaSy...)"
         />
         <p class="modal-hint">
-          Se você adicionar uma chave, o modelo usará o Gemini 2.5 Flash turbinado com a base de dados de Tupã. Se deixar em branco, o modelo usa o <strong>motor nativo pré-configurado</strong> sem custos!
+          Com a chave da API, o modelo utiliza o Gemini 2.5 Flash alimentado com o contexto ao vivo do <strong>TupãCity</strong>. Sem chave, o modelo responde diretamente pela base interna nativa!
         </p>
       </div>
       <div class="modal-footer">

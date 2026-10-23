@@ -1,78 +1,118 @@
 """
 Base de Conhecimento Especializada sobre a Estância Turística de Tupã (SP)
-e Região da Alta Paulista.
+e Região da Alta Paulista, integrada com notícias em tempo real do TupãCity.
 """
 
-TUPA_SYSTEM_PROMPT = """Você é o "TupãBot", um modelo de linguagem e assistente de inteligência artificial altamente especializado na Estância Turística de Tupã (Estado de São Paulo) e na região da Alta Paulista.
+import os
+import json
+import re
 
-Seu tom é cordial, informativo, prestativo e acolhedor (como um típico morador do interior paulista).
-Você tem profundo conhecimento sobre:
-1. HISTÓRIA:
-   - Fundada em 12 de outubro de 1929 por Luiz de Souza Leão.
-   - Origem do nome: "Tupã", em homenagem à divindade indígena tupi-guarani (o Deus do Trovão).
-   - Emancipação político-administrativa em 1938.
-   - Presença indígena marcante: povos Kaingang e Krenak, com a Terra Indígena Vanuíre nos distritos vizinhos (Arco-Íris).
-2. EDUCAÇÃO & UNIVERSIDADES:
-   - FADAP / FAP (Faculdade da Alta Paulista): tradicional instituição de ensino superior da cidade, oferecendo cursos em Direito, Administração, Psicologia, Engenharia, Pedagogia, entre outros.
-   - UNESP (Universidade Estadual Paulista - Câmpus de Tupã): referência em Engenharia de Biossistemas, Administração e pós-graduações.
-   - ETEC Prof. Massuyuki Kawano e Fatec Tupã.
-3. TURISMO & PONTOS TURÍSTICOS:
-   - Museu Histórico e Pedagógico Índia Vanuíre: um dos mais importantes museus etnográficos e indígenas do Brasil, com acervo de dezenas de etnias indígenas e história dos pioneiros.
-   - Solar Luiz de Souza Leão: casarão histórico do fundador, patrimônio cultural tombado.
-   - Igreja Matriz de São Pedro: com belíssimos vitrais e pinturas sacras.
-   - Praça da Bandeira: coração da cidade com sua fonte luminosa, concha acústica e feiras de artesanato e gastronomia.
-   - Parque do Atleta e Espigão.
-   - Cascatas e turismo rural na região.
-4. ECONOMIA & TRADIÇÕES:
-   - Tupã é uma das capitais nacionais do amendoim e possui forte vocação agropecuária (avicultura de corte e postura, gado leiteiro e de corte, cana-de-açúcar).
-   - Eventos tradicionais: EXAPIT (Exposição Agropecuária e Industrial de Tupã), Feira das Nações, festividades do padroeiro São Pedro (29 de junho) e aniversário da cidade (12 de outubro).
-5. GEOGRAFIA:
-   - Localizada na Mesorregião de Marília, microrregião de Tupã (Alta Paulista).
-   - Distritos: Parnaso, Universo e Varpa (Varpa é famosa por sua colonização letã, gastronomia e museu Janis Erdbergs).
-   - Cidades vizinhas: Marília, Bastos (capital do ovo), Quintana, Herculândia, Osvaldo Cruz, Rinópolis, Arco-Íris.
+DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "tupa_news.json")
 
-Responda sempre com clareza, em português, usando formatação rica (tópicos, negrito quando apropriado). Se a pergunta for sobre outros temas, responda gentilmente relacionando com a ótica ou analogias de Tupã quando possível.
+def parse_date_key(item):
+    """Auxiliar para ordenar matérias pela data mais recente."""
+    d_str = item.get("date", "")
+    try:
+        from datetime import datetime
+        return datetime.strptime(d_str, "%d/%m/%Y")
+    except Exception:
+        from datetime import datetime
+        return datetime.min
+
+def load_tupacity_news():
+    """Carrega as notícias raspadas do TupãCity ordenadas por data decrescente."""
+    if os.path.exists(DATA_PATH):
+        try:
+            with open(DATA_PATH, "r", encoding="utf-8") as f:
+                news = json.load(f)
+                news.sort(key=parse_date_key, reverse=True)
+                return news
+        except Exception as e:
+            print(f"[Aviso] Falha ao carregar tupa_news.json: {e}")
+    return []
+
+# Base de notícias atual
+NEWS_CACHE = load_tupacity_news()
+
+def reload_news():
+    global NEWS_CACHE
+    NEWS_CACHE = load_tupacity_news()
+    return len(NEWS_CACHE)
+
+def get_recent_news_context(limit=10):
+    """Gera resumo das notícias recentes para alimentar o prompt do modelo."""
+    news = load_tupacity_news()
+    if not news:
+        return "Nenhuma notícia recente arquivada no momento."
+    
+    lines = []
+    for item in news[:limit]:
+        title = item.get("title", "")
+        date = item.get("date", "")
+        summary = item.get("summary", "")
+        url = item.get("url", "")
+        lines.append(f"- [{date}] **{title}**\n  Resumo: {summary}\n  Fonte: {url}")
+    return "\n\n".join(lines)
+
+
+TUPA_BASE_PROMPT = """Você é o "TupãBot", um modelo de linguagem e assistente de IA altamente especializado na Estância Turística de Tupã (Estado de São Paulo) e na região da Alta Paulista.
+
+Você possui conhecimento enciclopédico sobre a história, educação (como a FADAP e UNESP), cultura, pontos turísticos (Museu Índia Vanuíre, Varpa, Solar Luiz de Souza Leão), economia do amendoim e tradições da cidade.
+
+Além disso, você tem acesso às NOTÍCIAS E ACONTECIMENTOS RECENTES do portal TupãCity (https://tupacity.com/). Sempre que o usuário perguntar sobre fatos recentes, notícias, previsão do tempo, obras, eventos ou cotidiano da cidade, utilize os dados do TupãCity e cite as datas e os links das matérias quando relevante.
+
+Seu tom é cordial, informativo, confiável e prestativo."""
+
+
+def build_system_prompt():
+    """Monta o prompt de sistema completo combinando conhecimento histórico com o feed do TupãCity."""
+    news_context = get_recent_news_context(limit=12)
+    return f"""{TUPA_BASE_PROMPT}
+
+---
+### 📰 NOTÍCIAS RECENTES DO PORTAL TUPÃCITY (Feed ao Vivo):
+{news_context}
+---
 """
 
-# Base local de respostas inteligentes para quando o usuário estiver usando o modo offline/local
+# Base local de respostas inteligentes
 LOCAL_KNOWLEDGE = [
     {
         "keywords": ["fundad", "historia", "origem", "fundador", "souza leao", "criacao", "ano", "aniversario", "1929"],
         "title": "História e Fundação de Tupã",
         "answer": """**História e Fundação da Estância Turística de Tupã (SP):**
 
-🏛️ **Fundação:** Tupã foi fundada em **12 de outubro de 1929** pelo desbravador **Luiz de Souza Leão**, no espigão divisor das bacias dos rios Peixe e Feio (Aguapeí).
-⚡ **Origem do Nome:** O nome homenageia o deus do trovão da mitologia tupi-guarani (**Tupã**), demonstrando respeito às raízes indígenas da terra.
-🛤️ **Desenvolvimento:** A cidade cresceu velozmente impulsionada pela expansão cafeeira e pela chegada dos trilhos da **Companhia Paulista de Estradas de Ferro** em 1941.
-📜 **Emancipação:** Tornou-se município autônomo em **1938** e hoje ostenta com orgulho o título de **Estância Turística** do Estado de São Paulo."""
+🏛️ **Fundação:** Tupã foi fundada em **12 de outubro de 1929** pelo pioneiro **Luiz de Souza Leão**, no espigão divisor das bacias dos rios Peixe e Feio (Aguapeí).
+⚡ **Origem do Nome:** Homenageia o deus do trovão da mitologia tupi-guarani (**Tupã**), demonstrando respeito às raízes e povos originários.
+🛤️ **Desenvolvimento:** A cidade cresceu velozmente impulsionada pela expansão cafeeira e pela chegada da **Companhia Paulista de Estradas de Ferro** em 1941.
+📜 **Emancipação:** Tornou-se município autônomo em **1938** e hoje ostenta o título de **Estância Turística** do Estado de São Paulo."""
     },
     {
         "keywords": ["fadap", "fap", "faculdade da alta paulista", "direito fadap", "curso", "vestibular"],
         "title": "FADAP / FAP (Faculdade da Alta Paulista)",
         "answer": """🎓 **FADAP / FAP - Faculdades da Alta Paulista:**
 
-A **FADAP/FAP** é uma das mais tradicionais e respeitadas instituições de ensino superior privado de Tupã e de toda a Alta Paulista!
+A **FADAP/FAP** é uma das mais tradicionais e renomadas instituições de ensino superior de Tupã e da Alta Paulista!
 
-- **Campus Moderno:** Infraestrutura completa com laboratórios, bibliotecas especializadas, clínicas-escola e corpo docente qualificado.
+- **Campus Moderno:** Infraestrutura completa com bibliotecas, clínicas-escola, laboratórios especializados e corpo docente experiente.
 - **Cursos de Destaque:** 
   - Direito (tradição regional na formação jurídica)
   - Psicologia
   - Administração e Negócios
   - Engenharias e Arquitetura
   - Pedagogia e Ciências Humanas
-- **Compromisso Social:** Forte integração com a comunidade local por meio de assistência jurídica gratuita e projetos de extensão comunitária."""
+- **Compromisso Social:** Forte integração com a comunidade local por meio de assistência jurídica e projetos sociais."""
     },
     {
         "keywords": ["unesp", "universidade estadual", "campus tupa", "biossistemas"],
         "title": "UNESP - Câmpus de Tupã",
         "answer": """🏛️ **UNESP - Universidade Estadual Paulista (Câmpus Experimental de Tupã):**
 
-Instalada em 2003, a unidade da UNESP em Tupã é um polo de excelência pública e gratuita de ensino superior e pesquisa científica:
-
+Instalada em 2003, a unidade da UNESP em Tupã é um polo público e gratuito de excelência:
 - **Graduações Oferecidas:**
-  - **Engenharia de Biossistemas** (pioneira no país, voltada à sustentabilidade e tecnologia no agronegócio)
-  - **Administração** (com forte ênfase em Gestão Agroindustrial)
-- **Pós-Graduação e Pesquisa:** Mestrados e grupos de pesquisa que contribuem ativamente com o setor produtivo regional."""
+  - **Engenharia de Biossistemas** (pioneira no país, integrando tecnologia, sustentabilidade e agronegócio)
+  - **Administração** (ênfase em Gestão Agroindustrial)
+- **Pós-Graduação e Pesquisa:** Programas de mestrado e pesquisas aplicadas ao desenvolvimento da Alta Paulista."""
     },
     {
         "keywords": ["turismo", "visitar", "pontos turisticos", "o que fazer", "passeio", "turistico", "museu", "vanuire"],
@@ -80,68 +120,105 @@ Instalada em 2003, a unidade da UNESP em Tupã é um polo de excelência públic
         "answer": """🌴 **Principais Atrações Turísticas de Tupã:**
 
 1. 🏺 **Museu Histórico e Pedagógico Índia Vanuíre:**
-   Referência nacional em etnografia indígena, conta com um dos maiores acervos das culturas Kaingang, Krenak e dezenas de etnias brasileiras.
+   Referência nacional em etnografia indígena, conta com um rico acervo das culturas Kaingang, Krenak e outras etnias brasileiras.
 2. 🏡 **Solar Luiz de Souza Leão:**
-   A antiga residência do pioneiro fundador, com móveis de época, bosque arborizado e objetos históricos.
+   A residência histórica do fundador, tombada pelo Condephaat, preservada em bosque arborizado.
 3. ⛪ **Igreja Matriz de São Pedro:**
-   Destaca-se pela beleza de sua arquitetura neoclássica, seus vitrais artísticos e pinturas sacras.
+   Arquitetura imponente, belos vitrais artísticos e pinturas sacras.
 4. ⛲ **Praça da Bandeira:**
-   Ponto de encontro central, com feira de artesanato, fonte luminosa e eventos artísticos na concha acústica.
+   Ponto de encontro da cidade com fonte luminosa, concha acústica e feiras de artesanato e gastronomia.
 5. 🌾 **Distrito de Varpa:**
-   Famoso pela colonização de imigrantes da Letônia, preservando culinária típica letã, museu Janis Erdbergs e ecoturismo."""
+   Famoso pela colonização de imigrantes da Letônia, culinária típica letã e o Museu Janis Erdbergs."""
     },
     {
         "keywords": ["varpa", "letao", "letonia", "erdbergs", "distrito"],
         "title": "Distrito de Varpa (Herança Letã)",
         "answer": """🇱🇻 **Varpa - O Rincão Letão de Tupã:**
 
-Localizado a cerca de 30 km do centro de Tupã, o Distrito de Varpa é uma joia histórica e cultural:
-- **Origem:** Fundado na década de 1920 por imigrantes batistas vindos da **Letônia**, fugindo dos conflitos no leste europeu.
-- **Cultura e Gastronomia:** Famoso pelas tortas, queijos, pães artesanais e pela arquitetura de madeira estilo europeu.
-- **Museu dos Pioneiros (Janis Erdbergs):** Preserva fotos, ferramentas, bíblias e memórias da epopeia dos imigrantes letões.
-- **Natureza:** Próximo a cachoeiras e balneários naturais."""
+Localizado a cerca de 30 km do centro de Tupã:
+- **Origem:** Fundado na década de 1920 por imigrantes batistas da **Letônia**.
+- **Cultura e Gastronomia:** Famoso pelas tortas, queijos, pães artesanais e pela arquitetura singular de madeira.
+- **Museu dos Pioneiros (Janis Erdbergs):** Preserva fotos, ferramentas e histórias da imigração letã."""
     },
     {
         "keywords": ["amendoim", "economia", "industria", "agricultura", "avicultura", "exapit"],
         "title": "Economia e Tradições Agropecuárias",
         "answer": """🥜 **Economia & Vocação Produtiva de Tupã:**
 
-- 🥜 **Capital do Amendoim:** Tupã e sua microrregião são polos líderes no beneficiamento, produção e exportação de amendoim do Brasil.
-- 🐔 **Avicultura de Postura e Corte:** Proximidade estratégica com o cinturão avícola da Alta Paulista (junto a Bastos).
-- 🎡 **EXAPIT:** A Exposição Agropecuária e Industrial de Tupã é uma das maiores feiras agropecuárias do interior de São Paulo, com rodeios, shows de nível nacional e feiras de negócios.
-- 🛍️ **Comércio Forte:** Polo comercial e de serviços para diversas cidades circunvizinhas."""
-    },
-    {
-        "keywords": ["indio", "indigena", "kaingang", "krenak", "aldeia", "arco iris", "reserva"],
-        "title": "Herança e Povos Indígenas",
-        "answer": """🏹 **Herança Indígena em Tupã:**
-
-A presença e a história dos povos originários são a alma de Tupã:
-- **Vanuíre:** Lendária mediadora Kaingang que atuou pela paz na região durante a abertura dos sertões no início do século XX.
-- **Terra Indígena Vanuíre:** Localizada nas imediações do município vizinho de Arco-Íris, acolhe famílias das etnias **Kaingang** e **Krenak**, mantendo vivas suas línguas, danças e artesanatos.
-- **Museu Índia Vanuíre:** Instituição da Secretaria da Cultura do Estado de SP em Tupã que realiza trabalho modelo de curadoria compartilhada com os próprios indígenas."""
-    },
-    {
-        "keywords": ["onde comer", "restaurante", "gastronomia", "comida", "lanchonete", "bar"],
-        "title": "Gastronomia em Tupã",
-        "answer": """🍽️ **Gastronomia e Noite em Tupã:**
-
-- **Comida Típica:** Produtos derivados de amendoim (doces artesanais, paçocas gourmet) e culinária caipira tradicional.
-- **Sabores Europeus em Varpa:** Deliciosos doces, geleias e defumados da tradição da Letônia.
-- **Gastronomia Japonesa e Oriental:** Forte influência na região da Alta Paulista.
-- **Praça da Bandeira e Avenidas Centrais (Av. Tamoios / Timbiras):** Excelentes opções de choperias, pizzarias, hamburguerias e restaurantes familiares."""
+- 🥜 **Capital do Amendoim:** Líder no processamento, produção e exportação de amendoim no Brasil.
+- 🐔 **Avicultura:** Forte ligação com o polo avícola da Alta Paulista.
+- 🎡 **EXAPIT:** Exposição Agropecuária e Industrial de Tupã, reunindo leilões, feira comercial e grandes shows."""
     }
 ]
 
 
+def search_news_database(query: str, max_results=3):
+    """Busca matérias relevantes no acervo de notícias do TupãCity."""
+    news = load_tupacity_news()
+    if not news:
+        return []
+        
+    q_words = [w.lower() for w in re.findall(r"\w+", query) if len(w) > 2]
+    if not q_words:
+        return []
+        
+    scored = []
+    for item in news:
+        title = item.get("title", "").lower()
+        content = item.get("content", "").lower()
+        score = 0
+        for w in q_words:
+            if w in title:
+                score += 5
+            elif w in content:
+                score += 1
+        if score > 0:
+            scored.append((score, item))
+            
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [item for _, item in scored[:max_results]]
+
+
 def find_local_answer(user_message: str) -> str:
-    """Busca a melhor resposta no banco de conhecimento local de Tupã."""
+    """
+    Busca resposta inteligente integrando o acervo do TupãCity com o conhecimento local.
+    """
     query = user_message.lower()
     
-    # Busca por correspondência de palavras-chave pontuadas
+    # Se o usuário perguntou sobre notícias ou acontecimentos recentes
+    if any(k in query for k in ["noticia", "notícia", "noticias", "acontec", "tupacity", "hoje", "recente", "ultim", "últim"]):
+        news = load_tupacity_news()
+        if news:
+            matched = search_news_database(query, max_results=3)
+            # Se não achou busca específica, pega as 4 mais recentes
+            selected = matched if matched else news[:4]
+            
+            output = ["📰 **Últimas Notícias de Tupã e Região (Fonte: TupãCity):**\n"]
+            for item in selected:
+                title = item.get("title")
+                date = item.get("date")
+                summary = item.get("summary")
+                url = item.get("url")
+                output.append(f"🔹 **{title}** ({date})\n{summary}\n🔗 [Ler matéria completa no TupãCity]({url})\n")
+                
+            output.append("💡 *Você pode me perguntar detalhes sobre qualquer uma dessas matérias!*")
+            return "\n".join(output)
+
+    # Verifica se há notícias específicas sobre o assunto perguntado (ex: "drone", "produtores rurais", "outubro rosa", "alok")
+    matched_news = search_news_database(query, max_results=2)
+    if matched_news:
+        item = matched_news[0]
+        return (
+            f"📰 **Notícia encontrada no TupãCity:**\n\n"
+            f"### {item.get('title')}\n"
+            f"📅 *Publicado em: {item.get('date')}*\n\n"
+            f"{item.get('content')[:900]}...\n\n"
+            f"🔗 [Confira a matéria completa no TupãCity]({item.get('url')})"
+        )
+
+    # Busca nas categorias históricas/turísticas locais
     best_match = None
     max_score = 0
-    
     for item in LOCAL_KNOWLEDGE:
         score = 0
         for kw in item["keywords"]:
@@ -156,23 +233,25 @@ def find_local_answer(user_message: str) -> str:
         
     # Cumprimentos
     if any(greet in query for greet in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite", "tudo bem"]):
+        news = load_tupacity_news()
+        news_count = len(news)
         return (
-            "Olá! Seja muito bem-vindo ao **TupãBot**! ☀️\n\n"
-            "Eu sou um assistente especializado na **Estância Turística de Tupã (SP)** e em toda a região da Alta Paulista.\n\n"
-            "Posso te contar sobre:\n"
-            "- A história da fundação e o pioneiro Luiz de Souza Leão\n"
-            "- Faculdades locais como a **FADAP** e a **UNESP**\n"
-            "- Pontos turísticos: Museu Índia Vanuíre, Praça da Bandeira, Solar\n"
-            "- O distrito letão de **Varpa**\n"
-            "- A economia do amendoim e a tradicional **EXAPIT**\n\n"
-            "Como posso te ajudar hoje?"
+            f"Olá! Seja muito bem-vindo ao **TupãBot**! ☀️\n\n"
+            f"Eu sou um assistente especializado na **Estância Turística de Tupã (SP)** e região, "
+            f"agora integrado com a cobertura de notícias do portal **TupãCity** ({news_count} matérias catalogadas)!\n\n"
+            "Você pode me perguntar sobre:\n"
+            "- 📰 **Últimas notícias e eventos** em Tupã hoje\n"
+            "- 🏛️ **História da fundação** e o desbravador Luiz de Souza Leão\n"
+            "- 🎓 Faculdades locais: **FADAP / FAP** e **UNESP**\n"
+            "- 🏺 Turismo: **Museu Índia Vanuíre**, **Solar** e o Distrito de **Varpa**\n"
+            "- 🥜 A economia do amendoim e a tradicional **EXAPIT**\n\n"
+            "Qual assunto você gostaria de explorar?"
         )
         
-    # Resposta padrão inteligente
+    # Resposta genérica com sugestões
     return (
-        f"Sobre a sua pergunta sobre \"{user_message}\":\n\n"
-        "Como especialista em **Tupã (SP)**, posso detalhar informações sobre nossa história (fundada em 1929), "
-        "instituições de ensino como a **FADAP/FAP** e **UNESP**, o famoso **Museu Índia Vanuíre**, o distrito histórico de **Varpa**, "
-        "ou as tradições do amendoim e agropecuária da Alta Paulista.\n\n"
-        "💡 *Dica:* Você também pode conectar uma chave de API do Google Gemini nas configurações acima para respostas geradas dinamicamente com IA generativa avançada!"
+        f"Sobre a sua pergunta \"{user_message}\":\n\n"
+        "Posso fornecer informações históricas sobre **Tupã (SP)**, detalhes da faculdade **FADAP**, "
+        "turismo, cultura indígena, ou buscar os fatos e acontecimentos mais recentes noticiados no **TupãCity**.\n\n"
+        "💡 Experimente perguntar: *\"Quais as últimas notícias de Tupã?\"* ou *\"Fale sobre os produtores rurais de Tupã\"*."
     )

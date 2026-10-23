@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const typingIndicator = document.getElementById("typingIndicator");
   const newChatBtn = document.getElementById("newChatBtn");
   const currentEngineBadge = document.getElementById("currentEngineBadge");
+  const newsStats = document.getElementById("newsStats");
+  const syncNewsBtn = document.getElementById("syncNewsBtn");
   
   // Modal elements
   const configModal = document.getElementById("configModal");
@@ -22,7 +24,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (savedApiKey) {
     apiKeyInput.value = savedApiKey;
-    currentEngineBadge.textContent = "Gemini 2.5 Flash Ativo";
+    currentEngineBadge.textContent = "Gemini 2.5 Flash + TupãCity";
+  }
+
+  // Carrega status das notícias
+  async function loadNewsStatus() {
+    try {
+      const resp = await fetch("/api/info");
+      const data = await resp.json();
+      if (newsStats) {
+        newsStats.innerHTML = `<strong>${data.news_count || 0}</strong> notícias do TupãCity indexadas no conhecimento.`;
+      }
+    } catch (e) {
+      if (newsStats) newsStats.textContent = "Feed do TupãCity ativo.";
+    }
+  }
+  loadNewsStatus();
+
+  // Botão de atualizar notícias do TupãCity
+  if (syncNewsBtn) {
+    syncNewsBtn.addEventListener("click", async () => {
+      syncNewsBtn.disabled = true;
+      syncNewsBtn.textContent = "⏳ Raspando TupãCity...";
+      try {
+        const resp = await fetch("/api/sync-news", { method: "POST" });
+        const resData = await resp.json();
+        alert(resData.message || "Notícias sincronizadas com sucesso!");
+        loadNewsStatus();
+      } catch (err) {
+        alert("Erro ao conectar com o serviço de raspagem.");
+      } finally {
+        syncNewsBtn.disabled = false;
+        syncNewsBtn.textContent = "🔄 Atualizar Notícias Agora";
+      }
+    });
   }
 
   // Ajusta altura do textarea dinamicamente
@@ -59,33 +94,34 @@ document.addEventListener("DOMContentLoaded", () => {
     savedApiKey = apiKeyInput.value.trim();
     if (savedApiKey) {
       localStorage.setItem("tupa_gemini_api_key", savedApiKey);
-      currentEngineBadge.textContent = "Gemini 2.5 Flash Ativo";
+      currentEngineBadge.textContent = "Gemini 2.5 Flash + TupãCity";
       alert("Chave salva com sucesso! O modelo agora usará a inteligência do Gemini.");
     } else {
       localStorage.removeItem("tupa_gemini_api_key");
-      currentEngineBadge.textContent = "Motor Nativo (Tupã)";
-      alert("Chave removida. Usando o motor nativo offline de Tupã.");
+      currentEngineBadge.textContent = "Motor Tupã + Notícias";
+      alert("Chave removida. Usando a base local de Tupã + TupãCity.");
     }
     configModal.style.display = "none";
   });
 
-  // Fecha modal ao clicar fora
   window.addEventListener("click", (e) => {
     if (e.target === configModal) {
       configModal.style.display = "none";
     }
   });
 
-  // Quick topics / suggestion chips
-  document.querySelectorAll("[data-prompt]").forEach((el) => {
-    el.addEventListener("click", () => {
-      const prompt = el.getAttribute("data-prompt");
-      if (sidebar.classList.contains("open")) {
-        sidebar.classList.remove("open");
-      }
-      sendMessage(prompt);
+  function bindTopicChips() {
+    document.querySelectorAll("[data-prompt]").forEach((el) => {
+      el.onclick = () => {
+        const prompt = el.getAttribute("data-prompt");
+        if (sidebar.classList.contains("open")) {
+          sidebar.classList.remove("open");
+        }
+        sendMessage(prompt);
+      };
     });
-  });
+  }
+  bindTopicChips();
 
   // Nova conversa
   newChatBtn.addEventListener("click", () => {
@@ -94,29 +130,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="welcome-banner">
         <div class="welcome-icon">⚡</div>
         <h2>Olá! Eu sou o TupãBot</h2>
-        <p>O assistente inteligente com conhecimento dedicado sobre a história, educação, cultura e turismo de <strong>Tupã (SP)</strong>.</p>
+        <p>Seu assistente inteligente especializado em <strong>Tupã (SP)</strong>, agora com as notícias mais recentes raspadas do <strong>TupãCity</strong>!</p>
         <div class="suggestions-grid">
-          <button class="suggestion-chip" data-prompt="Conte a história de quando Tupã foi fundada.">
-            <span>🏛️ História da fundação</span>
+          <button class="suggestion-chip" data-prompt="Quais são as últimas notícias de Tupã no TupãCity?">
+            <span>📰 Últimas notícias da cidade</span>
           </button>
           <button class="suggestion-chip" data-prompt="Fale sobre a faculdade FADAP em Tupã.">
             <span>🎓 Sobre a FADAP</span>
           </button>
-          <button class="suggestion-chip" data-prompt="Quais são os principais pontos turísticos de Tupã?">
-            <span>🌴 Turismo e Museu Índia Vanuíre</span>
+          <button class="suggestion-chip" data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">
+            <span>💼 Cursos e capacitação</span>
           </button>
-          <button class="suggestion-chip" data-prompt="Por que o distrito de Varpa tem tradição da Letônia?">
-            <span>🇱🇻 O Distrito de Varpa</span>
+          <button class="suggestion-chip" data-prompt="Quais os principais pontos turísticos de Tupã?">
+            <span>🌴 Turismo e Museu Índia Vanuíre</span>
           </button>
         </div>
       </div>
     `;
-    // Reassocia eventos aos novos chips
-    document.querySelectorAll("[data-prompt]").forEach((el) => {
-      el.addEventListener("click", () => {
-        sendMessage(el.getAttribute("data-prompt"));
-      });
-    });
+    bindTopicChips();
   });
 
   // Submit do formulário de chat
@@ -130,17 +161,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function sendMessage(text) {
-    // Remove banner se for a primeira mensagem
     const banner = document.querySelector(".welcome-banner");
     if (banner) {
       banner.remove();
     }
 
-    // Adiciona mensagem do usuário
     appendMessage("user", text);
     chatHistory.push({ role: "user", content: text });
 
-    // Mostra indicador de digitação
     typingIndicator.style.display = "flex";
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
@@ -183,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.classList.add("message-bubble");
 
     if (sender === "bot") {
-      // Formata markdown se a biblioteca marked estiver disponível
       if (window.marked && typeof marked.parse === "function") {
         bubble.innerHTML = marked.parse(text);
       } else {

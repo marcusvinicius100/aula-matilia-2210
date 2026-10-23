@@ -2,11 +2,11 @@ import os
 import json
 import requests
 from flask import Flask, render_template, request, jsonify
-from knowledge_tupa import TUPA_SYSTEM_PROMPT, find_local_answer
+from knowledge_tupa import build_system_prompt, find_local_answer, load_tupacity_news, reload_news
+from scraper_tupacity import scrape_tupacity
 
 app = Flask(__name__)
 
-# Permite configurar via variável de ambiente opcional
 GEMINI_API_KEY_ENV = os.environ.get("GEMINI_API_KEY", "")
 
 @app.route("/")
@@ -15,12 +15,37 @@ def index():
 
 @app.route("/api/info", methods=["GET"])
 def info():
+    news = load_tupacity_news()
     return jsonify({
         "name": "TupãBot",
-        "description": "Modelo de Linguagem Especializado em Tupã (SP) e Alta Paulista",
-        "version": "1.0.0",
-        "has_env_key": bool(GEMINI_API_KEY_ENV)
+        "description": "Modelo Especializado em Tupã (SP) e Alta Paulista",
+        "version": "1.1.0",
+        "has_env_key": bool(GEMINI_API_KEY_ENV),
+        "news_count": len(news)
     })
+
+@app.route("/api/news", methods=["GET"])
+def get_news():
+    """Retorna as notícias mais recentes do TupãCity."""
+    news = load_tupacity_news()
+    return jsonify({
+        "total": len(news),
+        "news": news[:12]
+    })
+
+@app.route("/api/sync-news", methods=["POST"])
+def sync_news():
+    """Aciona a raspagem do portal TupãCity para atualizar as notícias."""
+    try:
+        updated = scrape_tupacity(max_pages=3)
+        reload_news()
+        return jsonify({
+            "status": "success",
+            "message": f"Base de notícias atualizada com sucesso! Total: {len(updated)} matérias.",
+            "total": len(updated)
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -32,35 +57,32 @@ def chat():
     if not user_message:
         return jsonify({"error": "Mensagem vazia."}), 400
 
-    # Se houver chave Gemini, tenta chamar a IA generativa do Google
+    # Se houver chave Gemini, tenta chamar a IA generativa com o prompt alimentado pelo TupãCity
     if user_api_key:
         try:
             gemini_response = call_gemini(user_message, user_api_key, history)
             if gemini_response:
                 return jsonify({
                     "response": gemini_response,
-                    "engine": "Gemini 2.5 Flash (Online)",
+                    "engine": "Gemini 2.5 Flash + Feed TupãCity (Online)",
                     "status": "success"
                 })
         except Exception as e:
-            # Em caso de falha de conexão/chave inválida, faz fallback elegante para o motor local
             print(f"[Aviso] Falha ao consultar Gemini: {e}")
 
-    # Fallback ou motor nativo especializado em Tupã
+    # Fallback ou motor nativo inteligente com acervo do TupãCity
     local_reply = find_local_answer(user_message)
     return jsonify({
         "response": local_reply,
-        "engine": "Base de Conhecimento Tupã (Nativa)",
+        "engine": "Base Nativa Tupã + TupãCity",
         "status": "success"
     })
 
 def call_gemini(user_message: str, api_key: str, history: list) -> str:
-    """Envia requisição para a API do Google Gemini com prompt de sistema de Tupã."""
+    """Envia requisição para a API do Google Gemini com prompt enriquecido pelo TupãCity."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
     
     contents = []
-    
-    # Adiciona histórico recente (últimas 6 mensagens para manter contexto)
     for msg in history[-6:]:
         role = "user" if msg.get("role") == "user" else "model"
         text = msg.get("content", "")
@@ -70,20 +92,21 @@ def call_gemini(user_message: str, api_key: str, history: list) -> str:
                 "parts": [{"text": text}]
             })
             
-    # Adiciona a mensagem atual
     contents.append({
         "role": "user",
         "parts": [{"text": user_message}]
     })
     
+    system_instruction = build_system_prompt()
+    
     payload = {
         "system_instruction": {
-            "parts": [{"text": TUPA_SYSTEM_PROMPT}]
+            "parts": [{"text": system_instruction}]
         },
         "contents": contents,
         "generationConfig": {
-            "temperature": 0.7,
-            "maxOutputTokens": 1024
+            "temperature": 0.6,
+            "maxOutputTokens": 1200
         }
     }
     
@@ -104,5 +127,5 @@ def call_gemini(user_message: str, api_key: str, history: list) -> str:
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    print(f"\n⚡ Servidor TupãBot iniciado em: http://127.0.0.1:{port}\n")
+    print(f"\n⚡ Servidor TupãBot + TupãCity iniciado em: http://127.0.0.1:{port}\n")
     app.run(host="127.0.0.1", port=port, debug=True)
