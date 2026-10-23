@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TupãBot - Assistente Especialista em Tupã & TupãCity</title>
+  <title>TupãBot Multi-Fontes - Prefeitura, UNIFADAP, IBGE & TupãCity</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,8 @@
         <div class="brand">
           <div class="brand-icon">⚡</div>
           <div class="brand-text">
-            <h2>TupãBot</h2>
-            <span>Especialista em Tupã & Notícias</span>
+            <h2>TupãBot 2.0</h2>
+            <span>Prefeitura • UNIFADAP • IBGE • TupãCity</span>
           </div>
         </div>
       </div>
@@ -34,32 +34,47 @@
           Nova Conversa
         </button>
 
+        <!-- Seções de Tópicos por Fonte -->
         <div class="topics-section">
-          <h3>📰 Cobertura TupãCity</h3>
+          <h3>🎓 UNIFADAP (Faculdade)</h3>
           <ul class="topic-list">
-            <li data-prompt="Quais são as últimas notícias de Tupã no portal TupãCity?">📰 Últimas Notícias do TupãCity</li>
-            <li data-prompt="Fale sobre os encontros dos produtores rurais de Tupã em São Paulo noticiados no TupãCity.">🌾 Produtores Rurais & Agricultura</li>
-            <li data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">💼 Cursos com Inscrições Abertas</li>
-            <li data-prompt="O que foi noticiado sobre as ações do Outubro Rosa e saúde em Tupã e região?">🎗️ Saúde & Ações de Outubro</li>
+            <li data-prompt="Quais cursos de graduação a UNIFADAP oferece e como funciona o vestibular?">📚 Todos os Cursos da UNIFADAP</li>
+            <li data-prompt="Fale sobre o curso de Direito e o Núcleo de Prática Jurídica da UNIFADAP.">⚖️ Direito & Prática Jurídica</li>
+            <li data-prompt="Como é o curso de Psicologia e a clínica-escola da UNIFADAP?">🧠 Psicologia & Atendimento</li>
+            <li data-prompt="Qual o endereço e contato do WhatsApp da UNIFADAP?">📍 Endereço e Contato UNIFADAP</li>
           </ul>
         </div>
 
         <div class="topics-section">
-          <h3>🏛️ História & Tradições</h3>
+          <h3>📊 IBGE Estatísticas</h3>
           <ul class="topic-list">
-            <li data-prompt="Conte-me a história e fundação da cidade de Tupã.">🏛️ História e Fundação</li>
-            <li data-prompt="Quais os cursos e como funciona a FADAP / FAP em Tupã?">🎓 Faculdade FADAP / FAP</li>
-            <li data-prompt="Quais os principais pontos turísticos para visitar em Tupã?">🌴 Turismo & Museu Índia Vanuíre</li>
-            <li data-prompt="Fale sobre o Distrito de Varpa e sua colonização letã.">🇱🇻 Distrito de Varpa</li>
-            <li data-prompt="Como é a economia de Tupã e a produção de amendoim?">🥜 Economia do Amendoim</li>
+            <li data-prompt="Qual a população atualizada, área territorial e IDHM de Tupã segundo o IBGE?">👥 População, Área & IDHM</li>
+            <li data-prompt="Como é a economia e a produção de amendoim de Tupã registrada no IBGE?">🥜 PIB & Produção de Amendoim</li>
+          </ul>
+        </div>
+
+        <div class="topics-section">
+          <h3>🏛️ Prefeitura & Serviços</h3>
+          <ul class="topic-list">
+            <li data-prompt="Quais são as vagas de emprego do PAT divulgadas pela Prefeitura de Tupã?">💼 Vagas de Emprego (PAT)</li>
+            <li data-prompt="Quais as notícias oficiais e obras em andamento pela Prefeitura de Tupã?">🏗️ Obras & Atos da Prefeitura</li>
+          </ul>
+        </div>
+
+        <div class="topics-section">
+          <h3>📰 Portal TupãCity</h3>
+          <ul class="topic-list">
+            <li data-prompt="Quais as notícias mais recentes de hoje noticiadas no portal TupãCity?">📰 Acontecimentos do TupãCity</li>
           </ul>
         </div>
 
         <div class="info-card">
-          <h4>📡 Conexão TupãCity</h4>
-          <p id="newsStats">Carregando notícias...</p>
-          <button id="syncNewsBtn" class="sync-news-btn">
-            🔄 Atualizar Notícias Agora
+          <h4>📡 Bases Raspadas e Ativas</h4>
+          <div id="sourcesSummary" class="sources-summary">
+            Carregando fontes...
+          </div>
+          <button id="syncAllBtn" class="sync-news-btn">
+            🔄 Sincronizar Todas as Fontes
           </button>
         </div>
       </div>
@@ -78,36 +93,35 @@
         <div class="header-left">
           <button id="mobileMenuBtn" class="mobile-toggle-btn" aria-label="Abrir Menu">☰</button>
           <div>
-            <h1>TupãBot AI</h1>
+            <h1>TupãBot Multi-Fontes</h1>
             <span class="status-indicator">
-              <span class="dot"></span> Online & Alimentado por TupãCity
+              <span class="dot"></span> 4 Bases Oficiais Integradas
             </span>
           </div>
         </div>
         <div class="header-right">
-          <span id="currentEngineBadge" class="engine-badge">Motor Tupã + Notícias</span>
+          <span id="currentEngineBadge" class="engine-badge">Prefeitura • UNIFADAP • IBGE • TupãCity</span>
         </div>
       </header>
 
       <!-- Messages Area -->
       <div class="messages-container" id="messagesContainer">
-        <!-- Boas-vindas -->
         <div class="welcome-banner">
           <div class="welcome-icon">⚡</div>
-          <h2>Olá! Eu sou o TupãBot</h2>
-          <p>Seu assistente inteligente especializado em <strong>Tupã (SP)</strong>, agora com as notícias mais recentes raspadas do <strong>TupãCity</strong>!</p>
+          <h2>TupãBot Especialista</h2>
+          <p>Seu assistente virtual abastecido com raspagem completa da <strong>Prefeitura de Tupã</strong>, <strong>UNIFADAP</strong>, dados oficiais do <strong>IBGE</strong> e notícias do <strong>TupãCity</strong>.</p>
           <div class="suggestions-grid">
-            <button class="suggestion-chip" data-prompt="Quais são as últimas notícias de Tupã no TupãCity?">
-              <span>📰 Últimas notícias da cidade</span>
+            <button class="suggestion-chip" data-prompt="Quais são os cursos e diferenciais da UNIFADAP em Tupã?">
+              <span>🎓 Cursos e Vestibular UNIFADAP</span>
             </button>
-            <button class="suggestion-chip" data-prompt="Fale sobre a faculdade FADAP em Tupã.">
-              <span>🎓 Sobre a FADAP</span>
+            <button class="suggestion-chip" data-prompt="Qual a população atualizada e o IDH de Tupã no IBGE?">
+              <span>📊 População & Indicadores do IBGE</span>
             </button>
-            <button class="suggestion-chip" data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">
-              <span>💼 Cursos e capacitação</span>
+            <button class="suggestion-chip" data-prompt="Quais as vagas de emprego do PAT divulgadas pela Prefeitura?">
+              <span>💼 Vagas de Emprego da Prefeitura</span>
             </button>
-            <button class="suggestion-chip" data-prompt="Quais os principais pontos turísticos de Tupã?">
-              <span>🌴 Turismo e Museu Índia Vanuíre</span>
+            <button class="suggestion-chip" data-prompt="Quais são as principais notícias de hoje no portal TupãCity?">
+              <span>📰 Notícias Recentes do TupãCity</span>
             </button>
           </div>
         </div>
@@ -116,7 +130,7 @@
       <!-- Typing Indicator -->
       <div class="typing-indicator" id="typingIndicator">
         <div class="dot-flashing"></div>
-        <span>TupãBot está consultando a base de dados...</span>
+        <span>TupãBot está processando as bases de dados...</span>
       </div>
 
       <!-- Input Area -->
@@ -125,7 +139,7 @@
           <textarea
             id="userInput"
             rows="1"
-            placeholder="Pergunte sobre as notícias recentes do TupãCity, FADAP, história, turismo..."
+            placeholder="Pergunte sobre a FADAP, dados do IBGE, vagas da Prefeitura ou notícias do TupãCity..."
             required
           ></textarea>
           <button type="submit" id="sendBtn" title="Enviar Mensagem">
@@ -136,7 +150,7 @@
           </button>
         </form>
         <div class="footer-caption">
-          Integrado com notícias do portal Tupacity.com &bull; Alta Paulista, SP
+          Bases Oficiais: tupa.sp.gov.br &bull; unifadap.edu.br &bull; ibge.gov.br &bull; tupacity.com
         </div>
       </footer>
     </main>
@@ -158,7 +172,7 @@
           placeholder="Cole sua Gemini API Key (ex: AIzaSy...)"
         />
         <p class="modal-hint">
-          Com a chave da API, o modelo utiliza o Gemini 2.5 Flash alimentado com o contexto ao vivo do <strong>TupãCity</strong>. Sem chave, o modelo responde diretamente pela base interna nativa!
+          Com a chave ativada, o Gemini responderá utilizando em tempo real o contexto consolidado de todas as fontes (Prefeitura, UNIFADAP, IBGE e TupãCity). Sem a chave, o modelo responde pelo motor nativo local sem custos!
         </p>
       </div>
       <div class="modal-footer">

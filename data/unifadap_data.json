@@ -1,0 +1,95 @@
+{
+  "source": "UNIFADAP - Centro Universitário da Alta Paulista",
+  "url": "https://www.unifadap.edu.br",
+  "endereco": "Rua Mandaguaris, 1010 - Centro | Tupã/SP | CEP 17600-050",
+  "whatsapp": "(14) 99733-9684",
+  "credenciamento": "Centro Universitário credenciado com autonomia acadêmica concedida pelo MEC",
+  "diferenciais": [
+    "Campus moderno com paisagismo integrado e laboratórios de última geração",
+    "Uma das maiores e mais completas bibliotecas universitárias da região",
+    "Núcleo de Apoio Psicológico e Atendimento à Comunidade",
+    "Congresso de Iniciação Científica (5º CIC UNIFADAP)",
+    "Aulão preparatório Nota Mil para o ENEM",
+    "Clínicas-escola e Núcleo de Prática Jurídica com assistência à população"
+  ],
+  "cursos_graduacao": [
+    {
+      "nome": "Direito",
+      "tipo": "Bacharelado",
+      "destaque": "Tradição regional histórica na formação jurídica com Núcleo de Prática Jurídica próprio"
+    },
+    {
+      "nome": "Psicologia",
+      "tipo": "Bacharelado",
+      "destaque": "Clínica-escola com atendimento psicológico supervisionado à comunidade"
+    },
+    {
+      "nome": "Administração",
+      "tipo": "Bacharelado",
+      "destaque": "Foco em gestão moderna, agronegócio e liderança empreendedora"
+    },
+    {
+      "nome": "Enfermagem",
+      "tipo": "Bacharelado",
+      "destaque": "Aulas práticas intensivas e estágios na rede de saúde regional"
+    },
+    {
+      "nome": "Farmácia",
+      "tipo": "Bacharelado",
+      "destaque": "Laboratórios modernos de análises clínicas e cosmetologia"
+    },
+    {
+      "nome": "Fisioterapia",
+      "tipo": "Bacharelado",
+      "destaque": "Clínica de reabilitação com infraestrutura completa"
+    },
+    {
+      "nome": "Biomedicina",
+      "tipo": "Bacharelado",
+      "destaque": "Atuação em análises laboratoriais, genética e biotecnologia"
+    },
+    {
+      "nome": "Pedagogia",
+      "tipo": "Licenciatura",
+      "destaque": "Formação de educadores e gestores escolares inovadores"
+    },
+    {
+      "nome": "Engenharia Civil",
+      "tipo": "Bacharelado",
+      "destaque": "Laboratórios de solos, concreto e projetos estruturais"
+    },
+    {
+      "nome": "Engenharia da Computação",
+      "tipo": "Bacharelado",
+      "destaque": "Desenvolvimento de software, hardware, robótica e sistemas inteligentes"
+    },
+    {
+      "nome": "Engenharia de Produção",
+      "tipo": "Bacharelado",
+      "destaque": "Otimização de processos produtivos, logística e gestão industrial"
+    }
+  ],
+  "formas_ingresso": [
+    "Vestibular agendado ou online",
+    "Nota do ENEM (descontos e bolsas com base no desempenho)",
+    "Transferência de outras faculdades com aproveitamento de estudos",
+    "Segunda Graduação (para portadores de diploma superior)"
+  ],
+  "destaques_site": [
+    "Centro Universitário da Alta Paulista - UNIFADAP | FAP | Tupã, State of São Paulo, Brazil",
+    "Please ensure Javascript is enabled for purposes of",
+    "Reservas de Auditório e Laboratórios",
+    "INSCRIÇÕES ABERTAS - 5º CONGRESSO DE INICIAÇÃO CIENTIFICA UNIFADAP",
+    "​Oito professores, oito matérias, cinco horas de conteúdo que cai na prova. Do jeito que a Equipe Nota Mil sabe fazer: direto e intenso.",
+    "Formando profissionais preparados para o mercado e para a vida",
+    "Na UniFadap, ensino de qualidade, estrutura completa e compromisso com o seu futuro caminham juntos desde o primeiro dia.",
+    "Inscreva-se agora e dê o primeiro passo rumo ao seu futuro",
+    "Preencha o formulário e receba informações completas sobre nossos cursos, bolsas e formas de ingresso.",
+    "Concordo em receber mais informações.",
+    "Evolução constante rumo à excelência.",
+    ". Essa transformação marca uma nova fase de crescimento e inovação, com a conquista da",
+    "autonomia acadêmica conferida pelo MEC",
+    ", que permite a criação e gestão de cursos com mais agilidade e excelência. Um avanço que reforça o compromisso com a formação de profissionais preparados para os desafios do futuro.",
+    "WhatsApp Image 2024-01-04 at 20.48.22 (1)"
+  ]
+}

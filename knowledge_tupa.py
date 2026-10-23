@@ -1,257 +1,241 @@
 """
-Base de Conhecimento Especializada sobre a Estância Turística de Tupã (SP)
-e Região da Alta Paulista, integrada com notícias em tempo real do TupãCity.
+Base de Conhecimento Multi-Fontes Especializada sobre Tupã (SP)
+Integrando:
+1. Portal TupãCity (Notícias ao vivo da cidade)
+2. Prefeitura da Estância Turística de Tupã (Notícias oficiais, PAT, obras)
+3. Centro Universitário UNIFADAP (Cursos, vestibular, estrutura)
+4. IBGE Oficial (População, IDHM, PIB, território, agropecuária)
 """
 
 import os
 import json
 import re
+from datetime import datetime
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "tupa_news.json")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+
+def _load_json(filename, default=None):
+    path = os.path.join(DATA_DIR, filename)
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"[Aviso] Falha ao ler {filename}: {e}")
+    return default if default is not None else []
 
 def parse_date_key(item):
-    """Auxiliar para ordenar matérias pela data mais recente."""
     d_str = item.get("date", "")
     try:
-        from datetime import datetime
         return datetime.strptime(d_str, "%d/%m/%Y")
     except Exception:
-        from datetime import datetime
         return datetime.min
 
 def load_tupacity_news():
-    """Carrega as notícias raspadas do TupãCity ordenadas por data decrescente."""
-    if os.path.exists(DATA_PATH):
-        try:
-            with open(DATA_PATH, "r", encoding="utf-8") as f:
-                news = json.load(f)
-                news.sort(key=parse_date_key, reverse=True)
-                return news
-        except Exception as e:
-            print(f"[Aviso] Falha ao carregar tupa_news.json: {e}")
-    return []
+    news = _load_json("tupa_news.json", [])
+    news.sort(key=parse_date_key, reverse=True)
+    return news
 
-# Base de notícias atual
-NEWS_CACHE = load_tupacity_news()
+def load_prefeitura_news():
+    return _load_json("prefeitura_data.json", [])
 
-def reload_news():
-    global NEWS_CACHE
-    NEWS_CACHE = load_tupacity_news()
-    return len(NEWS_CACHE)
+def load_unifadap_data():
+    return _load_json("unifadap_data.json", {})
 
-def get_recent_news_context(limit=10):
-    """Gera resumo das notícias recentes para alimentar o prompt do modelo."""
-    news = load_tupacity_news()
-    if not news:
-        return "Nenhuma notícia recente arquivada no momento."
-    
-    lines = []
-    for item in news[:limit]:
-        title = item.get("title", "")
-        date = item.get("date", "")
-        summary = item.get("summary", "")
-        url = item.get("url", "")
-        lines.append(f"- [{date}] **{title}**\n  Resumo: {summary}\n  Fonte: {url}")
-    return "\n\n".join(lines)
+def load_ibge_data():
+    return _load_json("ibge_tupa.json", {})
 
-
-TUPA_BASE_PROMPT = """Você é o "TupãBot", um modelo de linguagem e assistente de IA altamente especializado na Estância Turística de Tupã (Estado de São Paulo) e na região da Alta Paulista.
-
-Você possui conhecimento enciclopédico sobre a história, educação (como a FADAP e UNESP), cultura, pontos turísticos (Museu Índia Vanuíre, Varpa, Solar Luiz de Souza Leão), economia do amendoim e tradições da cidade.
-
-Além disso, você tem acesso às NOTÍCIAS E ACONTECIMENTOS RECENTES do portal TupãCity (https://tupacity.com/). Sempre que o usuário perguntar sobre fatos recentes, notícias, previsão do tempo, obras, eventos ou cotidiano da cidade, utilize os dados do TupãCity e cite as datas e os links das matérias quando relevante.
-
-Seu tom é cordial, informativo, confiável e prestativo."""
-
-
+# -------------------------------------------------------------
+# CONSTRUÇÃO DO PROMPT DE SISTEMA PARA A IA GENERATIVA (GEMINI)
+# -------------------------------------------------------------
 def build_system_prompt():
-    """Monta o prompt de sistema completo combinando conhecimento histórico com o feed do TupãCity."""
-    news_context = get_recent_news_context(limit=12)
-    return f"""{TUPA_BASE_PROMPT}
+    ibge = load_ibge_data()
+    unifadap = load_unifadap_data()
+    tupacity = load_tupacity_news()
+    prefeitura = load_prefeitura_news()
 
----
-### 📰 NOTÍCIAS RECENTES DO PORTAL TUPÃCITY (Feed ao Vivo):
+    # Resumo das notícias recentes do TupãCity
+    news_lines = []
+    for item in tupacity[:6]:
+        news_lines.append(f"- [{item.get('date')}] {item.get('title')}: {item.get('summary')}")
+    news_context = "\n".join(news_lines)
+
+    # Resumo de atos oficiais da Prefeitura
+    pref_lines = []
+    for item in prefeitura[:4]:
+        pref_lines.append(f"- [{item.get('date')}] {item.get('title')}: {item.get('summary')}")
+    pref_context = "\n".join(pref_lines)
+
+    # Cursos UNIFADAP
+    cursos = [c.get("nome") for c in unifadap.get("cursos_graduacao", [])]
+    cursos_str = ", ".join(cursos) if cursos else "Direito, Psicologia, Administração, Enfermagem, etc."
+
+    return f"""Você é o "TupãBot", um modelo de linguagem e assistente virtual especialista de alta precisão na Estância Turística de Tupã (SP) e na região da Alta Paulista.
+
+Você foi treinado e abastecido com 4 bases oficiais de conhecimento raspadas em tempo real:
+
+1. DADOS OFICIAIS DO IBGE (Código 3555000):
+   - População Estimada (2026): {ibge.get('populacao', {}).get('populacao_projetada', '65.447')} habitantes (Censo 2022: 63.928)
+   - IDHM: 0,776 (Alto Desenvolvimento Humano | Longevidade: 0,847)
+   - Área: 627,998 km² | Densidade: 101,8 hab/km² | Bioma: Mata Atlântica e Cerrado
+   - Economia: Capital nacional do amendoim, polo avícola e agropecuário.
+
+2. CENTRO UNIVERSITÁRIO UNIFADAP / FAP:
+   - Endereço: {unifadap.get('endereco', 'Rua Mandaguaris, 1010 - Centro, Tupã/SP')} | WhatsApp: {unifadap.get('whatsapp', '(14) 99733-9684')}
+   - Status: Centro Universitário com autonomia acadêmica concedida pelo MEC.
+   - Cursos de Graduação: {cursos_str}
+   - Estrutura: Laboratórios modernos, grande biblioteca, clínicas-escola, Núcleo de Prática Jurídica, Congresso de Iniciação Científica (CIC).
+
+3. PREFEITURA MUNICIPAL DE TUPÃ (Atos oficiais e serviços):
+{pref_context}
+
+4. NOTÍCIAS AO VIVO DO PORTAL TUPÃCITY:
 {news_context}
----
+
+Responda sempre com tom cortês, empolgado e preciso. Use formatação markdown rica (listas, negritos e links). Cite as fontes oficiais quando responder a dados estatísticos, acadêmicos ou notícias.
 """
 
-# Base local de respostas inteligentes
-LOCAL_KNOWLEDGE = [
-    {
-        "keywords": ["fundad", "historia", "origem", "fundador", "souza leao", "criacao", "ano", "aniversario", "1929"],
-        "title": "História e Fundação de Tupã",
-        "answer": """**História e Fundação da Estância Turística de Tupã (SP):**
+TUPA_SYSTEM_PROMPT = build_system_prompt()
 
-🏛️ **Fundação:** Tupã foi fundada em **12 de outubro de 1929** pelo pioneiro **Luiz de Souza Leão**, no espigão divisor das bacias dos rios Peixe e Feio (Aguapeí).
-⚡ **Origem do Nome:** Homenageia o deus do trovão da mitologia tupi-guarani (**Tupã**), demonstrando respeito às raízes e povos originários.
-🛤️ **Desenvolvimento:** A cidade cresceu velozmente impulsionada pela expansão cafeeira e pela chegada da **Companhia Paulista de Estradas de Ferro** em 1941.
-📜 **Emancipação:** Tornou-se município autônomo em **1938** e hoje ostenta o título de **Estância Turística** do Estado de São Paulo."""
-    },
-    {
-        "keywords": ["fadap", "fap", "faculdade da alta paulista", "direito fadap", "curso", "vestibular"],
-        "title": "FADAP / FAP (Faculdade da Alta Paulista)",
-        "answer": """🎓 **FADAP / FAP - Faculdades da Alta Paulista:**
-
-A **FADAP/FAP** é uma das mais tradicionais e renomadas instituições de ensino superior de Tupã e da Alta Paulista!
-
-- **Campus Moderno:** Infraestrutura completa com bibliotecas, clínicas-escola, laboratórios especializados e corpo docente experiente.
-- **Cursos de Destaque:** 
-  - Direito (tradição regional na formação jurídica)
-  - Psicologia
-  - Administração e Negócios
-  - Engenharias e Arquitetura
-  - Pedagogia e Ciências Humanas
-- **Compromisso Social:** Forte integração com a comunidade local por meio de assistência jurídica e projetos sociais."""
-    },
-    {
-        "keywords": ["unesp", "universidade estadual", "campus tupa", "biossistemas"],
-        "title": "UNESP - Câmpus de Tupã",
-        "answer": """🏛️ **UNESP - Universidade Estadual Paulista (Câmpus Experimental de Tupã):**
-
-Instalada em 2003, a unidade da UNESP em Tupã é um polo público e gratuito de excelência:
-- **Graduações Oferecidas:**
-  - **Engenharia de Biossistemas** (pioneira no país, integrando tecnologia, sustentabilidade e agronegócio)
-  - **Administração** (ênfase em Gestão Agroindustrial)
-- **Pós-Graduação e Pesquisa:** Programas de mestrado e pesquisas aplicadas ao desenvolvimento da Alta Paulista."""
-    },
-    {
-        "keywords": ["turismo", "visitar", "pontos turisticos", "o que fazer", "passeio", "turistico", "museu", "vanuire"],
-        "title": "Pontos Turísticos e Atrações de Tupã",
-        "answer": """🌴 **Principais Atrações Turísticas de Tupã:**
-
-1. 🏺 **Museu Histórico e Pedagógico Índia Vanuíre:**
-   Referência nacional em etnografia indígena, conta com um rico acervo das culturas Kaingang, Krenak e outras etnias brasileiras.
-2. 🏡 **Solar Luiz de Souza Leão:**
-   A residência histórica do fundador, tombada pelo Condephaat, preservada em bosque arborizado.
-3. ⛪ **Igreja Matriz de São Pedro:**
-   Arquitetura imponente, belos vitrais artísticos e pinturas sacras.
-4. ⛲ **Praça da Bandeira:**
-   Ponto de encontro da cidade com fonte luminosa, concha acústica e feiras de artesanato e gastronomia.
-5. 🌾 **Distrito de Varpa:**
-   Famoso pela colonização de imigrantes da Letônia, culinária típica letã e o Museu Janis Erdbergs."""
-    },
-    {
-        "keywords": ["varpa", "letao", "letonia", "erdbergs", "distrito"],
-        "title": "Distrito de Varpa (Herança Letã)",
-        "answer": """🇱🇻 **Varpa - O Rincão Letão de Tupã:**
-
-Localizado a cerca de 30 km do centro de Tupã:
-- **Origem:** Fundado na década de 1920 por imigrantes batistas da **Letônia**.
-- **Cultura e Gastronomia:** Famoso pelas tortas, queijos, pães artesanais e pela arquitetura singular de madeira.
-- **Museu dos Pioneiros (Janis Erdbergs):** Preserva fotos, ferramentas e histórias da imigração letã."""
-    },
-    {
-        "keywords": ["amendoim", "economia", "industria", "agricultura", "avicultura", "exapit"],
-        "title": "Economia e Tradições Agropecuárias",
-        "answer": """🥜 **Economia & Vocação Produtiva de Tupã:**
-
-- 🥜 **Capital do Amendoim:** Líder no processamento, produção e exportação de amendoim no Brasil.
-- 🐔 **Avicultura:** Forte ligação com o polo avícola da Alta Paulista.
-- 🎡 **EXAPIT:** Exposição Agropecuária e Industrial de Tupã, reunindo leilões, feira comercial e grandes shows."""
-    }
-]
-
-
-def search_news_database(query: str, max_results=3):
-    """Busca matérias relevantes no acervo de notícias do TupãCity."""
-    news = load_tupacity_news()
-    if not news:
-        return []
-        
-    q_words = [w.lower() for w in re.findall(r"\w+", query) if len(w) > 2]
-    if not q_words:
-        return []
-        
-    scored = []
-    for item in news:
-        title = item.get("title", "").lower()
-        content = item.get("content", "").lower()
-        score = 0
-        for w in q_words:
-            if w in title:
-                score += 5
-            elif w in content:
-                score += 1
-        if score > 0:
-            scored.append((score, item))
-            
-    scored.sort(key=lambda x: x[0], reverse=True)
-    return [item for _, item in scored[:max_results]]
-
-
+# -------------------------------------------------------------
+# MOTOR DE BUSCA E RESPOSTA NATIVA MULTI-FONTES
+# -------------------------------------------------------------
 def find_local_answer(user_message: str) -> str:
-    """
-    Busca resposta inteligente integrando o acervo do TupãCity com o conhecimento local.
-    """
     query = user_message.lower()
-    
-    # Se o usuário perguntou sobre notícias ou acontecimentos recentes
-    if any(k in query for k in ["noticia", "notícia", "noticias", "acontec", "tupacity", "hoje", "recente", "ultim", "últim"]):
-        news = load_tupacity_news()
-        if news:
-            matched = search_news_database(query, max_results=3)
-            # Se não achou busca específica, pega as 4 mais recentes
-            selected = matched if matched else news[:4]
+
+    # 1. PERGUNTAS SOBRE O IBGE / POPULAÇÃO / ESTATÍSTICAS
+    if any(k in query for k in ["ibge", "populacao", "população", "habitantes", "quantas pessoas", "censo", "idhm", "idh", "pib", "area", "área", "tamanho da cidade"]):
+        ibge = load_ibge_data()
+        pop = ibge.get("populacao", {})
+        ind = ibge.get("indicadores_socioeconomicos", {})
+        terr = ibge.get("territorio", {})
+        return (
+            "📊 **Dados Oficiais de Tupã (Fonte: IBGE - Instituto Brasileiro de Geografia e Estatística):**\n\n"
+            f"- 👥 **População:** **{pop.get('populacao_projetada', '65.447'):,}** habitantes (estimativa oficial) e **63.928** no Censo Demográfico.\n"
+            f"- 🗺️ **Área Territorial:** **{terr.get('area_total_km2', 627.998)} km²**\n"
+            f"- 📍 **Densidade Demográfica:** **{pop.get('densidade_demografica', '101,8 hab/km²')}**\n"
+            f"- 📈 **IDHM (Desenvolvimento Humano):** **{ind.get('idhm', '0,776')}** (*{ind.get('classificacao_idh', 'Alto Desenvolvimento Humano')}*)\n"
+            f"  - Longevidade: {ind.get('idhm_longevidade', '0,847')}\n"
+            f"  - Renda: {ind.get('idhm_renda', '0,744')}\n"
+            f"  - Educação: {ind.get('idhm_educacao', '0,743')}\n"
+            f"- 💰 **PIB per capita:** {ind.get('pib_per_capita', 'R$ 39.520,00')}\n"
+            f"- 🎒 **Taxa de Escolarização (6 a 14 anos):** {ind.get('taxa_escolarizacao_6_a_14_anos', '98,2%')}\n"
+            f"- 🌿 **Bioma:** {terr.get('bioma', 'Mata Atlântica e Cerrado')}\n\n"
+            "🔗 *Fonte direta da API de dados do IBGE para o município 3555000 (Tupã/SP).*"
+        )
+
+    # 2. PERGUNTAS SOBRE A UNIFADAP / FADAP / FAP / CURSOS SUPERIORES
+    if any(k in query for k in ["fadap", "unifadap", "fap", "vestibular", "faculdade", "graduacao", "graduação", "curso"]):
+        u = load_unifadap_data()
+        cursos = u.get("cursos_graduacao", [])
+        
+        # Se perguntou sobre um curso específico
+        for c in cursos:
+            if c["nome"].lower() in query:
+                return (
+                    f"🎓 **Curso de {c['nome']} na UNIFADAP:**\n\n"
+                    f"- **Grau:** {c['tipo']}\n"
+                    f"- **Diferencial:** {c['destaque']}\n"
+                    f"- **Instituição:** {u.get('source')}\n"
+                    f"- **Endereço do Câmpus:** {u.get('endereco')}\n"
+                    f"- **WhatsApp para Inscrições:** {u.get('whatsapp')}\n\n"
+                    "💡 *Você pode ingressar pelo Vestibular agendado, com a nota do ENEM, por transferência ou como segunda graduação!*"
+                )
+                
+        # Resumo geral da UNIFADAP
+        cursos_list = "\n".join([f"  - **{c['nome']}** ({c['tipo']}): {c['destaque']}" for c in cursos])
+        return (
+            f"🎓 **{u.get('source', 'Centro Universitário UNIFADAP')} - Informações Oficiais:**\n\n"
+            f"A UniFadap conquistou a **autonomia acadêmica conferida pelo MEC**, elevando o ensino superior de Tupã ao patamar de Centro Universitário!\n\n"
+            f"📍 **Endereço:** {u.get('endereco')}\n"
+            f"📱 **WhatsApp / Atendimento:** {u.get('whatsapp')}\n\n"
+            f"📚 **Cursos de Graduação Oferecidos:**\n{cursos_list}\n\n"
+            "🏛️ **Diferenciais da Infraestrutura:**\n"
+            "- Laboratórios modernos e uma das maiores bibliotecas do interior paulista\n"
+            "- Clínicas-escola de Psicologia, Fisioterapia, Enfermagem e Biomedicina\n"
+            "- Núcleo de Prática Jurídica com atendimento comunitário gratuito\n"
+            "- Congresso de Iniciação Científica (CIC UNIFADAP) e eventos acadêmicos\n\n"
+            "🔗 [Acesse o Portal da UNIFADAP](https://www.unifadap.edu.br)"
+        )
+
+    # 3. PERGUNTAS SOBRE A PREFEITURA / PAT / VAGAS / OBRAS / ATOS PÚBLICOS
+    if any(k in query for k in ["prefeitura", "pat", "vaga", "vagas", "emprego", "obra", "obras", "cmei", "secretaria", "prefeito"]):
+        pref = load_prefeitura_news()
+        if pref:
+            # Se procurou por vaga/emprego
+            pat_news = [item for item in pref if "pat" in item.get("title", "").lower() or "vaga" in item.get("title", "").lower()]
+            selected = pat_news if pat_news and any(k in query for k in ["vaga", "pat", "emprego"]) else pref[:4]
             
-            output = ["📰 **Últimas Notícias de Tupã e Região (Fonte: TupãCity):**\n"]
+            output = ["🏛️ **Informativo Oficial da Prefeitura da Estância Turística de Tupã:**\n"]
             for item in selected:
                 title = item.get("title")
                 date = item.get("date")
                 summary = item.get("summary")
                 url = item.get("url")
-                output.append(f"🔹 **{title}** ({date})\n{summary}\n🔗 [Ler matéria completa no TupãCity]({url})\n")
-                
-            output.append("💡 *Você pode me perguntar detalhes sobre qualquer uma dessas matérias!*")
+                output.append(f"🔹 **{title}** ({date})\n{summary}\n🔗 [Ver no Portal da Prefeitura]({url})\n")
             return "\n".join(output)
 
-    # Verifica se há notícias específicas sobre o assunto perguntado (ex: "drone", "produtores rurais", "outubro rosa", "alok")
-    matched_news = search_news_database(query, max_results=2)
-    if matched_news:
-        item = matched_news[0]
+    # 4. PERGUNTAS SOBRE NOTÍCIAS GERAIS / TUPÃCITY
+    if any(k in query for k in ["noticia", "notícia", "noticias", "acontec", "tupacity", "hoje", "recente", "ultim", "últim"]):
+        news = load_tupacity_news()
+        if news:
+            output = ["📰 **Últimas Notícias de Tupã (Fonte: Portal TupãCity):**\n"]
+            for item in news[:4]:
+                title = item.get("title")
+                date = item.get("date")
+                summary = item.get("summary")
+                url = item.get("url")
+                output.append(f"🔹 **{title}** ({date})\n{summary}\n🔗 [Ler no TupãCity]({url})\n")
+            return "\n".join(output)
+
+    # 5. HISTÓRIA, PONTOS TURÍSTICOS E VARPA
+    if any(k in query for k in ["historia", "fundad", "origem", "souza leao", "1929", "aniversario"]):
         return (
-            f"📰 **Notícia encontrada no TupãCity:**\n\n"
-            f"### {item.get('title')}\n"
-            f"📅 *Publicado em: {item.get('date')}*\n\n"
-            f"{item.get('content')[:900]}...\n\n"
-            f"🔗 [Confira a matéria completa no TupãCity]({item.get('url')})"
+            "🏛️ **História e Fundação da Estância Turística de Tupã (SP):**\n\n"
+            "- **Fundação:** **12 de outubro de 1929**, fundada pelo pioneiro **Luiz de Souza Leão**.\n"
+            "- **Origem do Nome:** Homenagem ao deus do trovão da mitologia tupi-guarani (**Tupã**).\n"
+            "- **Desenvolvimento:** Impulsionada pela cultura do café e a chegada da Ferrovia Paulista em 1941.\n"
+            "- **Emancipação:** Município instalado em 1938, hoje consolidado como Estância Turística."
         )
 
-    # Busca nas categorias históricas/turísticas locais
-    best_match = None
-    max_score = 0
-    for item in LOCAL_KNOWLEDGE:
-        score = 0
-        for kw in item["keywords"]:
-            if kw in query:
-                score += len(kw)
-        if score > max_score:
-            max_score = score
-            best_match = item
-            
-    if best_match and max_score >= 3:
-        return best_match["answer"]
-        
+    if any(k in query for k in ["turismo", "museu", "vanuire", "visitar", "pontos turisticos", "praca"]):
+        return (
+            "🌴 **Principais Atrações Turísticas de Tupã:**\n\n"
+            "1. 🏺 **Museu Histórico e Pedagógico Índia Vanuíre:** Um dos principais acervos indígenas e etnográficos do Brasil.\n"
+            "2. 🏡 **Solar Luiz de Souza Leão:** Casarão histórico tombado do fundador da cidade.\n"
+            "3. ⛪ **Igreja Matriz de São Pedro:** Famosa por seus vitrais e arquitetura neoclássica.\n"
+            "4. ⛲ **Praça da Bandeira:** Coração da cidade com fonte luminosa e concha acústica.\n"
+            "5. 🌾 **Distrito de Varpa:** Famoso pela colonização de imigrantes da **Letônia**, museu dos pioneiros e culinária típica."
+        )
+
     # Cumprimentos
     if any(greet in query for greet in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite", "tudo bem"]):
-        news = load_tupacity_news()
-        news_count = len(news)
+        ibge = load_ibge_data()
+        pop_num = ibge.get("populacao", {}).get("populacao_projetada", "65.447")
         return (
-            f"Olá! Seja muito bem-vindo ao **TupãBot**! ☀️\n\n"
-            f"Eu sou um assistente especializado na **Estância Turística de Tupã (SP)** e região, "
-            f"agora integrado com a cobertura de notícias do portal **TupãCity** ({news_count} matérias catalogadas)!\n\n"
-            "Você pode me perguntar sobre:\n"
-            "- 📰 **Últimas notícias e eventos** em Tupã hoje\n"
-            "- 🏛️ **História da fundação** e o desbravador Luiz de Souza Leão\n"
-            "- 🎓 Faculdades locais: **FADAP / FAP** e **UNESP**\n"
-            "- 🏺 Turismo: **Museu Índia Vanuíre**, **Solar** e o Distrito de **Varpa**\n"
-            "- 🥜 A economia do amendoim e a tradicional **EXAPIT**\n\n"
-            "Qual assunto você gostaria de explorar?"
+            f"Olá! Seja muito bem-vindo ao **TupãBot Multi-Fontes**! ☀️\n\n"
+            f"Eu sou o assistente oficial de **Tupã (SP)** (população: {pop_num:,} hab.), abastecido com dados integrados de:\n"
+            "- 🏛️ **Prefeitura Municipal:** Atos oficiais, PAT e vagas de emprego\n"
+            "- 🎓 **UNIFADAP:** Todos os 11 cursos de graduação, bolsas e vestibular\n"
+            "- 📊 **IBGE:** Estatísticas oficiais, IDHM, PIB e território\n"
+            "- 📰 **TupãCity:** Notícias em tempo real sobre a cidade\n\n"
+            "Como posso te ajudar hoje?"
         )
-        
-    # Resposta genérica com sugestões
+
+    # Resposta padrão inteligente
     return (
-        f"Sobre a sua pergunta \"{user_message}\":\n\n"
-        "Posso fornecer informações históricas sobre **Tupã (SP)**, detalhes da faculdade **FADAP**, "
-        "turismo, cultura indígena, ou buscar os fatos e acontecimentos mais recentes noticiados no **TupãCity**.\n\n"
-        "💡 Experimente perguntar: *\"Quais as últimas notícias de Tupã?\"* ou *\"Fale sobre os produtores rurais de Tupã\"*."
+        f"Sobre \"{user_message}\":\n\n"
+        "Tenho acesso a 4 bases completas sobre **Tupã (SP)**:\n"
+        "1. 📊 **IBGE:** População, IDHM, PIB e geografia\n"
+        "2. 🎓 **UNIFADAP:** Cursos (Direito, Psicologia, Enfermagem, Engenharias), vestibular e estrutura\n"
+        "3. 🏛️ **Prefeitura de Tupã:** Vagas do PAT, obras e notícias municipais\n"
+        "4. 📰 **TupãCity:** Acontecimentos do dia a dia da cidade\n\n"
+        "Experimente perguntar, por exemplo:\n"
+        "- *\"Qual a população e o IDH de Tupã no IBGE?\"*\n"
+        "- *\"Quais os cursos da UNIFADAP e formas de ingresso?\"*\n"
+        "- *\"Quais as vagas de emprego do PAT na prefeitura?\"*\n"
+        "- *\"Quais as últimas notícias no TupãCity?\"*"
     )
+
+def reload_news():
+    return len(load_tupacity_news())

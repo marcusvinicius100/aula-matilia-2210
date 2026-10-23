@@ -2,7 +2,15 @@ import os
 import json
 import requests
 from flask import Flask, render_template, request, jsonify
-from knowledge_tupa import build_system_prompt, find_local_answer, load_tupacity_news, reload_news
+from knowledge_tupa import (
+    build_system_prompt,
+    find_local_answer,
+    load_tupacity_news,
+    load_prefeitura_news,
+    load_unifadap_data,
+    load_ibge_data
+)
+from scraper_multi import scrape_all
 from scraper_tupacity import scrape_tupacity
 
 app = Flask(__name__)
@@ -15,34 +23,33 @@ def index():
 
 @app.route("/api/info", methods=["GET"])
 def info():
-    news = load_tupacity_news()
+    tupacity = load_tupacity_news()
+    prefeitura = load_prefeitura_news()
+    unifadap = load_unifadap_data()
+    ibge = load_ibge_data()
+
     return jsonify({
-        "name": "TupãBot",
-        "description": "Modelo Especializado em Tupã (SP) e Alta Paulista",
-        "version": "1.1.0",
+        "name": "TupãBot Multi-Fontes",
+        "description": "Modelo Especializado em Tupã (SP) integrado com Prefeitura, UNIFADAP, IBGE e TupãCity",
+        "version": "2.0.0",
         "has_env_key": bool(GEMINI_API_KEY_ENV),
-        "news_count": len(news)
+        "sources": {
+            "tupacity_news": len(tupacity),
+            "prefeitura_news": len(prefeitura),
+            "unifadap_courses": len(unifadap.get("cursos_graduacao", [])),
+            "ibge_population": ibge.get("populacao", {}).get("populacao_projetada", 65447)
+        }
     })
 
-@app.route("/api/news", methods=["GET"])
-def get_news():
-    """Retorna as notícias mais recentes do TupãCity."""
-    news = load_tupacity_news()
-    return jsonify({
-        "total": len(news),
-        "news": news[:12]
-    })
-
-@app.route("/api/sync-news", methods=["POST"])
-def sync_news():
-    """Aciona a raspagem do portal TupãCity para atualizar as notícias."""
+@app.route("/api/sync-all", methods=["POST"])
+def sync_all_sources():
+    """Executa a raspagem completa de todas as fontes."""
     try:
-        updated = scrape_tupacity(max_pages=3)
-        reload_news()
+        res = scrape_all()
         return jsonify({
             "status": "success",
-            "message": f"Base de notícias atualizada com sucesso! Total: {len(updated)} matérias.",
-            "total": len(updated)
+            "message": "Todas as bases (Prefeitura, UNIFADAP e IBGE) foram atualizadas!",
+            "details": res
         })
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -57,29 +64,28 @@ def chat():
     if not user_message:
         return jsonify({"error": "Mensagem vazia."}), 400
 
-    # Se houver chave Gemini, tenta chamar a IA generativa com o prompt alimentado pelo TupãCity
+    # Chamada para IA generativa com o super prompt multi-fontes se tiver chave
     if user_api_key:
         try:
             gemini_response = call_gemini(user_message, user_api_key, history)
             if gemini_response:
                 return jsonify({
                     "response": gemini_response,
-                    "engine": "Gemini 2.5 Flash + Feed TupãCity (Online)",
+                    "engine": "Gemini 2.5 Flash (Prefeitura + FADAP + IBGE + TupãCity)",
                     "status": "success"
                 })
         except Exception as e:
             print(f"[Aviso] Falha ao consultar Gemini: {e}")
 
-    # Fallback ou motor nativo inteligente com acervo do TupãCity
+    # Fallback / Motor nativo inteligente
     local_reply = find_local_answer(user_message)
     return jsonify({
         "response": local_reply,
-        "engine": "Base Nativa Tupã + TupãCity",
+        "engine": "Base Multi-Fontes (Nativa Tupã)",
         "status": "success"
     })
 
 def call_gemini(user_message: str, api_key: str, history: list) -> str:
-    """Envia requisição para a API do Google Gemini com prompt enriquecido pelo TupãCity."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
     
     contents = []
@@ -106,7 +112,7 @@ def call_gemini(user_message: str, api_key: str, history: list) -> str:
         "contents": contents,
         "generationConfig": {
             "temperature": 0.6,
-            "maxOutputTokens": 1200
+            "maxOutputTokens": 1400
         }
     }
     
@@ -127,5 +133,5 @@ def call_gemini(user_message: str, api_key: str, history: list) -> str:
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    print(f"\n⚡ Servidor TupãBot + TupãCity iniciado em: http://127.0.0.1:{port}\n")
+    print(f"\n⚡ Servidor TupãBot Multi-Fontes iniciado em: http://127.0.0.1:{port}\n")
     app.run(host="127.0.0.1", port=port, debug=True)

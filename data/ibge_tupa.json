@@ -1,0 +1,35 @@
+{
+  "municipio": "Tupã",
+  "estado": "São Paulo (SP)",
+  "codigo_ibge": 3555000,
+  "gentilico": "tupãense",
+  "microrregiao": "Tupã",
+  "mesorregiao": "Marília",
+  "populacao": {
+    "censo_2022": 63928,
+    "estimativa_2026": 65447,
+    "densidade_demografica": "101,8 hab/km²",
+    "ano_projecao": "2026",
+    "populacao_projetada": 65447
+  },
+  "territorio": {
+    "area_total_km2": 627.998,
+    "bioma": "Mata Atlântica e Cerrado",
+    "bacia_hidrografica": "Bacias dos rios Aguapeí (Feio) e Peixe"
+  },
+  "indicadores_socioeconomicos": {
+    "idhm": 0.776,
+    "classificacao_idh": "Alto Desenvolvimento Humano",
+    "idhm_longevidade": 0.847,
+    "idhm_renda": 0.744,
+    "idhm_educacao": 0.743,
+    "pib_per_capita": "R$ 39.520,00",
+    "taxa_escolarizacao_6_a_14_anos": "98,2%"
+  },
+  "economia_agropecuaria": {
+    "amendoim": "Tupã é um dos maiores polos do Brasil em produção, beneficiamento e exportação de amendoim",
+    "avicultura": "Importante bacia avícola de corte e postura da Alta Paulista",
+    "outras_culturas": "Cana-de-açúcar, gado de corte e leiteiro, milho, mandioca, borracha (seringueira)"
+  },
+  "fonte": "IBGE - Instituto Brasileiro de Geografia e Estatística (servicodados.ibge.gov.br)"
+}

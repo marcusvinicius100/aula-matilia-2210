@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const typingIndicator = document.getElementById("typingIndicator");
   const newChatBtn = document.getElementById("newChatBtn");
   const currentEngineBadge = document.getElementById("currentEngineBadge");
-  const newsStats = document.getElementById("newsStats");
-  const syncNewsBtn = document.getElementById("syncNewsBtn");
+  const sourcesSummary = document.getElementById("sourcesSummary");
+  const syncAllBtn = document.getElementById("syncAllBtn");
   
   // Modal elements
   const configModal = document.getElementById("configModal");
@@ -24,49 +24,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (savedApiKey) {
     apiKeyInput.value = savedApiKey;
-    currentEngineBadge.textContent = "Gemini 2.5 Flash + TupãCity";
+    currentEngineBadge.textContent = "Gemini 2.5 Flash + Multi-Fontes";
   }
 
-  // Carrega status das notícias
-  async function loadNewsStatus() {
+  // Carrega status de todas as fontes
+  async function loadSourcesStatus() {
     try {
       const resp = await fetch("/api/info");
       const data = await resp.json();
-      if (newsStats) {
-        newsStats.innerHTML = `<strong>${data.news_count || 0}</strong> notícias do TupãCity indexadas no conhecimento.`;
+      if (sourcesSummary && data.sources) {
+        sourcesSummary.innerHTML = `
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.78rem; line-height: 1.6; color: #cbd5e1;">
+            <li>🏛️ <strong>Prefeitura:</strong> ${data.sources.prefeitura_news} matérias/editais</li>
+            <li>🎓 <strong>UNIFADAP:</strong> ${data.sources.unifadap_courses} cursos de graduação</li>
+            <li>📊 <strong>IBGE:</strong> ${Number(data.sources.ibge_population).toLocaleString("pt-BR")} habitantes</li>
+            <li>📰 <strong>TupãCity:</strong> ${data.sources.tupacity_news} notícias ativas</li>
+          </ul>
+        `;
       }
     } catch (e) {
-      if (newsStats) newsStats.textContent = "Feed do TupãCity ativo.";
+      if (sourcesSummary) sourcesSummary.textContent = "Fontes ativas no servidor.";
     }
   }
-  loadNewsStatus();
+  loadSourcesStatus();
 
-  // Botão de atualizar notícias do TupãCity
-  if (syncNewsBtn) {
-    syncNewsBtn.addEventListener("click", async () => {
-      syncNewsBtn.disabled = true;
-      syncNewsBtn.textContent = "⏳ Raspando TupãCity...";
+  // Botão de sincronizar tudo
+  if (syncAllBtn) {
+    syncAllBtn.addEventListener("click", async () => {
+      syncAllBtn.disabled = true;
+      syncAllBtn.textContent = "⏳ Raspando Prefeitura, FADAP e IBGE...";
       try {
-        const resp = await fetch("/api/sync-news", { method: "POST" });
+        const resp = await fetch("/api/sync-all", { method: "POST" });
         const resData = await resp.json();
-        alert(resData.message || "Notícias sincronizadas com sucesso!");
-        loadNewsStatus();
+        alert(resData.message || "Bases sincronizadas com sucesso!");
+        loadSourcesStatus();
       } catch (err) {
-        alert("Erro ao conectar com o serviço de raspagem.");
+        alert("Erro ao acionar a sincronização múltipla.");
       } finally {
-        syncNewsBtn.disabled = false;
-        syncNewsBtn.textContent = "🔄 Atualizar Notícias Agora";
+        syncAllBtn.disabled = false;
+        syncAllBtn.textContent = "🔄 Sincronizar Todas as Fontes";
       }
     });
   }
 
-  // Ajusta altura do textarea dinamicamente
+  // Ajusta altura do textarea
   userInput.addEventListener("input", function () {
     this.style.height = "auto";
     this.style.height = Math.min(this.scrollHeight, 120) + "px";
   });
 
-  // Enviar com 'Enter' (e quebrar linha com 'Shift+Enter')
   userInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -74,14 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Mobile menu toggle
   if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener("click", () => {
       sidebar.classList.toggle("open");
     });
   }
 
-  // Modal open / close
   openConfigBtn.addEventListener("click", () => {
     configModal.style.display = "flex";
   });
@@ -94,12 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
     savedApiKey = apiKeyInput.value.trim();
     if (savedApiKey) {
       localStorage.setItem("tupa_gemini_api_key", savedApiKey);
-      currentEngineBadge.textContent = "Gemini 2.5 Flash + TupãCity";
-      alert("Chave salva com sucesso! O modelo agora usará a inteligência do Gemini.");
+      currentEngineBadge.textContent = "Gemini 2.5 Flash + Multi-Fontes";
+      alert("Chave salva com sucesso!");
     } else {
       localStorage.removeItem("tupa_gemini_api_key");
-      currentEngineBadge.textContent = "Motor Tupã + Notícias";
-      alert("Chave removida. Usando a base local de Tupã + TupãCity.");
+      currentEngineBadge.textContent = "Prefeitura • UNIFADAP • IBGE • TupãCity";
+      alert("Chave removida. Usando a base multi-fontes interna.");
     }
     configModal.style.display = "none";
   });
@@ -123,26 +127,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   bindTopicChips();
 
-  // Nova conversa
   newChatBtn.addEventListener("click", () => {
     chatHistory = [];
     messagesContainer.innerHTML = `
       <div class="welcome-banner">
         <div class="welcome-icon">⚡</div>
-        <h2>Olá! Eu sou o TupãBot</h2>
-        <p>Seu assistente inteligente especializado em <strong>Tupã (SP)</strong>, agora com as notícias mais recentes raspadas do <strong>TupãCity</strong>!</p>
+        <h2>TupãBot Especialista</h2>
+        <p>Seu assistente virtual abastecido com raspagem completa da <strong>Prefeitura de Tupã</strong>, <strong>UNIFADAP</strong>, dados oficiais do <strong>IBGE</strong> e notícias do <strong>TupãCity</strong>.</p>
         <div class="suggestions-grid">
-          <button class="suggestion-chip" data-prompt="Quais são as últimas notícias de Tupã no TupãCity?">
-            <span>📰 Últimas notícias da cidade</span>
+          <button class="suggestion-chip" data-prompt="Quais são os cursos e diferenciais da UNIFADAP em Tupã?">
+            <span>🎓 Cursos e Vestibular UNIFADAP</span>
           </button>
-          <button class="suggestion-chip" data-prompt="Fale sobre a faculdade FADAP em Tupã.">
-            <span>🎓 Sobre a FADAP</span>
+          <button class="suggestion-chip" data-prompt="Qual a população atualizada e o IDH de Tupã no IBGE?">
+            <span>📊 População & Indicadores do IBGE</span>
           </button>
-          <button class="suggestion-chip" data-prompt="Quais cursos profissionalizantes estão com inscrições abertas em Tupã?">
-            <span>💼 Cursos e capacitação</span>
+          <button class="suggestion-chip" data-prompt="Quais as vagas de emprego do PAT divulgadas pela Prefeitura?">
+            <span>💼 Vagas de Emprego da Prefeitura</span>
           </button>
-          <button class="suggestion-chip" data-prompt="Quais os principais pontos turísticos de Tupã?">
-            <span>🌴 Turismo e Museu Índia Vanuíre</span>
+          <button class="suggestion-chip" data-prompt="Quais são as principais notícias de hoje no portal TupãCity?">
+            <span>📰 Notícias Recentes do TupãCity</span>
           </button>
         </div>
       </div>
@@ -150,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
     bindTopicChips();
   });
 
-  // Submit do formulário de chat
   chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const text = userInput.value.trim();
