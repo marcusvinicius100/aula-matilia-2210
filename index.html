@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nhe'ẽ IA - Inteligência Artificial & Linguística Tupi</title>
+  <title>Tupã IA - Modelo de Linguagem Especializado na Cultura e Língua Tupi</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -16,7 +16,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Marked for Markdown Parsing -->
+  <!-- Marked.js para Markdown -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <script>
@@ -74,10 +74,6 @@
               500: '#c15134',
               600: '#a33f25'
             }
-          },
-          backgroundImage: {
-            'indigenous-pattern': "radial-gradient(circle at 2px 2px, rgba(34, 197, 94, 0.12) 1px, transparent 0)",
-            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
           }
         }
       }
@@ -85,7 +81,7 @@
   </script>
 
   <style>
-    /* Custom Scrollbar */
+    /* Barra de rolagem personalizada */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -101,37 +97,36 @@
       background: rgba(249, 68, 36, 0.5);
     }
 
-    /* Indigenous Geometric Border Accent */
-    .marajoara-border {
+    /* Borda gráfica Marajoara / Indígena */
+    .marajoara-bar {
       background-image: repeating-linear-gradient(45deg, #f59e0b 0, #f59e0b 8px, transparent 0, transparent 16px, #f94424 16px, #f94424 24px, transparent 0, transparent 32px);
-      height: 3px;
+      height: 4px;
     }
 
-    /* Pulse animation for AI glow */
-    @keyframes subtleGlow {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.05); }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.25; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.08); }
     }
     .animate-glow {
-      animation: subtleGlow 4s infinite ease-in-out;
+      animation: pulseGlow 5s infinite ease-in-out;
     }
   </style>
 </head>
 
-<body class="bg-stone-50 text-stone-900 dark:bg-[#071910] dark:text-stone-100 min-h-screen flex flex-col font-sans transition-colors duration-300 selection:bg-urucum-500 selection:text-white">
+<body class="bg-stone-50 text-stone-900 dark:bg-[#06170e] dark:text-stone-100 min-h-screen flex flex-col font-sans transition-colors duration-300 selection:bg-urucum-500 selection:text-white">
 
-  <!-- Indigenous Pattern Accent Bar -->
-  <div class="marajoara-border w-full"></div>
+  <!-- Faixa gráfica cultural de topo -->
+  <div class="marajoara-bar w-full"></div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-[#071910]/85 border-b border-stone-200 dark:border-floresta-900/60 transition-colors">
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-[#06170e]/90 border-b border-stone-200 dark:border-floresta-900/60 transition-colors shadow-sm">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       
-      <!-- Logo & Brand -->
+      <!-- Logo & Branding -->
       <div class="flex items-center gap-3">
-        <div class="relative group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-floresta-700 via-floresta-500 to-ocre-400 flex items-center justify-center text-white shadow-lg shadow-floresta-900/20 group-hover:scale-105 transition-transform duration-200">
-            <i data-lucide="feather" class="w-5 h-5 text-ocre-200"></i>
+        <div class="relative group cursor-pointer" onclick="location.reload()">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-floresta-800 via-floresta-600 to-ocre-500 flex items-center justify-center text-white shadow-lg shadow-floresta-950/30 group-hover:scale-105 transition-transform duration-200 border border-ocre-400/30">
+            <i data-lucide="zap" class="w-5 h-5 text-ocre-200"></i>
           </div>
           <span class="absolute -bottom-1 -right-1 flex h-3 w-3">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-urucum-400 opacity-75"></span>
@@ -140,36 +135,43 @@
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-wide bg-gradient-to-r from-floresta-700 via-floresta-500 to-ocre-600 dark:from-floresta-300 dark:via-ocre-300 dark:to-urucum-400 bg-clip-text text-transparent">
-              Nhe'ẽ IA
+            <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-wide bg-gradient-to-r from-floresta-700 via-floresta-500 to-ocre-500 dark:from-floresta-300 dark:via-ocre-300 dark:to-urucum-400 bg-clip-text text-transparent">
+              Tupã IA
             </h1>
-            <span class="text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full bg-ocre-500/10 text-ocre-600 dark:text-ocre-300 border border-ocre-500/20">
-              Tupi Antigo
+            <span id="model-badge" class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-floresta-500/10 text-floresta-700 dark:text-ocre-300 border border-floresta-500/20">
+              Modelo Tupi v1.0
             </span>
           </div>
           <p class="text-xs text-stone-500 dark:text-floresta-300/70 hidden sm:block">
-            Inteligência Artificial & Linguística Tupi
+            Modelo de Linguagem Especializado na Língua e Cultura Tupi
           </p>
         </div>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Action Buttons & Settings -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
         
-        <!-- Botão Dicionário -->
-        <button id="btn-open-dict" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-floresta-50 hover:bg-floresta-100 text-floresta-800 dark:bg-floresta-900/60 dark:hover:bg-floresta-800/80 dark:text-floresta-200 border border-floresta-200 dark:border-floresta-700/50 transition-all shadow-sm">
-          <i data-lucide="book-open" class="w-4 h-4 text-ocre-500"></i>
-          <span>Dicionário Tupi</span>
+        <!-- Botão Configuração de API LLM (Google Gemini) -->
+        <button id="btn-open-settings" title="Conectar API do Modelo de Linguagem" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-ocre-500/10 hover:bg-ocre-500/20 text-ocre-700 dark:text-ocre-300 border border-ocre-500/30 transition-all shadow-sm">
+          <i data-lucide="cpu" class="w-4 h-4 text-ocre-500"></i>
+          <span class="hidden sm:inline">Conectar IA (API)</span>
+          <span id="status-api-dot" class="w-2 h-2 rounded-full bg-emerald-500" title="Motor ativo"></span>
         </button>
 
-        <!-- Botão Sobre o Projeto -->
-        <button id="btn-open-about" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-stone-800/60 dark:hover:bg-stone-800 dark:text-stone-300 border border-stone-200 dark:border-stone-700/60 transition-all shadow-sm">
+        <!-- Botão Dicionário Tupi -->
+        <button id="btn-open-dict" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium bg-floresta-50 hover:bg-floresta-100 text-floresta-800 dark:bg-floresta-900/60 dark:hover:bg-floresta-800/80 dark:text-floresta-200 border border-floresta-200 dark:border-floresta-700/50 transition-all shadow-sm">
+          <i data-lucide="book-open" class="w-4 h-4 text-ocre-500"></i>
+          <span class="hidden md:inline">Dicionário</span>
+        </button>
+
+        <!-- Botão Sobre -->
+        <button id="btn-open-about" class="p-2 sm:px-3 sm:py-1.5 rounded-xl text-xs sm:text-sm font-medium bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-stone-800/60 dark:hover:bg-stone-800 dark:text-stone-300 border border-stone-200 dark:border-stone-700/60 transition-all shadow-sm">
           <i data-lucide="info" class="w-4 h-4 text-terracota-400"></i>
-          <span class="hidden md:inline">Sobre o Projeto</span>
+          <span class="hidden lg:inline">Sobre</span>
         </button>
 
         <!-- Alternador Dark / Light Mode -->
-        <button id="btn-theme-toggle" aria-label="Alternar Tema" class="p-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 dark:bg-floresta-950/80 dark:hover:bg-floresta-900 dark:text-ocre-300 border border-stone-200 dark:border-floresta-800 transition-all">
+        <button id="btn-theme-toggle" aria-label="Alternar Tema" class="p-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 dark:bg-floresta-950/80 dark:hover:bg-floresta-900 dark:text-ocre-300 border border-stone-200 dark:border-floresta-800 transition-all">
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
         </button>
@@ -178,76 +180,102 @@
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-4 relative">
+  <!-- Container Principal -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 flex flex-col gap-3 sm:gap-4 relative">
     
-    <!-- Decorative background glow -->
+    <!-- Efeitos de iluminação sutil no fundo -->
     <div class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-floresta-500/10 dark:bg-floresta-500/15 rounded-full blur-3xl animate-glow"></div>
-    <div class="pointer-events-none absolute top-40 right-10 w-64 h-64 bg-urucum-500/5 dark:bg-urucum-500/10 rounded-full blur-3xl"></div>
+    <div class="pointer-events-none absolute top-40 right-10 w-64 h-64 bg-urucum-500/10 rounded-full blur-3xl"></div>
 
-    <!-- Chat Messages Window -->
-    <div id="chat-container" class="flex-1 overflow-y-auto min-h-[460px] max-h-[68vh] rounded-2xl bg-white/70 dark:bg-[#0c2419]/70 backdrop-blur-md border border-stone-200 dark:border-floresta-900/60 p-4 sm:p-6 flex flex-col gap-5 shadow-xl transition-colors">
+    <!-- Barra de Modo de Especialização do Modelo -->
+    <div class="flex items-center justify-between bg-white/60 dark:bg-floresta-950/60 backdrop-blur-sm p-2 rounded-2xl border border-stone-200 dark:border-floresta-900/60 text-xs">
+      <div class="flex items-center gap-1.5 px-2 font-semibold text-stone-600 dark:text-floresta-300">
+        <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-ocre-400"></i>
+        <span>Modo da IA:</span>
+      </div>
+      <div class="flex items-center gap-1 overflow-x-auto pb-0.5">
+        <button class="mode-pill px-3 py-1 rounded-xl font-medium transition-all bg-floresta-600 text-white shadow-sm" data-mode="geral">
+          ⚡ Tupã Ancestral
+        </button>
+        <button class="mode-pill px-3 py-1 rounded-xl font-medium transition-all text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-floresta-900" data-mode="linguistica">
+          🌿 Linguística & Gramática
+        </button>
+        <button class="mode-pill px-3 py-1 rounded-xl font-medium transition-all text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-floresta-900" data-mode="etimologia">
+          🗺️ Nomes & Cidades do Brasil
+        </button>
+      </div>
+    </div>
+
+    <!-- Janela de Chat -->
+    <div id="chat-container" class="flex-1 overflow-y-auto min-h-[460px] max-h-[66vh] rounded-3xl bg-white/70 dark:bg-[#0a2015]/75 backdrop-blur-md border border-stone-200 dark:border-floresta-900/60 p-4 sm:p-6 flex flex-col gap-5 shadow-2xl transition-colors">
       
-      <!-- Welcome Card (Card Inicial) -->
-      <div id="welcome-card" class="bg-gradient-to-br from-floresta-900/90 via-floresta-950 to-[#071910] text-stone-100 p-6 sm:p-8 rounded-2xl border border-floresta-700/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-ocre-500/10 rounded-full blur-xl pointer-events-none"></div>
+      <!-- Card Inicial de Boas-Vindas -->
+      <div id="welcome-card" class="bg-gradient-to-br from-floresta-900/95 via-floresta-950 to-[#051c10] text-stone-100 p-6 sm:p-8 rounded-3xl border border-floresta-700/50 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-ocre-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-          <div class="flex items-center gap-3">
-            <span class="text-3xl">🏹</span>
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-floresta-600 to-ocre-400 flex items-center justify-center text-2xl shadow-lg border border-ocre-300/30">
+              ⚡
+            </div>
             <div>
               <h2 class="font-display text-2xl sm:text-3xl font-bold tracking-wide text-white flex items-center gap-2">
-                Nhe'ẽ porã! <span class="text-xs font-sans font-normal text-ocre-300 bg-ocre-500/20 px-2 py-0.5 rounded-full">Boas-vindas</span>
+                Tupã nhe'ẽ! <span class="text-xs font-sans font-normal text-ocre-300 bg-ocre-500/20 px-2.5 py-0.5 rounded-full border border-ocre-400/30">Especialista Tupi</span>
               </h2>
               <p class="text-xs sm:text-sm text-floresta-200/90 mt-0.5">
-                Eu sou sua IA guia no aprendizado, etimologia e preservação da língua e cultura <strong>Tupi Antigo</strong>.
+                Modelo de Inteligência Artificial treinado e contextualizado na língua, cosmologia e história dos povos Tupi.
               </p>
             </div>
           </div>
-          <span class="hidden sm:inline-block px-3 py-1 rounded-full text-xs font-mono bg-floresta-800 text-ocre-300 border border-floresta-700">
-            Tupinambá • Tupi-Guarani
+          <span class="px-3 py-1 rounded-full text-xs font-mono bg-floresta-800 text-ocre-300 border border-floresta-700">
+            Tupinambá • Tupi Antigo
           </span>
         </div>
 
-        <p class="text-sm text-stone-300 leading-relaxed mb-5">
-          Pergunte sobre origens de cidades e nomes brasileiros, traduza palavras e expressões, aprenda regras gramaticais e descubra lendas e cosmologias ancestrais.
+        <p class="text-xs sm:text-sm text-stone-300 leading-relaxed mb-5">
+          Faça perguntas sobre palavras, frases completas, conjugação de verbos estativos, a cosmologia de Tupã e a origem indígena dos nomes do Brasil. Você pode usar a base de conhecimento nativa ou plugar sua chave do Google Gemini para respostas livres!
         </p>
 
-        <!-- Chips / Sugestões Clicáveis -->
+        <!-- Chips de Sugestões de Perguntas -->
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-ocre-400 mb-2.5 flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sugestões para começar:
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Perguntas recomendadas:
           </p>
           <div class="flex flex-wrap gap-2">
-            <button class="chip-btn px-3 py-1.5 rounded-full text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Como se diz 'bom dia' em Tupi?">
-              <span>🌅 Como se diz 'bom dia' em Tupi?</span>
+            <button class="chip-btn px-3 py-2 rounded-xl text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Quem é Tupã na cosmologia e mitologia dos povos Tupi?">
+              <span>⚡ Quem é Tupã na mitologia Tupi?</span>
               <i data-lucide="arrow-up-right" class="w-3 h-3 text-floresta-400 group-hover:text-ocre-300"></i>
             </button>
-            <button class="chip-btn px-3 py-1.5 rounded-full text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Qual a origem e o significado da palavra 'Ibirapuera'?">
-              <span>🌳 Origem da palavra 'Ibirapuera'</span>
+            <button class="chip-btn px-3 py-2 rounded-xl text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Como se diz 'bom dia' ou se faz uma saudação em Tupi Antigo?">
+              <span>🌅 Saudações em Tupi Antigo</span>
               <i data-lucide="arrow-up-right" class="w-3 h-3 text-floresta-400 group-hover:text-ocre-300"></i>
             </button>
-            <button class="chip-btn px-3 py-1.5 rounded-full text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Me conte uma lenda ou história da mitologia Tupi.">
-              <span>🌙 Conte uma lenda Tupi</span>
+            <button class="chip-btn px-3 py-2 rounded-xl text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Qual a origem e o significado da palavra 'Ibirapuera'?">
+              <span>🌳 Etimologia de 'Ibirapuera'</span>
               <i data-lucide="arrow-up-right" class="w-3 h-3 text-floresta-400 group-hover:text-ocre-300"></i>
             </button>
-            <button class="chip-btn px-3 py-1.5 rounded-full text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Como traduzir a frase 'A floresta é grande' para o Tupi?">
+            <button class="chip-btn px-3 py-2 rounded-xl text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Traduza para o Tupi Antigo: 'A floresta é grande' e explique a gramática.">
               <span>🍃 Traduza: 'A floresta é grande'</span>
+              <i data-lucide="arrow-up-right" class="w-3 h-3 text-floresta-400 group-hover:text-ocre-300"></i>
+            </button>
+            <button class="chip-btn px-3 py-2 rounded-xl text-xs font-medium bg-floresta-800/80 hover:bg-floresta-700 hover:text-white text-floresta-100 border border-floresta-600/50 hover:border-ocre-400/60 transition-all flex items-center gap-1.5 group shadow-sm" data-prompt="Me conte uma lenda ancestral da tradição Tupi.">
+              <span>🌙 Conte uma lenda Tupi</span>
               <i data-lucide="arrow-up-right" class="w-3 h-3 text-floresta-400 group-hover:text-ocre-300"></i>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Messages Stream (Preenchido dinamicamente via JS) -->
+      <!-- Fluxo dinâmico de mensagens -->
       <div id="messages-list" class="flex flex-col gap-4"></div>
 
-      <!-- Typing Indicator -->
+      <!-- Indicador visual de digitação / LLM Gerando -->
       <div id="typing-indicator" class="hidden flex items-center gap-3 text-stone-500 dark:text-floresta-300 text-xs">
         <div class="w-8 h-8 rounded-full bg-floresta-700 flex items-center justify-center text-white">
           <i data-lucide="feather" class="w-4 h-4 text-ocre-300 animate-spin"></i>
         </div>
-        <div class="bg-stone-100 dark:bg-floresta-950/80 border border-stone-200 dark:border-floresta-800 px-4 py-2.5 rounded-2xl flex items-center gap-2">
-          <span>Nhe'ẽ IA está pensando</span>
+        <div class="bg-stone-100 dark:bg-floresta-950/90 border border-stone-200 dark:border-floresta-800 px-4 py-2.5 rounded-2xl flex items-center gap-2">
+          <span id="typing-text">Tupã IA está gerando resposta...</span>
           <span class="flex gap-1">
             <span class="w-1.5 h-1.5 bg-urucum-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
             <span class="w-1.5 h-1.5 bg-ocre-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
@@ -258,19 +286,19 @@
 
     </div>
 
-    <!-- Input Bar Area -->
+    <!-- Barra de Entrada de Pergunta (Input Bar) -->
     <div class="relative">
       <form id="chat-form" class="relative flex items-center">
         <input 
           id="user-input" 
           type="text" 
           autocomplete="off" 
-          placeholder="Escreva sua pergunta ou termo em Tupi/Português (ex: O que significa 'Pindorama'?)..." 
-          class="w-full pl-5 pr-28 py-3.5 sm:py-4 rounded-2xl bg-white dark:bg-[#0c2419] border-2 border-stone-200 dark:border-floresta-900/80 focus:border-urucum-500 dark:focus:border-urucum-500 focus:outline-none focus:ring-4 focus:ring-urucum-500/10 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-floresta-300/40 text-sm sm:text-base shadow-lg transition-all"
+          placeholder="Pergunte ao modelo Tupã (ex: O que significa 'Pindorama'? Como se conjuga em Tupi?)..." 
+          class="w-full pl-5 pr-28 py-3.5 sm:py-4 rounded-2xl bg-white dark:bg-[#091f14] border-2 border-stone-200 dark:border-floresta-900/80 focus:border-urucum-500 dark:focus:border-urucum-500 focus:outline-none focus:ring-4 focus:ring-urucum-500/10 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-floresta-300/40 text-sm sm:text-base shadow-xl transition-all"
         />
 
         <div class="absolute right-2 flex items-center gap-1.5">
-          <!-- Voice Input Button (TTS / Mic placeholder) -->
+          <!-- Botão de voz -->
           <button 
             type="button" 
             id="btn-voice" 
@@ -279,12 +307,12 @@
             <i data-lucide="mic" class="w-4 h-4"></i>
           </button>
 
-          <!-- Submit Button (Vivid Urucum Accent) -->
+          <!-- Botão Enviar com tom Urucum -->
           <button 
             type="submit" 
             id="btn-send" 
-            class="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-urucum-600 to-urucum-500 hover:from-urucum-500 hover:to-urucum-600 active:scale-95 shadow-md shadow-urucum-700/30 transition-all">
-            <span class="hidden sm:inline text-xs uppercase tracking-wider font-bold">Enviar</span>
+            class="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-urucum-600 to-urucum-500 hover:from-urucum-500 hover:to-urucum-600 active:scale-95 shadow-md shadow-urucum-700/30 transition-all">
+            <span class="hidden sm:inline text-xs uppercase tracking-wider">Enviar</span>
             <i data-lucide="send" class="w-4 h-4"></i>
           </button>
         </div>
@@ -292,7 +320,7 @@
 
       <div class="flex items-center justify-between px-2 pt-2 text-[11px] text-stone-400 dark:text-floresta-300/60">
         <span class="flex items-center gap-1">
-          <i data-lucide="sparkles" class="w-3 h-3 text-ocre-400"></i> Especializado em fonética, gramática e Tupinambá clássico
+          <i data-lucide="zap" class="w-3 h-3 text-ocre-400"></i> Modelo especializado em língua Tupinambá, fonética e etimologia
         </span>
         <button id="btn-clear-chat" class="hover:text-urucum-500 transition-colors">
           Limpar conversa
@@ -302,11 +330,75 @@
 
   </main>
 
-  <!-- Modal / Drawer: Dicionário Tupi Rápido -->
-  <div id="modal-dict" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <!-- Modal: Conectar API do Modelo de Linguagem (Google Gemini) -->
+  <div id="modal-settings" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#0c2419] border border-stone-200 dark:border-floresta-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-floresta-900/80 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-ocre-500/10 text-ocre-500">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-display font-bold text-lg text-stone-900 dark:text-white">Conexão do Modelo de IA</h3>
+            <p class="text-xs text-stone-500 dark:text-floresta-300/70">Ative respostas ilimitadas em tempo real</p>
+          </div>
+        </div>
+        <button id="btn-close-settings" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-floresta-900">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm">
+        <p class="text-stone-600 dark:text-floresta-200 leading-relaxed">
+          O <strong>Tupã IA</strong> funciona com um motor de conhecimento Tupi embutido (100% offline). Se quiser respostas generativas em tempo real para qualquer tema complexo, insira uma chave de API gratuita do <strong>Google Gemini</strong>:
+        </p>
+
+        <div>
+          <label class="block font-semibold mb-1 text-stone-700 dark:text-floresta-200">
+            Chave de API do Gemini (Google AI Studio):
+          </label>
+          <input 
+            type="password" 
+            id="input-api-key" 
+            placeholder="AIzaSy..." 
+            class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-floresta-950 border border-stone-300 dark:border-floresta-800 text-stone-900 dark:text-stone-100 focus:outline-none focus:border-ocre-400 font-mono text-xs"
+          />
+          <span class="text-[11px] text-stone-400 dark:text-floresta-400 mt-1 block">
+            Sua chave fica guardada apenas no seu próprio navegador (<code class="bg-stone-100 dark:bg-floresta-900 px-1 py-0.5 rounded">localStorage</code>).
+          </span>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-stone-700 dark:text-floresta-200">Modelo Selecionado:</label>
+          <select id="select-model" class="w-full px-3 py-2 rounded-xl bg-stone-50 dark:bg-floresta-950 border border-stone-300 dark:border-floresta-800 text-stone-900 dark:text-stone-100 text-xs">
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash (Mais rápido e moderno - Recomendado)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Ultrarrápido)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Raciocínio linguístico aprofundado)</option>
+          </select>
+        </div>
+
+        <div class="p-3 rounded-xl bg-floresta-50 dark:bg-floresta-950/70 border border-floresta-200 dark:border-floresta-800/80 text-xs text-floresta-800 dark:text-floresta-200">
+          <strong>Como obter uma chave grátis:</strong> Acesse <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline text-ocre-600 dark:text-ocre-400 font-bold">Google AI Studio</a>, clique em <em>Create API Key</em> e cole aqui.
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-between gap-3 pt-4 border-t border-stone-100 dark:border-floresta-900/80">
+        <button id="btn-remove-key" class="text-xs text-urucum-600 hover:text-urucum-700 dark:text-urucum-400 font-medium">
+          Remover chave (Usar motor offline)
+        </button>
+        <button id="btn-save-settings" class="px-5 py-2.5 rounded-xl bg-floresta-600 hover:bg-floresta-500 text-white font-bold text-xs shadow-md">
+          Salvar Configurações
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Dicionário Tupi Rápido -->
+  <div id="modal-dict" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#0c2419] border border-stone-200 dark:border-floresta-800 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
-      <!-- Modal Header -->
       <div class="p-5 border-b border-stone-200 dark:border-floresta-900/80 flex items-center justify-between bg-stone-50/50 dark:bg-floresta-950/50">
         <div class="flex items-center gap-2.5">
           <div class="p-2 rounded-xl bg-floresta-500/10 text-floresta-600 dark:text-floresta-300">
@@ -317,38 +409,33 @@
             <p class="text-xs text-stone-500 dark:text-floresta-300/70">Consulte termos essenciais do Tupi Antigo</p>
           </div>
         </div>
-        <button id="btn-close-dict" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:text-stone-300 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-floresta-900 transition-colors">
+        <button id="btn-close-dict" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-floresta-900">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- Search & Filters -->
       <div class="p-4 border-b border-stone-100 dark:border-floresta-900/60 bg-white dark:bg-[#0c2419]">
         <div class="relative">
           <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
           <input 
             type="text" 
             id="dict-search-input" 
-            placeholder="Pesquisar termo (ex: Nhe'ẽ, Água, Homem, Kora)..." 
+            placeholder="Pesquisar termo (ex: Tupã, Nhe'ẽ, Água, Homem, Kora)..." 
             class="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-50 dark:bg-floresta-950 border border-stone-200 dark:border-floresta-800 text-sm focus:outline-none focus:border-ocre-400"
           />
         </div>
       </div>
 
-      <!-- List of Words -->
-      <div id="dict-list" class="p-4 overflow-y-auto flex-1 divide-y divide-stone-100 dark:divide-floresta-900/40 space-y-2">
-        <!-- Itens injetados via JS -->
-      </div>
+      <div id="dict-list" class="p-4 overflow-y-auto flex-1 divide-y divide-stone-100 dark:divide-floresta-900/40 space-y-2"></div>
 
-      <!-- Modal Footer -->
       <div class="p-3 bg-stone-50 dark:bg-floresta-950/80 border-t border-stone-200 dark:border-floresta-900/60 text-center text-xs text-stone-400 dark:text-floresta-300/60">
-        Clique em qualquer termo para inseri-lo no chat!
+        Clique em qualquer termo para perguntar ao modelo Tupã IA!
       </div>
     </div>
   </div>
 
   <!-- Modal: Sobre o Projeto -->
-  <div id="modal-about" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="modal-about" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#0c2419] border border-stone-200 dark:border-floresta-800 rounded-3xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
       <div class="p-5 border-b border-stone-200 dark:border-floresta-900/80 flex items-center justify-between">
@@ -357,37 +444,37 @@
             <i data-lucide="info" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-display font-bold text-lg text-stone-900 dark:text-white">Sobre o Nhe'ẽ IA</h3>
-            <p class="text-xs text-stone-500 dark:text-floresta-300/70">Preservação, etimologia e inteligência linguística</p>
+            <h3 class="font-display font-bold text-lg text-stone-900 dark:text-white">Sobre o Tupã IA</h3>
+            <p class="text-xs text-stone-500 dark:text-floresta-300/70">Inteligência Artificial & Preservação Originária</p>
           </div>
         </div>
-        <button id="btn-close-about" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:text-stone-300 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-floresta-900 transition-colors">
+        <button id="btn-close-about" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-floresta-900">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="p-6 overflow-y-auto space-y-4 text-sm text-stone-600 dark:text-floresta-100 leading-relaxed">
         <p>
-          <strong>Nhe'ẽ</strong> (pronuncia-se <em>nhẽ-eng</em>) em Tupi Antigo carrega um significado profundo: significa simultaneamente <strong>falar, idioma, voz</strong> e o próprio <strong>espírito / alma</strong> de uma pessoa.
+          <strong>Tupã</strong> representa a manifestação divina dos trovões, raios e das forças vivas dos céus na cosmologia dos povos Tupi-Guarani. É o símbolo de poder que rege as estações, a chuva que alimenta a terra e a voz dos espíritos.
         </p>
 
         <div class="p-4 rounded-2xl bg-floresta-50 dark:bg-floresta-950/60 border border-floresta-200 dark:border-floresta-800/80 space-y-2">
           <h4 class="font-bold text-floresta-800 dark:text-ocre-300 flex items-center gap-2">
-            <i data-lucide="feather" class="w-4 h-4"></i> A Herança do Tupi no Português Brasileiro
+            <i data-lucide="feather" class="w-4 h-4"></i> O Modelo de Linguagem Tupi
           </h4>
           <p class="text-xs text-stone-600 dark:text-floresta-200/80">
-            Mais de 10.000 vocábulos do português falado no Brasil têm origem direta na família Tupi-Guarani, desde nomes de fauna (<em>jacaré, tamanduá, arara</em>), flora (<em>abacaxi, mandioca, maracujá</em>) até cidades e acidentes geográficos (<em>Ipanema, Tietê, Itanhaém, Ibirapuera</em>).
+            Este modelo foi arquitetado para unir tecnologia de ponta (modelos de linguagem grandes - LLMs) à salvaguarda linguística do <strong>Tupinambá / Tupi Antigo</strong>, resgatando vocábulos, regras gramaticais e desmistificando a história das palavras brasileiras.
           </p>
         </div>
 
         <p class="text-xs text-stone-400 dark:text-floresta-300/60 italic border-l-2 border-urucum-500 pl-3">
-          Aviso educativo: Esta aplicação web foi desenvolvida como ferramenta educacional e de valorização das línguas originárias brasileiras.
+          Desenvolvido com profundo respeito às tradições indígenas originárias brasileiras.
         </p>
       </div>
 
       <div class="p-4 bg-stone-50 dark:bg-floresta-950/80 border-t border-stone-200 dark:border-floresta-900/60 flex justify-end">
-        <button id="btn-close-about-2" class="px-4 py-2 rounded-xl bg-floresta-700 hover:bg-floresta-600 text-white text-xs font-semibold">
-          Entendi
+        <button id="btn-close-about-2" class="px-5 py-2 rounded-xl bg-floresta-700 hover:bg-floresta-600 text-white text-xs font-bold">
+          Fechar
         </button>
       </div>
 
@@ -395,85 +482,93 @@
   </div>
 
   <!-- Toast de Notificação -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-stone-900 text-white dark:bg-ocre-400 dark:text-stone-950 px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-semibold">
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-stone-900 text-white dark:bg-ocre-400 dark:text-stone-950 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold">
     <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 dark:text-floresta-900"></i>
     <span id="toast-message">Texto copiado!</span>
   </div>
 
-  <!-- Footer -->
+  <!-- Rodapé -->
   <footer class="text-center py-3 text-xs text-stone-400 dark:text-floresta-300/50">
-    <p>Nhe'ẽ IA • Desenvolvido com respeito e valorização à herança indígena brasileira • 2026</p>
+    <p>Tupã IA • Modelo de Linguagem e Preservação da Cultura Tupi • 2026</p>
   </footer>
 
-  <!-- Core JavaScript Logic & Knowledge Base -->
+  <!-- Lógica Principal do Chatbot e Modelo de Linguagem -->
   <script>
-    // Inicializar ícones do Lucide
+    // Inicializar ícones Lucide
     lucide.createIcons();
 
-    // Base de Conhecimento do Dicionário Tupi
+    // Dicionário Tupi Extensivo
     const tupiDictionary = [
-      { tupi: "Nhe'ẽ", traducao: "Falar, língua, palavra, espírito ou alma", categoria: "Conceito Sagrado" },
-      { tupi: "Aba", traducao: "Homem, ser humano, pessoa indígena", categoria: "Pessoas" },
+      { tupi: "Tupã", traducao: "O trovão, a voz divina dos céus, o criador sagrado", categoria: "Cosmologia" },
+      { tupi: "Nhe'ẽ", traducao: "Falar, língua, palavra, o próprio espírito ou alma", categoria: "Conceito Sagrado" },
+      { tupi: "Pindorama", traducao: "Terra das palmeiras (nome originário do Brasil)", categoria: "Geografia" },
+      { tupi: "Aba", traducao: "Homem, pessoa indígena, ser humano", categoria: "Pessoas" },
       { tupi: "Kunhã", traducao: "Mulher", categoria: "Pessoas" },
-      { tupi: "Tupã", traducao: "O trovão, a divindade suprema dos céus", categoria: "Espiritualidade" },
-      { tupi: "Pindorama", traducao: "A terra das palmeiras (nome indígena do Brasil)", categoria: "Geografia" },
-      { tupi: "Y", traducao: "Água, rio", categoria: "Natureza" },
-      { tupi: "Ka'a", traducao: "Mata, floresta, erva", categoria: "Natureza" },
-      { tupi: "Ibirapuera", traducao: "Árvore apodrecida (Ybira = árvore + puera = que foi/antigo)", categoria: "Etimologia" },
-      { tupi: "Kora", traducao: "Cerca, curral, limite", categoria: "Cotidiano" },
-      { tupi: "Porã", traducao: "Bom, belo, bonito", categoria: "Qualidade" },
-      { tupi: "Aeté", traducao: "Verdadeiro, autêntico", categoria: "Qualidade" },
-      { tupi: "Arara", traducao: "Grande papagaio de muitas cores", categoria: "Fauna" },
-      { tupi: "Tatu", traducao: "Casca grossa (animal encouraçado)", categoria: "Fauna" },
-      { tupi: "Jacaré", traducao: "Aquele que olha de lado (Îakaré)", categoria: "Fauna" },
+      { tupi: "Curumim", traducao: "Menino, criança", categoria: "Pessoas" },
+      { tupi: "Ka'a", traducao: "Mata, floresta, vegetação virgem", categoria: "Natureza" },
+      { tupi: "Y", traducao: "Água, rio, nascente", categoria: "Natureza" },
+      { tupi: "Porã", traducao: "Bom, belo, virtuoso, bonito", categoria: "Qualidade" },
+      { tupi: "Aeté", traducao: "Verdadeiro, autêntico, genuíno", categoria: "Qualidade" },
+      { tupi: "Ibirapuera", traducao: "Árvore apodrecida / lugar de troncos velhos (Ybira + Puera)", categoria: "Etimologia" },
+      { tupi: "Kora", traducao: "Cerca, curral, limite de espaço", categoria: "Cotidiano" },
+      { tupi: "Tietê", traducao: "Rio verdadeiro ou de águas profundas (Y-eté)", categoria: "Geografia" },
+      { tupi: "Ipanema", traducao: "Água imprestável / rio que não dá peixe (Y-panema)", categoria: "Geografia" },
       { tupi: "Mani'oka", traducao: "Casa de Mani (raiz da mandioca)", categoria: "Alimentação" },
-      { tupi: "Karaíba", traducao: "Sábio, curandeiro ou homem poderoso", categoria: "Pessoas" },
-      { tupi: "Tietê", traducao: "Rio verdadeiro ou águas profundas (Y-eté)", categoria: "Geografia" },
-      { tupi: "Ipanema", traducao: "Água imprestável / rio sem peixe (Y-panema)", categoria: "Geografia" },
-      { tupi: "Curumim", traducao: "Menino, criança", categoria: "Pessoas" }
+      { tupi: "Arara", traducao: "Grande ave plumada multicolorida", categoria: "Fauna" },
+      { tupi: "Tatu", traducao: "Casca grossa (animal com carapaça protetora)", categoria: "Fauna" },
+      { tupi: "Jacaré", traducao: "Aquele que olha de lado (Îakaré)", categoria: "Fauna" },
+      { tupi: "Tamanduá", traducao: "O caçador de formigas (Taba-mundu-á)", categoria: "Fauna" },
+      { tupi: "Pitanga", traducao: "Vermelho vivo, cor de sangue", categoria: "Flora" },
+      { tupi: "Abacaxi", traducao: "Fruto de cheiro agradável (Iba-cati)", categoria: "Flora" }
     ];
 
-    // Respostas Pré-configuradas Inteligentes (Simulador de IA Tupi)
-    const knowledgeBase = [
+    // Base de Conhecimento Offline Rica (Respostas do Modelo Tupã)
+    const tupaKnowledgeBase = [
       {
-        triggers: ["bom dia", "como se diz bom dia", "saudacao", "ola", "oi"],
-        response: `### 🌅 Saudações em Tupi Antigo
+        triggers: ["quem e tupa", "tupa", "deus tupa", "divindade"],
+        response: `### ⚡ Tupã: O Espírito dos Trovões e das Águas Celestes
 
-No Tupi clássico (*Tupinambá*), não existia uma expressão idêntica ao nosso "bom dia" europeu. Em vez disso, os povos Tupi usavam saudações de boas-vindas e perguntas afetuosas sobre o estado de espírito:
+Na cosmologia dos povos Tupi-Guarani, **Tupã** (também grafado *Tupan* ou *Tupana*) é o princípio criador associado ao **trovão**, ao **relâmpago** e ao **sopro da vida**.
 
-1. **"Nhe'ẽ porã!"** *(Boas palavras / Bons espíritos!)*
-2. **"Ereîubé?"** *(Você veio bem?)* — Respondia-se com: **"Aîubé"** *(Vim bem)*.
-3. **"Co'ê porã!"** *(A alvorada está bonita / Bom amanhecer)* — forma neológica muito usada hoje.
+#### 1. Significado e Fonética:
+- **Tu-pã** vem da raiz *Tu* (som retumbante, estrondo) + *pã* (espírito que reverbera).
+- Quando o trovão ecoava na floresta (*Ka'a*), os ancestrais diziam: *"Tupã o-nhe'ẽ"* (**Tupã está falando!**).
 
-> 💡 **Dica cultural:** Para os povos Tupi, a palavra fala (*nhe'ẽ*) também significa a essência da alma!`
+#### 2. O Papel de Tupã:
+- **Guardião da Natureza:** Manifesta sua força através das chuvas que fertilizam a terra (*Yby*) e geram as colheitas de milho (*Abati*) e mandioca (*Mani'oka*).
+- **Justiça e Equilíbrio:** Os raios eram vistos como advertências para aqueles que quebravam o respeito sagrado com a floresta e seus animais.
+
+> 🏹 *"Para nossos povos, escutar o trovão não era ter medo, mas lembrar que a floresta está viva e conectada aos céus."*`
+      },
+      {
+        triggers: ["bom dia", "saudacao", "ola", "oi", "como se diz bom dia"],
+        response: `### 🌅 Saudações e Cumprimentos em Tupi Antigo
+
+No Tupi clássico (*Tupinambá*), a convivência era regida por saudações que perguntavam pelo bem-estar e espírito da pessoa:
+
+| Expressão em Tupi | Pronúncia Aprox. | Significado / Contexto |
+| :--- | :--- | :--- |
+| **Nhe'ẽ porã!** | *nhẽ-eng po-rã* | "Boas palavras / Bons espíritos a você!" |
+| **Ereîubé?** | *e-rei-u-bé* | "Você veio em paz / Você chegou bem?" |
+| **Aîubé!** | *ai-u-bé* | Resposta: "Sim, eu vim bem / em paz." |
+| **Co'ê porã!** | *ko-eng po-rã* | "A alvorada está bela" *(Usado para bom dia)* |
+| **Pyhare porã!** | *pï-ha-re po-rã* | "Boa noite!" *(Raiz Guarani/Tupi)* |
+
+> 💡 **Sabedoria Tupi:** Em Tupi, a palavra para fala (**Nhe'ẽ**) é a mesma para alma. Cumprimentar alguém é abençoar a sua alma!`
       },
       {
         triggers: ["ibirapuera", "origem ibirapuera", "significado ibirapuera"],
-        response: `### 🌳 Etimologia de Ibirapuera
+        response: `### 🌳 Etimologia Completa: Ibirapuera
 
-A palavra **Ibirapuera** vem da junção de dois termos do Tupi Antigo:
+A palavra **Ibirapuera** é um clássico exemplo da morfologia aglutinante do Tupi Antigo:
 
-- **Ybýra** (ou *ybirá*): árvore, tronco, madeira.
-- **Puêra** (ou *pûera*): o sufixo de tempo pretérito, que significa *"aquilo que já foi"*, *"antigo"* ou *"podre/em ruínas"*.
+- **Ybyrá** (ou *Ybýra*): árvore, tronco, madeira viva.
+- **Puêra** (ou *Pûera*): sufixo de tempo pretérito, que significa *"aquilo que foi"*, *"antigo"*, *"ruína"* ou *"apodrecido"*.
 
-Portanto, **Ibirapuera** significa literalmente:
-> **"Árvore apodrecida"** ou **"lugar de árvores caídas"**.
+$$\text{Ybyrá} + \text{Puêra} = \mathbf{\text{Ibirapuera}}\ \text{(Árvore caída / Tronco apodrecido)}$$
 
-Isso porque a região onde hoje se localiza o famoso parque na cidade de São Paulo era uma várzea alagadiça com troncos caídos e submersos.`
-      },
-      {
-        triggers: ["lenda", "mito", "historia", "mitologia"],
-        response: `### 🌙 A Lenda de Mani e a Mandioca (*Mani'oka*)
-
-Conta a lenda Tupi que uma jovem indígena engravidou misteriosamente de uma menina muito alva e formosa, a quem chamou de **Mani**.
-
-Mani era querida e sábia por toda a aldeia, mas antes de completar um ano, morreu sem ter apresentado doença alguma. Triste, a mãe a enterrou dentro de sua própria cabana (*óka*) e regava a sepultura todos os dias com suas lágrimas.
-
-Tempos depois, brotou no local uma planta desconhecida. Quando os guerreiros cavaram a terra, encontraram uma raiz grossa de casca marrom e polpa branca como a pele de Mani:
-
-- **Mani** (a menina sagrada) + **Óka** (a casa/cabana) = **Mani'oka** (*Mandioca*).
-
-A mandioca tornou-se o principal sustento e dom dos povos originários para o mundo.`
+#### Contexto Histórico:
+A região onde hoje fica o famoso Parque do Ibirapuera em São Paulo era uma vasta várzea pantanosa do córrego Sapateiro, coberta por lamaçais e troncos de árvores tombadas pelas inundações.`
       },
       {
         triggers: ["floresta e grande", "a floresta e grande", "floresta grande"],
@@ -481,26 +576,58 @@ A mandioca tornou-se o principal sustento e dom dos povos originários para o mu
 
 Em Tupi Antigo (*Tupinambá*):
 
-> **"Ka'a gûasu."** *(pronúncia: ka-á gua-sú)*
+> **"Ka'a gûasu."** *(pronuncia-se: ka-á gua-sú)*
 
-**Estrutura gramatical:**
-- **Ka'a**: mata, floresta, vegetação silvestre.
-- **Gûasu** (ou *-ûasu*): grande, majestoso (sufixo adjetivo predicativo).
+#### Análise Sintática do Tupi:
+1. **Ka'a**: floresta, mata nativa.
+2. **Gûasu** (ou *-ûasu*): grande, vasto, majestoso.
 
-> 📌 **Curiosidade:** Em Tupi, muitos adjetivos operam como verbos estativos, de modo que não é necessário usar o verbo "ser" (*Ka'a gûasu* = A floresta [é] grande). Você reconhece esse termo em nomes como **Iguaçu** (*Y-gûasu* = Água Grande)!`
+**Nota gramatical:** Na língua Tupi, os adjetivos de qualidade funcionam como verbos atributivos predicativos. Não existe um verbo "ser" isolado nesta frase; a própria aposição do predicativo já expressa o estado: *"A mata [é] imensa"*.
+
+Você encontra essa mesma raiz em **Iguaçu** (*Y-gûasu* = Águas Grandes)!`
+      },
+      {
+        triggers: ["lenda", "mito", "historia", "folclore"],
+        response: `### 🌙 A Lenda Sagrada de Mani e o Dom da Mandioca (*Mani'oka*)
+
+Nas terras de Pindorama, antes da chegada de qualquer caravela, nasceu em uma taba indígena uma menina com a pele clara e luminosa como a luz da lua, a quem deram o nome de **Mani**.
+
+Mani falava com sabedoria além da sua idade e trazia grande alegria para todos. Porém, antes de completar seu primeiro ano de vida, adormeceu tranquilamente para o mundo dos espíritos.
+
+Sua mãe, inconsolável, a enterrou dentro de sua própria cabana (*óka*) e regava a terra com suas lágrimas todos os dias. Algum tempo depois, uma planta desconhecida e vigorosa brotou naquele solo sagrado.
+
+Ao cavarem a terra, os indígenas encontraram uma raiz com casca escura como o solo fértil, mas cujo interior era branco e nutritivo como a própria Mani:
+- **Mani** + **Óka** = **Mani'oka** (*Mandioca*).
+
+A mandioca tornou-se o pão da terra e o principal sustento do Brasil originário.`
       },
       {
         triggers: ["pindorama", "o que e pindorama"],
         response: `### 🌴 Pindorama: A Terra das Palmeiras
 
-**Pindorama** é o termo original com que os povos de tronco Tupi-Guarani se referiam à costa leste do continente sul-americano antes da invasão europeia:
+**Pindorama** é a denominação ancestral dada pelos povos Tupi à faixa territorial do Brasil pré-colonial:
 
-- **Pindó**: palmeira, palmeiras.
-- **Retama** (na composição: *-rama*): terra natal, região, pátria.
+- **Pindó**: palmeira.
+- **Retama** (na composição fonética: *-rama*): terra natal, solo pátrio, morada.
 
-Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, abundância natural e soberania originária.`
+Significa **"A Terra das Palmeiras Livres"**. Uma terra onde a natureza oferecia abrigo, caça, rios cristalinos e soberania comunitária.`
       }
     ];
+
+    // Prompt de Sistema para o Modelo LLM (Google Gemini)
+    const TUPA_SYSTEM_PROMPT = `Você é o modelo de linguagem "Tupã IA", um assistente de inteligência artificial altamente sábio, acolhedor e profundo especialista na língua Tupi Antigo (Tupinambá), na família linguística Tupi-Guarani e na cosmologia, etimologia e história dos povos originários do Brasil.
+Suas diretrizes:
+1. Traga precisão etimológica para palavras e termos brasileiros de origem indígena.
+2. Explique a estrutura gramatical do Tupi clássico de forma didática e respeitosa.
+3. Utilize uma saudação como "Nhe'ẽ porã!" ou "Tupã nhe'ẽ!" quando conveniente.
+4. Forneça transcrições fonéticas amigáveis de palavras em Tupi.
+5. Formate suas respostas com Markdown elegante, usando tópicos, tabelas e citações quando apropriado.
+6. Nunca seja ofensivo ou minimize a riqueza cultural indígena; atue como um preservador desse patrimônio.`;
+
+    // Gerenciamento de Estado
+    let currentMode = 'geral'; // geral | linguistica | etimologia
+    let userApiKey = localStorage.getItem('tupa_gemini_api_key') || '';
+    let selectedModel = localStorage.getItem('tupa_gemini_model') || 'gemini-2.0-flash';
 
     // Elementos do DOM
     const chatContainer = document.getElementById('chat-container');
@@ -509,11 +636,21 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
     const typingIndicator = document.getElementById('typing-indicator');
+    const typingText = document.getElementById('typing-text');
     const btnClearChat = document.getElementById('btn-clear-chat');
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
+    const statusApiDot = document.getElementById('status-api-dot');
 
     // Modais
+    const modalSettings = document.getElementById('modal-settings');
+    const btnOpenSettings = document.getElementById('btn-open-settings');
+    const btnCloseSettings = document.getElementById('btn-close-settings');
+    const btnSaveSettings = document.getElementById('btn-save-settings');
+    const btnRemoveKey = document.getElementById('btn-remove-key');
+    const inputApiKey = document.getElementById('input-api-key');
+    const selectModel = document.getElementById('select-model');
+
     const modalDict = document.getElementById('modal-dict');
     const btnOpenDict = document.getElementById('btn-open-dict');
     const btnCloseDict = document.getElementById('btn-close-dict');
@@ -525,34 +662,86 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
     const btnCloseAbout = document.getElementById('btn-close-about');
     const btnCloseAbout2 = document.getElementById('btn-close-about-2');
 
-    // Alternador de Tema
+    // Alternador de tema Dark / Light
     const btnThemeToggle = document.getElementById('btn-theme-toggle');
-
     btnThemeToggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
     });
 
-    // Funções de Modal
+    // Atualizar UI de status de API
+    function updateApiStatus() {
+      if (userApiKey) {
+        statusApiDot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+        statusApiDot.title = `Conectado ao Gemini (${selectedModel})`;
+      } else {
+        statusApiDot.className = "w-2 h-2 rounded-full bg-amber-400";
+        statusApiDot.title = "Motor nativo offline ativo";
+      }
+    }
+    updateApiStatus();
+
+    // Eventos de Configuração de API
+    btnOpenSettings.addEventListener('click', () => {
+      inputApiKey.value = userApiKey;
+      selectModel.value = selectedModel;
+      modalSettings.classList.remove('hidden');
+      inputApiKey.focus();
+    });
+
+    btnCloseSettings.addEventListener('click', () => modalSettings.classList.add('hidden'));
+
+    btnSaveSettings.addEventListener('click', () => {
+      userApiKey = inputApiKey.value.trim();
+      selectedModel = selectModel.value;
+      localStorage.setItem('tupa_gemini_api_key', userApiKey);
+      localStorage.setItem('tupa_gemini_model', selectedModel);
+      modalSettings.classList.add('hidden');
+      updateApiStatus();
+      showToast(userApiKey ? "API do Gemini conectada com sucesso!" : "Configurações salvas!");
+    });
+
+    btnRemoveKey.addEventListener('click', () => {
+      userApiKey = '';
+      inputApiKey.value = '';
+      localStorage.removeItem('tupa_gemini_api_key');
+      modalSettings.classList.add('hidden');
+      updateApiStatus();
+      showToast("Chave removida. Usando motor offline.");
+    });
+
+    // Eventos do Dicionário
     btnOpenDict.addEventListener('click', () => {
       renderDictionary(tupiDictionary);
       modalDict.classList.remove('hidden');
       dictSearchInput.focus();
     });
-
     btnCloseDict.addEventListener('click', () => modalDict.classList.add('hidden'));
 
+    // Eventos de Sobre
     btnOpenAbout.addEventListener('click', () => modalAbout.classList.remove('hidden'));
     btnCloseAbout.addEventListener('click', () => modalAbout.classList.add('hidden'));
     btnCloseAbout2.addEventListener('click', () => modalAbout.classList.add('hidden'));
 
     // Fechar ao clicar fora
-    [modalDict, modalAbout].forEach(m => {
+    [modalSettings, modalDict, modalAbout].forEach(m => {
       m.addEventListener('click', (e) => {
         if (e.target === m) m.classList.add('hidden');
       });
     });
 
-    // Renderizar Dicionário
+    // Pílulas de Modo
+    document.querySelectorAll('.mode-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.mode-pill').forEach(p => {
+          p.className = 'mode-pill px-3 py-1 rounded-xl font-medium transition-all text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-floresta-900';
+        });
+        pill.className = 'mode-pill px-3 py-1 rounded-xl font-medium transition-all bg-floresta-600 text-white shadow-sm';
+        currentMode = pill.getAttribute('data-mode');
+        showToast(`Modo alterado para: ${pill.innerText}`);
+      });
+    });
+
+    // Renderizar termos do Dicionário
     function renderDictionary(words) {
       dictList.innerHTML = words.map(item => `
         <div class="py-2.5 px-3 rounded-xl hover:bg-stone-100 dark:hover:bg-floresta-900/60 cursor-pointer transition-colors flex items-center justify-between group" onclick="selectDictWord('${item.tupi}', '${item.traducao}')">
@@ -564,13 +753,12 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
             <p class="text-xs text-stone-600 dark:text-floresta-100/90 mt-0.5">${item.traducao}</p>
           </div>
           <button class="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg bg-urucum-500/10 text-urucum-500 hover:bg-urucum-500 hover:text-white transition-all text-xs font-semibold">
-            Perguntar
+            Consultar IA
           </button>
         </div>
       `).join('');
     }
 
-    // Filtrar dicionário
     dictSearchInput.addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase().trim();
       const filtered = tupiDictionary.filter(w => 
@@ -583,10 +771,10 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
 
     window.selectDictWord = (tupi, traducao) => {
       modalDict.classList.add('hidden');
-      sendMessage(`Qual o contexto gramatical e cultural da palavra "${tupi}" (${traducao})?`);
+      sendMessage(`Qual o contexto linguístico, etimológico e cultural do termo "${tupi}" (${traducao}) no Tupi?`);
     };
 
-    // Toast de notificação
+    // Notificação Toast
     function showToast(msg) {
       toastMessage.textContent = msg;
       toast.classList.remove('opacity-0', 'translate-y-20');
@@ -597,45 +785,42 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
       }, 2500);
     }
 
-    // Função para Copiar Texto
+    // Copiar Texto
     window.copyMessageText = (btn) => {
-      const textContainer = btn.closest('.message-bubble').querySelector('.markdown-body');
-      if (textContainer) {
-        navigator.clipboard.writeText(textContainer.innerText).then(() => {
+      const bubble = btn.closest('.message-bubble').querySelector('.markdown-body');
+      if (bubble) {
+        navigator.clipboard.writeText(bubble.innerText).then(() => {
           showToast("Resposta copiada para a área de transferência!");
         });
       }
     };
 
-    // Pronúncia em Áudio (TTS / Web Speech API)
+    // Ouvir pronúncia por áudio (TTS)
     window.speakText = (btn) => {
-      const textContainer = btn.closest('.message-bubble').querySelector('.markdown-body');
-      if (!textContainer) return;
-      
-      const text = textContainer.innerText.slice(0, 200);
+      const bubble = btn.closest('.message-bubble').querySelector('.markdown-body');
+      if (!bubble) return;
+      const text = bubble.innerText.slice(0, 240);
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'pt-BR';
-        utterance.rate = 0.95;
+        utterance.rate = 0.92;
         window.speechSynthesis.speak(utterance);
         showToast("Reproduzindo pronúncia...");
       } else {
-        showToast("Síntese de voz não suportada pelo seu navegador.");
+        showToast("Síntese de voz não suportada no seu navegador.");
       }
     };
 
-    // Eventos dos chips de sugestão inicial
+    // Chips de Pergunta
     document.querySelectorAll('.chip-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const prompt = btn.getAttribute('data-prompt');
-        if (prompt) {
-          sendMessage(prompt);
-        }
+        if (prompt) sendMessage(prompt);
       });
     });
 
-    // Envio do Formulário
+    // Formulário de envio
     chatForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = userInput.value.trim();
@@ -644,40 +829,101 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
       userInput.value = '';
     });
 
-    // Botão Limpar Conversa
+    // Limpar conversa
     btnClearChat.addEventListener('click', () => {
       messagesList.innerHTML = '';
       welcomeCard.classList.remove('hidden');
-      showToast("Conversa limpa!");
+      showToast("Conversa reiniciada!");
     });
 
-    // Enviar Mensagem
-    function sendMessage(text) {
-      // Ocultar card de boas-vindas na primeira mensagem
-      welcomeCard.classList.add('hidden');
+    // Histórico de conversação para o modelo LLM
+    let chatHistory = [];
 
-      // 1. Inserir Balão do Usuário
+    async function sendMessage(text) {
+      welcomeCard.classList.add('hidden');
       appendMessage('user', text);
 
-      // 2. Exibir Indicador de Carregamento
       typingIndicator.classList.remove('hidden');
+      typingText.textContent = userApiKey ? `Tupã IA (${selectedModel}) pensando...` : `Tupã IA pensando...`;
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      // 3. Simular Pensamento e Resposta da IA Tupi
-      setTimeout(() => {
+      try {
+        let aiResponse = "";
+        if (userApiKey) {
+          // Chamada real à API Google Gemini
+          aiResponse = await callGeminiLLM(text);
+        } else {
+          // Motor especializado offline
+          await new Promise(r => setTimeout(r, 600 + Math.random() * 500));
+          aiResponse = generateOfflineTupaResponse(text);
+        }
+
         typingIndicator.classList.add('hidden');
-        const aiResponse = generateTupiResponse(text);
         appendMessage('bot', aiResponse);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 700 + Math.random() * 600);
+      } catch (err) {
+        console.error("Erro na resposta:", err);
+        typingIndicator.classList.add('hidden');
+        appendMessage('bot', `⚠️ **Aviso de conexão com o modelo de IA:** ${err.message || 'Falha na resposta'}.\n\n*Alternando temporariamente para o motor nativo offline:*\n\n` + generateOfflineTupaResponse(text));
+      }
+
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    // Gerador de Resposta Inteligente da Nhe'ẽ IA
-    function generateTupiResponse(userInputText) {
-      const clean = userInputText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    // Chamada à API oficial do Google Gemini
+    async function callGeminiLLM(prompt) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${userApiKey}`;
+      
+      const modeInstruction = currentMode === 'linguistica' 
+        ? "Enfatize a análise gramatical, sintaxe e regras de afixação do Tupi Antigo."
+        : currentMode === 'etimologia'
+        ? "Enfatize as raízes históricas, formação topônima e nomes de cidades e rios do Brasil."
+        : "Aja como a encarnação sábia de Tupã, transmitindo cosmologia e sabedoria originária.";
 
-      // Buscar nas respostas prontas
-      for (const item of knowledgeBase) {
+      const contents = [
+        ...chatHistory.slice(-6),
+        { role: 'user', parts: [{ text: prompt }] }
+      ];
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: `${TUPA_SYSTEM_PROMPT}\nModo ativo: ${modeInstruction}` }]
+          },
+          contents: contents,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 1000,
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error?.message || `Erro HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!answer) {
+        throw new Error("Nenhum texto retornado pelo modelo.");
+      }
+
+      // Salvar histórico
+      chatHistory.push({ role: 'user', parts: [{ text: prompt }] });
+      chatHistory.push({ role: 'model', parts: [{ text: answer }] });
+
+      return answer;
+    }
+
+    // Motor de Conhecimento Tupi Offline
+    function generateOfflineTupaResponse(inputText) {
+      const clean = inputText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+      // 1. Verificar base de conhecimento prévia
+      for (const item of tupaKnowledgeBase) {
         for (const trig of item.triggers) {
           const normTrig = trig.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
           if (clean.includes(normTrig)) {
@@ -686,60 +932,64 @@ Significado: **"A Terra das Palmeiras"**. É um conceito que evoca fertilidade, 
         }
       }
 
-      // Buscar se mencionou alguma palavra do dicionário
+      // 2. Verificar correspondência no dicionário
       for (const term of tupiDictionary) {
         const normTerm = term.tupi.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         if (clean.includes(normTerm)) {
-          return `### 🏹 Sobre o termo: **${term.tupi}**
+          return `### ⚡ Sabedoria de Tupã: O termo **"${term.tupi}"**
 
-- **Significado:** ${term.traducao}
-- **Campo Semântico:** ${term.categoria}
+- **Significado Originário:** ${term.traducao}
+- **Classificação:** ${term.categoria}
 
-> No contexto do Tupi Antigo (*Tupinambá*), palavras ligadas a este tema expressavam a profunda simbiose entre as pessoas, a floresta (*Ka'a*) e as forças espirituais da natureza.
+> No Tupi Antigo (*Tupinambá*), palavras como **${term.tupi}** unem a vivência prática ao espírito sagrado (*Nhe'ẽ*). Os elementos não eram meros objetos utilitários, mas manifestações vivas da terra (*Yby*) sob a proteção dos céus de Tupã.
 
-Você gostaria de ver exemplos de frases ou etimologias compostas com **${term.tupi}**?`;
+*Dica: Você pode conectar uma chave de API do Gemini no botão **Conectar IA** no topo para formular perguntas livres mais profundas!*`;
         }
       }
 
-      // Resposta contextual rica padrão
-      return `### 🍃 Nhe'ẽ porã! 
+      // 3. Resposta de síntese contextual inteligente
+      return `### ⚡ Tupã nhe'ẽ! *(A voz de Tupã ecoa)*
 
-Entendi sua pergunta sobre: *"**${userInputText}**"*.
+Recebi sua consulta sobre: *"**${inputText}**"*.
 
-Na linguística do **Tupi Antigo**, as palavras carregam raízes descritivas da natureza e da vida comunitária nas aldeias (*tavas*). 
+O modelo **Tupã IA** analisa as estruturas do tronco **Tupi-Guarani**:
+- **Língua Aglutinante:** Palavras em Tupi formam-se por raízes nominais e sufixos semânticos (ex: *-gûasu* = grande, *-mirĩ* = pequeno, *-eté* = verdadeiro).
+- **Legado Vivo:** Milhares de termos cotidianos brasileiros (animais, frutas, nomes de rios e acidentes geográficos) descendem dessa tradição.
 
-- A língua original Tupi é aglutinante: pequenas raízes nominais se unem com sufixos qualitativos (ex: *-gûasu* = grande, *-mirĩ* = pequeno, *-eté* = verdadeiro).
-- A tradição oral preservou essas raízes em centenas de nomes de rios, cidades, plantas e animais do Brasil.
+Experimente perguntas recomendadas como:
+- *"Quem é Tupã na mitologia Tupi?"*
+- *"Como se diz bom dia em Tupi?"*
+- *"Qual a origem da palavra Ibirapuera ou Tietê?"*
+- *"Como traduzir 'A floresta é grande'?"*
 
-*Você pode clicar no botão **Dicionário Tupi** no topo para consultar termos específicos ou me pedir uma tradução de frase como "A água é límpida" ou a origem de cidades como "Tietê", "Curitiba" ou "Ipanema"!*`;
+*(Para respostas ilimitadas com geração generativa contínua, conecte sua chave do Gemini clicando em **Conectar IA** acima!)*`;
     }
 
-    // Inserir mensagem na tela
+    // Inserção visual de balões
     function appendMessage(sender, content) {
       const msgDiv = document.createElement('div');
-      msgDiv.className = `flex gap-3 max-w-[88%] sm:max-w-[80%] ${sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`;
+      msgDiv.className = `flex gap-3 max-w-[88%] sm:max-w-[82%] ${sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`;
 
       if (sender === 'user') {
         msgDiv.innerHTML = `
           <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-urucum-600 to-urucum-500 text-white flex-shrink-0 flex items-center justify-center font-bold text-xs shadow-md">
             Você
           </div>
-          <div class="message-bubble bg-urucum-500 text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-md text-sm font-medium leading-relaxed">
+          <div class="message-bubble bg-gradient-to-r from-urucum-600 to-urucum-500 text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-md text-sm font-medium leading-relaxed">
             ${escapeHtml(content)}
           </div>
         `;
       } else {
         const parsedMarkdown = marked.parse(content);
         msgDiv.innerHTML = `
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-floresta-700 to-ocre-500 text-white flex-shrink-0 flex items-center justify-center font-bold text-xs shadow-md">
-            <i data-lucide="feather" class="w-4 h-4 text-ocre-200"></i>
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-floresta-700 via-floresta-600 to-ocre-500 text-white flex-shrink-0 flex items-center justify-center font-bold text-xs shadow-md border border-ocre-400/30">
+            <i data-lucide="zap" class="w-4 h-4 text-ocre-200"></i>
           </div>
-          <div class="message-bubble flex-1 bg-white dark:bg-[#071910] text-stone-800 dark:text-stone-100 border border-stone-200 dark:border-floresta-900/90 px-4 sm:px-5 py-4 rounded-2xl rounded-tl-sm shadow-md text-sm leading-relaxed">
+          <div class="message-bubble flex-1 bg-white dark:bg-[#06190f] text-stone-800 dark:text-stone-100 border border-stone-200 dark:border-floresta-900/90 px-4 sm:px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg text-sm leading-relaxed">
             <div class="markdown-body prose prose-stone dark:prose-invert max-w-none text-sm space-y-2.5">
               ${parsedMarkdown}
             </div>
             
-            <!-- Barra de Ações da Mensagem -->
             <div class="flex items-center gap-2 mt-4 pt-3 border-t border-stone-100 dark:border-floresta-900/60 text-xs text-stone-400 dark:text-floresta-300/60">
               <button onclick="copyMessageText(this)" class="inline-flex items-center gap-1 hover:text-urucum-500 dark:hover:text-ocre-400 transition-colors">
                 <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar
@@ -766,12 +1016,10 @@ Na linguística do **Tupi Antigo**, as palavras carregam raízes descritivas da 
         '"': '&quot;',
         "'": '&#39;'
       };
-      return String(string).replace(/[&<>"']/g, function (s) {
-        return entityMap[s];
-      });
+      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
     }
 
-    // Suporte ao microfone / voz (se disponível)
+    // Reconhecimento de fala por microfone
     const btnVoice = document.getElementById('btn-voice');
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -795,7 +1043,7 @@ Na linguística do **Tupi Antigo**, as palavras carregam raízes descritivas da 
       };
     } else {
       btnVoice.addEventListener('click', () => {
-        showToast("Reconhecimento de fala não suportado neste navegador.");
+        showToast("Reconhecimento de voz não suportado neste navegador.");
       });
     }
   </script>
