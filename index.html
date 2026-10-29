@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MULTIVERSE — Realidades Alternativas & Observatório Cósmico</title>
+  <meta name="description" content="Explore realidades alternativas, planetas exóticos, buracos negros conscientes e experiências quânticas interativas no MULTIVERSE.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+  
+  <!-- Estilos Globais do Multiverse -->
+  <link rel="stylesheet" href="./static/multiverse.css">
+  
+  <!-- Three.js e OrbitControls via CDN Estável -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- Canvas WebGL 3D do Espaço Profundo -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Efeito Cinematográfico de Túnel de Dobra Hiperespaço -->
+  <div id="warp-overlay"></div>
+
+  <!-- Vinheta e Scanlines Retrô-Futuristas -->
+  <div class="cinema-overlay"></div>
+
+  <!-- Retículo de Foco Central -->
+  <div class="target-reticle"></div>
+
+  <!-- Top Bar HUD -->
+  <header class="top-hud">
+    <div class="brand-wrapper">
+      <div class="multiverse-logo">MULTIVERSE</div>
+      <div class="badge-dim">QUANTUM ORRERY v3.0</div>
+    </div>
+
+    <div class="telemetry-bar">
+      <div class="tele-item">
+        <span class="tele-label">SETOR ATUAL</span>
+        <span class="tele-value" id="tele-sector">NEXUS-0</span>
+      </div>
+      <div class="tele-item">
+        <span class="tele-label">DESVIO VERMELHO</span>
+        <span class="tele-value" id="tele-redshift">z = +0.1428</span>
+      </div>
+      <div class="tele-item">
+        <span class="tele-label">FLUXO TAQUIÔNICO</span>
+        <span class="tele-value" id="tele-tachyons">984.2 Tq/s</span>
+      </div>
+    </div>
+
+    <div class="hud-actions">
+      <button class="hud-btn" id="btn-toggle-spectrum">👁️ Espectro: Visível</button>
+      <button class="hud-btn" id="btn-toggle-audio">🔇 Áudio Off</button>
+    </div>
+  </header>
+
+  <!-- Painel Lateral Esquerdo: Seletor de Realidades Alternativas -->
+  <nav class="realities-dock">
+    <div class="dock-header">DIMENSÕES REGISTRADAS</div>
+
+    <button class="reality-card-btn" data-dim="chronos" data-theme="chronos">
+      <span class="card-num">DIM-01</span>
+      <div class="card-title">Chronos-9</div>
+      <div class="card-desc">Tempo Revertido & Entropia</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="cyber" data-theme="cyber">
+      <span class="card-num">DIM-02</span>
+      <div class="card-title">Cyber-Matrix</div>
+      <div class="card-desc">Cosmos Sintético & Harmônicos</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="gaia" data-theme="gaia">
+      <span class="card-num">DIM-03</span>
+      <div class="card-title">Gaia Lumina</div>
+      <div class="card-desc">Solarpunk & Lente Quântica</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="singularity" data-theme="singularity">
+      <span class="card-num">DIM-04</span>
+      <div class="card-title">Singularity Void</div>
+      <div class="card-desc">Buraco Negro Consciente</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="aethel" data-theme="aethel">
+      <span class="card-num">DIM-05</span>
+      <div class="card-title">Aethelgard</div>
+      <div class="card-desc">Dimensão Cristalina & Oráculo</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="mirror" data-theme="mirror">
+      <span class="card-num">DIM-06</span>
+      <div class="card-title">Nexus Mirror</div>
+      <div class="card-desc">Scanner de Eus Alternativos</div>
+    </button>
+  </nav>
+
+  <!-- Bottom Dock: Navegação & Saltos Espaciais -->
+  <footer class="bottom-dock">
+    <button class="dock-btn-main" id="btn-random-warp">
+      <span>⚡</span> Salto Quântico Aleatório
+    </button>
+    <div class="dock-separator"></div>
+    <div style="font-family: var(--font-hud); font-size: 0.85rem; color: var(--text-dim); text-align: center;">
+      🖱️ Arraste para orbitar • Scroll para zoom • Clique em um planeta para viajar
+    </div>
+  </footer>
+
+  <!-- Modal com Experiências Interativas das Dimensões -->
+  <div class="modal-overlay" id="experience-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="modal-dim-title">Nome da Dimensão</h2>
+          <span id="modal-dim-subtitle">DIM-00 • Subtítulo</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" title="Fechar">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-experience-body">
+        <!-- Injetado dinamicamente via multiverse.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts do Multiverse -->
+  <script src="./static/audio.js"></script>
+  <script src="./static/multiverse.js"></script>
+</body>
+</html>

@@ -3,184 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TupãBot Multi-Fontes - Prefeitura, UNIFADAP, IBGE & TupãCity</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Markdown parser -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <!-- CSS -->
-  <link rel="stylesheet" href="/static/style.css">
+  <title>MULTIVERSE — Realidades Alternativas & Observatório Cósmico</title>
+  <meta name="description" content="Explore realidades alternativas, planetas exóticos, buracos negros conscientes e experiências quânticas interativas no MULTIVERSE.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+  
+  <!-- Estilos Globais do Multiverse -->
+  <link rel="stylesheet" href="/static/multiverse.css">
+  
+  <!-- Three.js e OrbitControls via CDN Estável -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
-  <div class="app-container">
-    
-    <!-- Sidebar / Drawer -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="brand">
-          <div class="brand-icon">⚡</div>
-          <div class="brand-text">
-            <h2>TupãBot 2.0</h2>
-            <span>Prefeitura • UNIFADAP • IBGE • TupãCity</span>
-          </div>
-        </div>
+
+  <!-- Canvas WebGL 3D do Espaço Profundo -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Efeito Cinematográfico de Túnel de Dobra Hiperespaço -->
+  <div id="warp-overlay"></div>
+
+  <!-- Vinheta e Scanlines Retrô-Futuristas -->
+  <div class="cinema-overlay"></div>
+
+  <!-- Retículo de Foco Central -->
+  <div class="target-reticle"></div>
+
+  <!-- Top Bar HUD -->
+  <header class="top-hud">
+    <div class="brand-wrapper">
+      <div class="multiverse-logo">MULTIVERSE</div>
+      <div class="badge-dim">QUANTUM ORRERY v3.0</div>
+    </div>
+
+    <div class="telemetry-bar">
+      <div class="tele-item">
+        <span class="tele-label">SETOR ATUAL</span>
+        <span class="tele-value" id="tele-sector">NEXUS-0</span>
       </div>
-
-      <div class="sidebar-content">
-        <button class="new-chat-btn" id="newChatBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          Nova Conversa
-        </button>
-
-        <!-- Seções de Tópicos por Fonte -->
-        <div class="topics-section">
-          <h3>🎓 UNIFADAP (Faculdade)</h3>
-          <ul class="topic-list">
-            <li data-prompt="Quais cursos de graduação a UNIFADAP oferece e como funciona o vestibular?">📚 Todos os Cursos da UNIFADAP</li>
-            <li data-prompt="Fale sobre o curso de Direito e o Núcleo de Prática Jurídica da UNIFADAP.">⚖️ Direito & Prática Jurídica</li>
-            <li data-prompt="Como é o curso de Psicologia e a clínica-escola da UNIFADAP?">🧠 Psicologia & Atendimento</li>
-            <li data-prompt="Qual o endereço e contato do WhatsApp da UNIFADAP?">📍 Endereço e Contato UNIFADAP</li>
-          </ul>
-        </div>
-
-        <div class="topics-section">
-          <h3>📊 IBGE Estatísticas</h3>
-          <ul class="topic-list">
-            <li data-prompt="Qual a população atualizada, área territorial e IDHM de Tupã segundo o IBGE?">👥 População, Área & IDHM</li>
-            <li data-prompt="Como é a economia e a produção de amendoim de Tupã registrada no IBGE?">🥜 PIB & Produção de Amendoim</li>
-          </ul>
-        </div>
-
-        <div class="topics-section">
-          <h3>🏛️ Prefeitura & Serviços</h3>
-          <ul class="topic-list">
-            <li data-prompt="Quais são as vagas de emprego do PAT divulgadas pela Prefeitura de Tupã?">💼 Vagas de Emprego (PAT)</li>
-            <li data-prompt="Quais as notícias oficiais e obras em andamento pela Prefeitura de Tupã?">🏗️ Obras & Atos da Prefeitura</li>
-          </ul>
-        </div>
-
-        <div class="topics-section">
-          <h3>📰 Portal TupãCity</h3>
-          <ul class="topic-list">
-            <li data-prompt="Quais as notícias mais recentes de hoje noticiadas no portal TupãCity?">📰 Acontecimentos do TupãCity</li>
-          </ul>
-        </div>
-
-        <div class="info-card">
-          <h4>📡 Bases Raspadas e Ativas</h4>
-          <div id="sourcesSummary" class="sources-summary">
-            Carregando fontes...
-          </div>
-          <button id="syncAllBtn" class="sync-news-btn">
-            🔄 Sincronizar Todas as Fontes
-          </button>
-        </div>
+      <div class="tele-item">
+        <span class="tele-label">DESVIO VERMELHO</span>
+        <span class="tele-value" id="tele-redshift">z = +0.1428</span>
       </div>
-
-      <div class="sidebar-footer">
-        <button id="openConfigBtn" class="footer-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          Configurações (API Key)
-        </button>
+      <div class="tele-item">
+        <span class="tele-label">FLUXO TAQUIÔNICO</span>
+        <span class="tele-value" id="tele-tachyons">984.2 Tq/s</span>
       </div>
-    </aside>
+    </div>
 
-    <!-- Main Chat Container -->
-    <main class="chat-main">
-      <header class="chat-header">
-        <div class="header-left">
-          <button id="mobileMenuBtn" class="mobile-toggle-btn" aria-label="Abrir Menu">☰</button>
-          <div>
-            <h1>TupãBot Multi-Fontes</h1>
-            <span class="status-indicator">
-              <span class="dot"></span> 4 Bases Oficiais Integradas
-            </span>
-          </div>
-        </div>
-        <div class="header-right">
-          <span id="currentEngineBadge" class="engine-badge">Prefeitura • UNIFADAP • IBGE • TupãCity</span>
-        </div>
-      </header>
+    <div class="hud-actions">
+      <button class="hud-btn" id="btn-toggle-spectrum">👁️ Espectro: Visível</button>
+      <button class="hud-btn" id="btn-toggle-audio">🔇 Áudio Off</button>
+    </div>
+  </header>
 
-      <!-- Messages Area -->
-      <div class="messages-container" id="messagesContainer">
-        <div class="welcome-banner">
-          <div class="welcome-icon">⚡</div>
-          <h2>TupãBot Especialista</h2>
-          <p>Seu assistente virtual abastecido com raspagem completa da <strong>Prefeitura de Tupã</strong>, <strong>UNIFADAP</strong>, dados oficiais do <strong>IBGE</strong> e notícias do <strong>TupãCity</strong>.</p>
-          <div class="suggestions-grid">
-            <button class="suggestion-chip" data-prompt="Quais são os cursos e diferenciais da UNIFADAP em Tupã?">
-              <span>🎓 Cursos e Vestibular UNIFADAP</span>
-            </button>
-            <button class="suggestion-chip" data-prompt="Qual a população atualizada e o IDH de Tupã no IBGE?">
-              <span>📊 População & Indicadores do IBGE</span>
-            </button>
-            <button class="suggestion-chip" data-prompt="Quais as vagas de emprego do PAT divulgadas pela Prefeitura?">
-              <span>💼 Vagas de Emprego da Prefeitura</span>
-            </button>
-            <button class="suggestion-chip" data-prompt="Quais são as principais notícias de hoje no portal TupãCity?">
-              <span>📰 Notícias Recentes do TupãCity</span>
-            </button>
-          </div>
-        </div>
-      </div>
+  <!-- Painel Lateral Esquerdo: Seletor de Realidades Alternativas -->
+  <nav class="realities-dock">
+    <div class="dock-header">DIMENSÕES REGISTRADAS</div>
 
-      <!-- Typing Indicator -->
-      <div class="typing-indicator" id="typingIndicator">
-        <div class="dot-flashing"></div>
-        <span>TupãBot está processando as bases de dados...</span>
-      </div>
+    <button class="reality-card-btn" data-dim="chronos" data-theme="chronos">
+      <span class="card-num">DIM-01</span>
+      <div class="card-title">Chronos-9</div>
+      <div class="card-desc">Tempo Revertido & Entropia</div>
+    </button>
 
-      <!-- Input Area -->
-      <footer class="chat-footer">
-        <form id="chatForm" class="input-form">
-          <textarea
-            id="userInput"
-            rows="1"
-            placeholder="Pergunte sobre a FADAP, dados do IBGE, vagas da Prefeitura ou notícias do TupãCity..."
-            required
-          ></textarea>
-          <button type="submit" id="sendBtn" title="Enviar Mensagem">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-        </form>
-        <div class="footer-caption">
-          Bases Oficiais: tupa.sp.gov.br &bull; unifadap.edu.br &bull; ibge.gov.br &bull; tupacity.com
-        </div>
-      </footer>
-    </main>
+    <button class="reality-card-btn" data-dim="cyber" data-theme="cyber">
+      <span class="card-num">DIM-02</span>
+      <div class="card-title">Cyber-Matrix</div>
+      <div class="card-desc">Cosmos Sintético & Harmônicos</div>
+    </button>
 
-  </div>
+    <button class="reality-card-btn" data-dim="gaia" data-theme="gaia">
+      <span class="card-num">DIM-03</span>
+      <div class="card-title">Gaia Lumina</div>
+      <div class="card-desc">Solarpunk & Lente Quântica</div>
+    </button>
 
-  <!-- Modal de Configuração -->
-  <div class="modal-backdrop" id="configModal">
-    <div class="modal-card">
+    <button class="reality-card-btn" data-dim="singularity" data-theme="singularity">
+      <span class="card-num">DIM-04</span>
+      <div class="card-title">Singularity Void</div>
+      <div class="card-desc">Buraco Negro Consciente</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="aethel" data-theme="aethel">
+      <span class="card-num">DIM-05</span>
+      <div class="card-title">Aethelgard</div>
+      <div class="card-desc">Dimensão Cristalina & Oráculo</div>
+    </button>
+
+    <button class="reality-card-btn" data-dim="mirror" data-theme="mirror">
+      <span class="card-num">DIM-06</span>
+      <div class="card-title">Nexus Mirror</div>
+      <div class="card-desc">Scanner de Eus Alternativos</div>
+    </button>
+  </nav>
+
+  <!-- Bottom Dock: Navegação & Saltos Espaciais -->
+  <footer class="bottom-dock">
+    <button class="dock-btn-main" id="btn-random-warp">
+      <span>⚡</span> Salto Quântico Aleatório
+    </button>
+    <div class="dock-separator"></div>
+    <div style="font-family: var(--font-hud); font-size: 0.85rem; color: var(--text-dim); text-align: center;">
+      🖱️ Arraste para orbitar • Scroll para zoom • Clique em um planeta para viajar
+    </div>
+  </footer>
+
+  <!-- Modal com Experiências Interativas das Dimensões -->
+  <div class="modal-overlay" id="experience-modal">
+    <div class="modal-window">
       <div class="modal-header">
-        <h3>Configurações do Modelo</h3>
-        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <div class="modal-title-group">
+          <h2 id="modal-dim-title">Nome da Dimensão</h2>
+          <span id="modal-dim-subtitle">DIM-00 • Subtítulo</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" title="Fechar">&times;</button>
       </div>
-      <div class="modal-body">
-        <label for="apiKeyInput">Chave de API do Google Gemini (Opcional):</label>
-        <input 
-          type="password" 
-          id="apiKeyInput" 
-          placeholder="Cole sua Gemini API Key (ex: AIzaSy...)"
-        />
-        <p class="modal-hint">
-          Com a chave ativada, o Gemini responderá utilizando em tempo real o contexto consolidado de todas as fontes (Prefeitura, UNIFADAP, IBGE e TupãCity). Sem a chave, o modelo responde pelo motor nativo local sem custos!
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button id="saveConfigBtn" class="save-btn">Salvar Configuração</button>
+      <div class="modal-body" id="modal-experience-body">
+        <!-- Injetado dinamicamente via multiverse.js -->
       </div>
     </div>
   </div>
 
-  <script src="/static/script.js"></script>
+  <!-- Scripts do Multiverse -->
+  <script src="/static/audio.js"></script>
+  <script src="/static/multiverse.js"></script>
 </body>
 </html>
