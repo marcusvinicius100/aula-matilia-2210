@@ -1,80 +1,80 @@
-# ⚡ TupãBot 2.0 - Chatbot Multi-Fontes Especialista em Tupã (SP)
+# 🌌 MULTIVERSE — Realidades Alternativas
 
-Aplicação web completa com modelo de linguagem inteligente e base de conhecimento multi-fontes integrada, cobrindo história, indicadores demográficos, ensino superior e notícias da **Estância Turística de Tupã (SP)** e da **Alta Paulista**.
+> Um observatório cósmico 3D interativo explorando dimensões paralelas, planetas exóticos, buracos negros conscientes e experiências quânticas em WebGL.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/marcusvinicius100/aula-matilia-2210)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/marcusvinicius100/aula-matilia-2210)
+[![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?logo=three.js)](https://threejs.org/)
 
 ---
 
-## 🌐 Repositório Oficial no GitHub
-- **URL:** [https://github.com/marcusvinicius100/aula-matilia-2210](https://github.com/marcusvinicius100/aula-matilia-2210)
+## 🌐 Repositório no GitHub
+- **URL Oficial:** [https://github.com/marcusvinicius100/aula-matilia-2210](https://github.com/marcusvinicius100/aula-matilia-2210)
 - **Branch:** `main`
 
 ---
 
-## 📡 Bases de Conhecimento e Portais Raspados
+## ✨ Funcionalidades Principais
 
-O TupãBot opera com 4 bases oficiais de conhecimento consolidadas:
+### 🪐 1. Visual Espacial & Motor WebGL 3D
+- **Céu Cósmico Dinâmico:** Mais de 5.000 estrelas cintilantes, nebulosas volumétricas e poeira estelar renderizadas em tempo real com Three.js.
+- **Orrery Gravitacional Central:** Planetas orbitando o **Singularity Void (Leviatã)** — um buraco negro supermassivo com disco de acreção ardente e lente gravitacional.
+- **Salto Hiperespaço (Warp Drive):** Transição cinematográfica à velocidade da luz ao viajar entre dimensões, acompanhada de aceleração estelar e áudio espacial.
+- **Controles de Câmera Fluida:** Órbita livre em 360°, aproximação dinâmica e duplo clique para aterrissagem em mundos distantes.
 
-| Fonte | Tipo de Dado | Arquivo de Dados |
+---
+
+### 🌀 2. As 6 Dimensões & Experiências Interativas
+
+| Dimensão | Nome | Experiência Interativa |
 | :--- | :--- | :--- |
-| **Prefeitura de Tupã** (`tupa.sp.gov.br`) | Vagas do PAT, obras municipais, comunicados e editais | `data/prefeitura_data.json` |
-| **UNIFADAP** (`unifadap.edu.br`) | 11 cursos de graduação, bolsas, vestibular, infraestrutura | `data/unifadap_data.json` |
-| **IBGE Oficial** (`ibge.gov.br` / API 3555000) | População (65.447 hab.), IDHM (0,776), PIB per capita, área | `data/ibge_tupa.json` |
-| **TupãCity** (`tupacity.com`) | 31 reportagens recentes completas com datas e links originais | `data/tupa_news.json` |
+| **DIM-01** | **Chronos-9** | **Reversor de Entropia:** Um slider temporal interativo que reconstrói supernovas explodidas e reverte o fluxo causal no tempo cósmico. |
+| **DIM-02** | **Cyber-Matrix** | **Sintetizador Gravitacional:** Cordas de laser quântico interativas onde passar o mouse emite notas musicais harmônicas sintetizadas em tempo real. |
+| **DIM-03** | **Gaia Lumina** | **Lente Dimensional Quântica:** Divisor óptico arrastável comparando a Terra poluída da nossa linha de tempo com a civilização solarpunk e cidades flutuantes. |
+| **DIM-04** | **Singularity Void** | **Curvatura Espaço-Temporal:** O ponteiro do mouse atua como uma lente gravitacional (*Gravitational Lensing*), curvando o tecido do espaço e a luz ao redor. |
+| **DIM-05** | **Aethelgard** | **Oráculo do Multiverso:** Conecte-se à Consciência Cósmica (Google Gemini AI) para obter respostas poéticas e filosóficas sobre o destino e o cosmos. |
+| **DIM-06** | **Nexus Mirror** | **Scanner de Eu Alternativo:** Questionário quântico que calcula sua frequência de corda e gera seu **Passaporte Multiversal** com profissão e poderes paralelos. |
 
 ---
 
-## 🌟 Funcionalidades do Sistema
-
-- **Arquitetura Híbrida (Dual Engine):**
-  - **Motor Nativo (Offline):** Responde instantaneamente sobre todas as 4 bases mesmo sem conexão externa ou custos de API.
-  - **Motor IA Generativa (Google Gemini):** Conecta ao modelo Gemini 2.5 Flash, alimentado via prompt de sistema com os dados das 4 fontes.
-- **Interface Conversacional Moderna:** Design no estilo ChatGPT/Claude com cards de sugestões rápidas, histórico e suporte para desktop e mobile.
-- **Sincronização em 1 Clique:** Botão na barra lateral para atualizar a raspagem de notícias e bases oficiais diretamente pelo navegador (`/api/sync-all`).
+### 🔊 3. Motor de Áudio Espacial Procedural (Web Audio API)
+- 100% sintetizado diretamente no navegador sem necessidade de arquivos externos pesados:
+  - Drone cósmico de espaço profundo com modulação LFO.
+  - Efeito de warp drive com sweep ressonante.
+  - Sons táteis futuristas de HUD e cliques estelares.
+  - Sintetizador harmônico senoidal para as cordas de luz.
 
 ---
 
-## 🚀 Como Executar o Projeto
+### 🎛️ 4. HUD Futurista & Controles
+- **Filtro de Espectro Óptico:** Alterna entre *Luz Visível*, *Matéria Escura* e *Raio-X Gravitacional*.
+- **Telemetria ao Vivo:** Desvio para o vermelho (*redshift*), fluxo taquiônico e coordenadas estelares dinâmicas.
+- **Salto Quântico Aleatório:** Botão para teletransporte a um mundo surpresa.
 
-### 1. Clonar ou Acessar a Pasta
-```powershell
-git clone https://github.com/marcusvinicius100/aula-matilia-2210.git
-cd "aula matilia,2210"
-```
+---
 
-### 2. Instalar Dependências
-```powershell
-python -m pip install -r requirements.txt
-```
+## 🚀 Como Executar Localmente
 
-### 3. Iniciar o Servidor Web
-```powershell
+### Opção A: Abrir Diretamente no Navegador
+Basta dar duplo clique no arquivo [`index.html`](index.html).
+
+### Opção B: Servidor Python Flask
+```bash
+# 1. Instalar dependências
+pip install -r requirements.txt
+
+# 2. (Opcional) Configurar chave do Gemini para o Oráculo
+set GEMINI_API_KEY=sua_chave_aqui
+
+# 3. Iniciar o servidor
 python app.py
 ```
-
-### 4. Acessar no Navegador
-Abra: 👉 **http://127.0.0.1:5000**
+Acesse em: `http://localhost:5000`
 
 ---
 
-## 📁 Estrutura de Arquivos
-
-```
-aula matilia,2210/
-├── app.py                 # Servidor Flask com rotas /api/chat, /api/info e /api/sync-all
-├── knowledge_tupa.py      # Motor de busca semântica e prompt multi-fontes
-├── scraper_multi.py       # Scraper da Prefeitura, UNIFADAP e API do IBGE
-├── scraper_tupacity.py    # Scraper do portal de notícias TupãCity
-├── requirements.txt       # Dependências (Flask, requests, beautifulsoup4)
-├── .gitignore             # Arquivos ignorados pelo git
-├── README.md              # Documentação completa
-├── data/                  # Bases de conhecimento estruturadas em JSON
-│   ├── ibge_tupa.json
-│   ├── prefeitura_data.json
-│   ├── tupa_news.json
-│   └── unifadap_data.json
-├── templates/
-│   └── index.html         # Interface HTML responsiva
-└── static/
-    ├── script.js          # Lógica frontend e chamadas assíncronas
-    └── style.css          # Estilização visual moderna
-```
+## ☁️ Deploy na Vercel
+O projeto já inclui o arquivo `vercel.json` configurado:
+1. Acesse [vercel.com](https://vercel.com) e conecte sua conta do GitHub.
+2. Importe o repositório `marcusvinicius100/aula-matilia-2210`.
+3. Clique em **Deploy**.
