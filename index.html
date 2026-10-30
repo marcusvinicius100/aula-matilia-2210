@@ -3,129 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MULTIVERSE — Realidades Alternativas & Observatório Cósmico</title>
-  <meta name="description" content="Explore realidades alternativas, planetas exóticos, buracos negros conscientes e experiências quânticas interativas no MULTIVERSE.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
-  
-  <!-- Estilos Globais do Multiverse -->
-  <link rel="stylesheet" href="./static/multiverse.css">
-  
-  <!-- Three.js e OrbitControls via CDN Estável -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <title>OrçaZap Pro — Gerador de Orçamentos Profissionais para WhatsApp</title>
+  <meta name="description" content="Crie orçamentos comerciais profissionais em segundos, gere PDF impecável e envie direto para o WhatsApp do seu cliente com Chave PIX e QR Code.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- QR Code Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Estilos da Aplicação -->
+  <link rel="stylesheet" href="./static/orcazap.css">
 </head>
 <body>
 
-  <!-- Canvas WebGL 3D do Espaço Profundo -->
-  <canvas id="webgl-canvas"></canvas>
-
-  <!-- Efeito Cinematográfico de Túnel de Dobra Hiperespaço -->
-  <div id="warp-overlay"></div>
-
-  <!-- Vinheta e Scanlines Retrô-Futuristas -->
-  <div class="cinema-overlay"></div>
-
-  <!-- Retículo de Foco Central -->
-  <div class="target-reticle"></div>
-
-  <!-- Top Bar HUD -->
-  <header class="top-hud">
-    <div class="brand-wrapper">
-      <div class="multiverse-logo">MULTIVERSE</div>
-      <div class="badge-dim">QUANTUM ORRERY v3.0</div>
-    </div>
-
-    <div class="telemetry-bar">
-      <div class="tele-item">
-        <span class="tele-label">SETOR ATUAL</span>
-        <span class="tele-value" id="tele-sector">NEXUS-0</span>
+  <!-- Top Bar / Navbar -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-badge">⚡ PRO</div>
+        <div class="brand-text">
+          <h1>OrçaZap</h1>
+          <span>Gerador de Orçamentos Comerciais</span>
+        </div>
       </div>
-      <div class="tele-item">
-        <span class="tele-label">DESVIO VERMELHO</span>
-        <span class="tele-value" id="tele-redshift">z = +0.1428</span>
-      </div>
-      <div class="tele-item">
-        <span class="tele-label">FLUXO TAQUIÔNICO</span>
-        <span class="tele-value" id="tele-tachyons">984.2 Tq/s</span>
-      </div>
-    </div>
 
-    <div class="hud-actions">
-      <button class="hud-btn" id="btn-toggle-spectrum">👁️ Espectro: Visível</button>
-      <button class="hud-btn" id="btn-toggle-audio">🔇 Áudio Off</button>
+      <div class="nav-actions">
+        <button class="btn-ghost" id="btn-open-history">
+          <i class="fa-solid fa-clock-rotate-left"></i> Histórico (<span id="history-count">0</span>)
+        </button>
+        <button class="btn-ghost" id="btn-open-profile">
+          <i class="fa-solid fa-user-gear"></i> Meus Dados
+        </button>
+        <button class="btn-primary" id="btn-new-quote">
+          <i class="fa-solid fa-plus"></i> Novo Orçamento
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Painel Lateral Esquerdo: Seletor de Realidades Alternativas -->
-  <nav class="realities-dock">
-    <div class="dock-header">DIMENSÕES REGISTRADAS</div>
-
-    <button class="reality-card-btn" data-dim="chronos" data-theme="chronos">
-      <span class="card-num">DIM-01</span>
-      <div class="card-title">Chronos-9</div>
-      <div class="card-desc">Tempo Revertido & Entropia</div>
-    </button>
-
-    <button class="reality-card-btn" data-dim="cyber" data-theme="cyber">
-      <span class="card-num">DIM-02</span>
-      <div class="card-title">Cyber-Matrix</div>
-      <div class="card-desc">Cosmos Sintético & Harmônicos</div>
-    </button>
-
-    <button class="reality-card-btn" data-dim="gaia" data-theme="gaia">
-      <span class="card-num">DIM-03</span>
-      <div class="card-title">Gaia Lumina</div>
-      <div class="card-desc">Solarpunk & Lente Quântica</div>
-    </button>
-
-    <button class="reality-card-btn" data-dim="singularity" data-theme="singularity">
-      <span class="card-num">DIM-04</span>
-      <div class="card-title">Singularity Void</div>
-      <div class="card-desc">Buraco Negro Consciente</div>
-    </button>
-
-    <button class="reality-card-btn" data-dim="aethel" data-theme="aethel">
-      <span class="card-num">DIM-05</span>
-      <div class="card-title">Aethelgard</div>
-      <div class="card-desc">Dimensão Cristalina & Oráculo</div>
-    </button>
-
-    <button class="reality-card-btn" data-dim="mirror" data-theme="mirror">
-      <span class="card-num">DIM-06</span>
-      <div class="card-title">Nexus Mirror</div>
-      <div class="card-desc">Scanner de Eus Alternativos</div>
-    </button>
-  </nav>
-
-  <!-- Bottom Dock: Navegação & Saltos Espaciais -->
-  <footer class="bottom-dock">
-    <button class="dock-btn-main" id="btn-random-warp">
-      <span>⚡</span> Salto Quântico Aleatório
-    </button>
-    <div class="dock-separator"></div>
-    <div style="font-family: var(--font-hud); font-size: 0.85rem; color: var(--text-dim); text-align: center;">
-      🖱️ Arraste para orbitar • Scroll para zoom • Clique em um planeta para viajar
-    </div>
-  </footer>
-
-  <!-- Modal com Experiências Interativas das Dimensões -->
-  <div class="modal-overlay" id="experience-modal">
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <h2 id="modal-dim-title">Nome da Dimensão</h2>
-          <span id="modal-dim-subtitle">DIM-00 • Subtítulo</span>
+  <!-- Layout Principal de 2 Colunas (Editor à esquerda, Visualização à direita) -->
+  <main class="app-layout">
+    
+    <!-- Painel Formulário / Editor -->
+    <section class="editor-pane">
+      
+      <!-- Card: Dados do Cliente -->
+      <div class="card-form">
+        <div class="card-title">
+          <i class="fa-solid fa-user-tag"></i> 1. Dados do Cliente
         </div>
-        <button class="modal-close-btn" id="modal-close-btn" title="Fechar">&times;</button>
+        <div class="form-grid-2">
+          <div class="input-group">
+            <label>Nome do Cliente / Empresa *</label>
+            <input type="text" id="client-name" placeholder="Ex: Maria Silva ou Construtora Alfa" />
+          </div>
+          <div class="input-group">
+            <label>WhatsApp do Cliente (com DDD) *</label>
+            <input type="tel" id="client-phone" placeholder="Ex: 14 99876-5432" />
+          </div>
+        </div>
+        <div class="form-grid-2" style="margin-top: 0.8rem;">
+          <div class="input-group">
+            <label>Endereço / Local da Execução</label>
+            <input type="text" id="client-address" placeholder="Ex: Rua das Flores, 120 - Centro" />
+          </div>
+          <div class="input-group">
+            <label>Validade da Proposta</label>
+            <select id="quote-validity">
+              <option value="5 dias úteis">5 dias úteis</option>
+              <option value="7 dias corridos" selected>7 dias corridos</option>
+              <option value="15 dias corridos">15 dias corridos</option>
+              <option value="30 dias corridos">30 dias corridos</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="modal-body" id="modal-experience-body">
-        <!-- Injetado dinamicamente via multiverse.js -->
+
+      <!-- Card: Tabela de Itens e Serviços -->
+      <div class="card-form">
+        <div class="card-title-between">
+          <div class="card-title">
+            <i class="fa-solid fa-list-check"></i> 2. Serviços & Materiais
+          </div>
+          <button class="btn-sm-primary" id="btn-add-item">
+            <i class="fa-solid fa-plus"></i> Adicionar Item
+          </button>
+        </div>
+
+        <div class="items-table-container">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width: 50%;">Descrição do Serviço / Produto</th>
+                <th style="width: 15%;">Qtd</th>
+                <th style="width: 20%;">Preço Un. (R$)</th>
+                <th style="width: 15%;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="items-tbody">
+              <!-- Linhas geradas via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Ajustes Financeiros (Desconto & Taxas) -->
+        <div class="totals-adjustments">
+          <div class="input-group-sm">
+            <label>Desconto (R$):</label>
+            <input type="number" id="discount-val" value="0" min="0" step="10" />
+          </div>
+          <div class="input-group-sm">
+            <label>Deslocamento / Frete (R$):</label>
+            <input type="number" id="shipping-val" value="0" min="0" step="10" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Pagamento, Prazos e Condições -->
+      <div class="card-form">
+        <div class="card-title">
+          <i class="fa-solid fa-file-invoice-dollar"></i> 3. Condições Comerciais & Pagamento
+        </div>
+        <div class="form-grid-2">
+          <div class="input-group">
+            <label>Forma de Pagamento Sugerida</label>
+            <select id="payment-method">
+              <option value="PIX à vista (Chave inclusa no documento)">PIX à vista (Chave inclusa)</option>
+              <option value="50% na entrada + 50% na entrega/término">50% entrada + 50% na entrega</option>
+              <option value="Cartão de Crédito em até 12x">Cartão de Crédito em até 12x</option>
+              <option value="Boleto Bancário (sob consulta)">Boleto Bancário</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Prazo Estimado de Execução / Entrega</label>
+            <input type="text" id="quote-deadline" placeholder="Ex: 3 dias úteis após confirmação" value="A combinar ou até 5 dias úteis" />
+          </div>
+        </div>
+        <div class="input-group" style="margin-top: 0.8rem;">
+          <label>Observações ou Termos de Garantia</label>
+          <textarea id="quote-notes" rows="2" placeholder="Ex: Garantia de 90 dias conforme CDC. Material por conta do contratante."></textarea>
+        </div>
+      </div>
+
+      <!-- Barra de Ações Rápidas -->
+      <div class="actions-dock">
+        <button class="btn-whatsapp" id="btn-send-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Enviar p/ WhatsApp do Cliente
+        </button>
+        <button class="btn-secondary" id="btn-print-pdf">
+          <i class="fa-solid fa-file-pdf"></i> Imprimir / Salvar em PDF
+        </button>
+        <button class="btn-ghost" id="btn-copy-summary">
+          <i class="fa-solid fa-copy"></i> Copiar Texto
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Painel Preview em Tempo Real (Folha de Orçamento) -->
+    <section class="preview-pane">
+      <div class="preview-header-bar no-print">
+        <div class="preview-badge"><i class="fa-solid fa-eye"></i> Visualização em Tempo Real (Padrão A4)</div>
+        <div class="preview-status" id="preview-total-badge">Total: R$ 0,00</div>
+      </div>
+
+      <!-- Folha A4 Imprimível -->
+      <div class="invoice-sheet" id="invoice-sheet">
+        
+        <!-- Cabeçalho do Orçamento -->
+        <div class="sheet-header">
+          <div class="sheet-emitter">
+            <h2 id="sheet-emitter-name">Nome da Sua Empresa / MEI</h2>
+            <p id="sheet-emitter-details">Serviços Especializados • WhatsApp: (00) 00000-0000</p>
+            <p id="sheet-emitter-city">Tupã - SP</p>
+          </div>
+          <div class="sheet-quote-info">
+            <div class="quote-number-tag">ORÇAMENTO #<span id="sheet-quote-id">101</span></div>
+            <div class="quote-date-tag">Emissão: <span id="sheet-quote-date">29/10/2026</span></div>
+            <div class="quote-date-tag">Validade: <span id="sheet-quote-validity">7 dias corridos</span></div>
+          </div>
+        </div>
+
+        <div class="sheet-divider"></div>
+
+        <!-- Dados do Cliente no Orçamento -->
+        <div class="sheet-client-box">
+          <div class="sheet-section-title">DESTINATÁRIO / CLIENTE</div>
+          <div class="client-info-grid">
+            <div><strong>Cliente:</strong> <span id="sheet-client-name">Cliente Não Informado</span></div>
+            <div><strong>WhatsApp:</strong> <span id="sheet-client-phone">--</span></div>
+            <div class="col-span-2"><strong>Endereço / Local:</strong> <span id="sheet-client-address">Não especificado</span></div>
+          </div>
+        </div>
+
+        <!-- Tabela de Itens na Folha -->
+        <table class="sheet-table">
+          <thead>
+            <tr>
+              <th style="width: 8%;">#</th>
+              <th style="width: 54%;">Descrição do Item / Serviço</th>
+              <th style="width: 10%; text-align: center;">Qtd</th>
+              <th style="width: 14%; text-align: right;">Unitário</th>
+              <th style="width: 14%; text-align: right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="sheet-table-tbody">
+            <!-- Linhas dinâmicas -->
+          </tbody>
+        </table>
+
+        <!-- Resumo Financeiro -->
+        <div class="sheet-totals-wrapper">
+          <div class="sheet-pix-box">
+            <div class="pix-title"><i class="fa-brands fa-pix"></i> PAGAMENTO VIA PIX</div>
+            <p>Escaneie o QR Code ou use a chave abaixo:</p>
+            <div id="sheet-pix-qr"></div>
+            <div class="pix-key-val" id="sheet-pix-key">Chave: 14999999999</div>
+          </div>
+
+          <div class="sheet-totals-card">
+            <div class="total-row">
+              <span>Subtotal Itens:</span>
+              <strong id="sheet-subtotal">R$ 0,00</strong>
+            </div>
+            <div class="total-row" id="row-discount" style="display: none; color: #dc2626;">
+              <span>Desconto Aplicado:</span>
+              <strong id="sheet-discount">- R$ 0,00</strong>
+            </div>
+            <div class="total-row" id="row-shipping" style="display: none;">
+              <span>Frete / Deslocamento:</span>
+              <strong id="sheet-shipping">+ R$ 0,00</strong>
+            </div>
+            <div class="total-divider"></div>
+            <div class="total-row total-highlight">
+              <span>VALOR TOTAL:</span>
+              <span id="sheet-total-final">R$ 0,00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Condições e Observações -->
+        <div class="sheet-terms-box">
+          <div><strong>Condições de Pagamento:</strong> <span id="sheet-payment">PIX à vista</span></div>
+          <div><strong>Prazo Estimado:</strong> <span id="sheet-deadline">A combinar</span></div>
+          <div style="margin-top: 0.4rem;"><strong>Garantia & Observações:</strong> <span id="sheet-notes">Orçamento sem compromisso.</span></div>
+        </div>
+
+        <!-- Rodapé do Documento -->
+        <div class="sheet-footer">
+          <p>Documento gerado profissionalmente via <strong>OrçaZap Pro</strong> • Obrigado pela preferência!</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Configuração dos Dados do Emissor (Salvo no Navegador) -->
+  <div class="modal-backdrop" id="modal-profile">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-id-card"></i> Meus Dados de Emissor</h3>
+        <button class="btn-close" id="btn-close-profile">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">
+          Esses dados ficam salvos no seu navegador para que você não precise digitar seu nome e Chave PIX toda vez que for criar um novo orçamento.
+        </p>
+        <div class="input-group">
+          <label>Seu Nome ou Nome da Empresa *</label>
+          <input type="text" id="prof-name" placeholder="Ex: Silva Elétrica & Climatização" />
+        </div>
+        <div class="form-grid-2" style="margin-top: 0.8rem;">
+          <div class="input-group">
+            <label>Seu WhatsApp Profissional *</label>
+            <input type="tel" id="prof-phone" placeholder="Ex: 14 99123-4567" />
+          </div>
+          <div class="input-group">
+            <label>Sua Cidade / Estado</label>
+            <input type="text" id="prof-city" placeholder="Ex: Tupã - SP" />
+          </div>
+        </div>
+        <div class="form-grid-2" style="margin-top: 0.8rem;">
+          <div class="input-group">
+            <label>Tipo de Chave PIX</label>
+            <select id="prof-pix-type">
+              <option value="Celular">Celular</option>
+              <option value="CPF">CPF</option>
+              <option value="CNPJ">CNPJ</option>
+              <option value="E-mail">E-mail</option>
+              <option value="Aleatória">Chave Aleatória</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Sua Chave PIX *</label>
+            <input type="text" id="prof-pix-key" placeholder="Ex: 14991234567" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-save-profile">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar Meus Dados
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Scripts do Multiverse -->
-  <script src="./static/audio.js"></script>
-  <script src="./static/multiverse.js"></script>
+  <!-- Modal: Histórico de Orçamentos -->
+  <div class="modal-backdrop" id="modal-history">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Orçamentos Recentes</h3>
+        <button class="btn-close" id="btn-close-history">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="history-list" class="history-list">
+          <!-- Renderizado dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./static/orcazap.js"></script>
 </body>
 </html>
